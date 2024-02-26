@@ -23,6 +23,7 @@ import type Uploader from "./upload";
 import Utils from "./utils";
 import { withdrawBalance } from "./withdrawal";
 import Query from "@irys/query";
+import type { Offchain } from "./offchain";
 
 export default abstract class Irys {
   public api!: Api;
@@ -34,6 +35,7 @@ export default abstract class Irys {
   public tokenConfig!: Token;
   public provenance!: Provenance;
   public transactions!: Transaction;
+  public offchain!: Offchain;
   protected _readyPromise: Promise<void> | undefined;
   public url: URL;
   public arbundles: Arbundles;
@@ -119,7 +121,10 @@ export default abstract class Irys {
     return this.tokenConfig.getSigner();
   }
 
-  async upload(data: string | Buffer | Readable, opts?: CreateAndUploadOptions): Promise<UploadResponse> {
+  upload(data: string | Buffer | Readable, opts?: CreateAndUploadOptions & { upload: { offchain: true } }): Promise<UploadResponse>;
+  upload(data: string | Buffer | Readable, opts?: CreateAndUploadOptions): Promise<UploadReceipt>;
+
+  async upload(data: string | Buffer | Readable, opts?: CreateAndUploadOptions): Promise<UploadReceipt> {
     return this.uploader.uploadData(data, opts);
   }
 

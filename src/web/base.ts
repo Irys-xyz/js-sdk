@@ -1,4 +1,4 @@
-import "../common/hack.js";
+// import "../common/hack.js";
 import Api from "../common/api";
 import Fund from "../common/fund";
 import Irys from "../common/irys";
@@ -9,6 +9,7 @@ import type { WebToken } from "./types";
 import * as arbundles from "./utils";
 import { WebUploader } from "./upload";
 import type { IrysConfig } from "../common/types";
+import { Offchain } from "../common/offchain";
 
 export class BaseWebIrys extends Irys {
   public tokenConfig: WebToken;
@@ -59,6 +60,7 @@ export class BaseWebIrys extends Irys {
     this.uploader = new WebUploader(this);
     this.provenance = new Provenance(this);
     this.transactions = new Transaction(this);
+    this.offchain = new Offchain(this);
     this.address = "Please run `await Irys.ready()`";
     this.uploadFolder = this.uploader.uploadFolder.bind(this.uploader);
     this.uploadFile = this.uploader.uploadFile.bind(this.uploader);

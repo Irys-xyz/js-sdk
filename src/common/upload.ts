@@ -49,21 +49,19 @@ export class Uploader {
    * @param transaction
    */
 
-  uploadTransaction(
-    transaction: DataItem | Readable | Buffer,
-    opts: UploadOptions & { getReceiptSignature: true },
-  ): Promise<AxiosResponse<UploadReceipt>>;
-  uploadTransaction(transaction: DataItem | Readable | Buffer, opts?: UploadOptions): Promise<AxiosResponse<UploadResponse>>;
+  uploadTransaction(transaction: DataItem | Readable | Buffer, opts: UploadOptions & { offchain: true }): Promise<AxiosResponse<UploadResponse>>;
+  uploadTransaction(transaction: DataItem | Readable | Buffer, opts?: UploadOptions): Promise<AxiosResponse<UploadReceipt>>;
 
-  public async uploadTransaction(transaction: DataItem | Readable | Buffer, opts?: UploadOptions): Promise<AxiosResponse<UploadResponse>> {
-    let res: AxiosResponse<UploadResponse>;
+  public async uploadTransaction(transaction: DataItem | Readable | Buffer, opts?: UploadOptions): Promise<AxiosResponse<UploadReceipt>> {
+    let res: AxiosResponse<UploadReceipt>;
     const isDataItem = this.arbundles.DataItem.isDataItem(transaction);
     if (this.forceUseChunking || (isDataItem && transaction.getRaw().length >= CHUNKING_THRESHOLD) || !isDataItem) {
       res = await this.chunkedUploader.uploadTransaction(isDataItem ? transaction.getRaw() : transaction, opts);
     } else {
       const { url, timeout, headers: confHeaders } = this.api.getConfig();
       const headers = { "Content-Type": "application/octet-stream", ...confHeaders };
-      res = await this.api.post(new URL(`/tx/${this.token}`, url).toString(), transaction.getRaw(), {
+      if (opts?.offchainExpiresInSeconds) headers["x-irys-expires"] = opts.offchainExpiresInSeconds;
+      res = await this.api.post(new URL(`${opts?.offchain ? "/od" : ""}/tx/${this.token}`, url).toString(), transaction.getRaw(), {
         headers: headers,
         timeout,
         maxBodyLength: Infinity,
@@ -82,11 +80,14 @@ export class Uploader {
           throw new Error(`whilst uploading Irys transaction: ${res.status} ${res.statusText}`);
         }
     }
-    res.data.verify = async (): Promise<boolean> => this.utils.verifyReceipt(res.data as UploadReceipt);
+    if (res.data.deadlineHeight) res.data.verify = async (): Promise<boolean> => this.utils.verifyReceipt(res.data as UploadReceipt);
     return res;
   }
 
-  public async uploadData(data: string | Buffer | Readable, opts?: CreateAndUploadOptions): Promise<UploadResponse> {
+  uploadData(data: string | Buffer | Readable, opts?: CreateAndUploadOptions & { upload: { offchain: true } }): Promise<UploadResponse>;
+  uploadData(data: string | Buffer | Readable, opts?: CreateAndUploadOptions): Promise<UploadReceipt>;
+
+  public async uploadData(data: string | Buffer | Readable, opts?: CreateAndUploadOptions): Promise<UploadReceipt> {
     if (typeof data === "string") {
       data = Buffer.from(data);
     }
@@ -218,17 +219,17 @@ export class Uploader {
    */
   uploadBundle(
     transactions: (DataItem | Buffer | string)[],
-    opts: UploadOptions & { getReceiptSignature: true; throwawayKey?: JWKInterface },
-  ): Promise<AxiosResponse<UploadReceipt> & { throwawayKey: JWKInterface; throwawayKeyAddress: string; txs: DataItem[] }>;
+    opts: UploadOptions & { offchain: true; throwawayKey?: JWKInterface },
+  ): Promise<AxiosResponse<UploadResponse> & { throwawayKey: JWKInterface; throwawayKeyAddress: string; txs: DataItem[] }>;
   uploadBundle(
     transactions: (DataItem | Buffer)[],
     opts?: UploadOptions & { throwawayKey?: JWKInterface },
-  ): Promise<AxiosResponse<UploadResponse> & { throwawayKey: JWKInterface; throwawayKeyAddress: string; txs: DataItem[] }>;
+  ): Promise<AxiosResponse<UploadReceipt> & { throwawayKey: JWKInterface; throwawayKeyAddress: string; txs: DataItem[] }>;
 
   public async uploadBundle(
     transactions: (IrysTransaction | DataItem | Buffer)[],
     opts?: UploadOptions & { throwawayKey?: JWKInterface },
-  ): Promise<AxiosResponse<UploadResponse> & { throwawayKey: JWKInterface; throwawayKeyAddress: string; txs: DataItem[] }> {
+  ): Promise<AxiosResponse<UploadReceipt> & { throwawayKey: JWKInterface; throwawayKeyAddress: string; txs: DataItem[] }> {
     const throwawayKey = opts?.throwawayKey ?? (await this.arbundles.getCryptoDriver().generateJWK());
     const ephemeralSigner = new ArweaveSigner(throwawayKey);
     const txs = transactions.map((tx) => (this.arbundles.DataItem.isDataItem(tx) ? tx : this.arbundles.createData(tx, ephemeralSigner)));

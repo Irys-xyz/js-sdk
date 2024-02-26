@@ -7,6 +7,7 @@ import inquirer from "inquirer";
 import type NodeIrys from "./irys";
 import Irys from "./irys";
 import { checkPath } from "./upload";
+import { decodeChallenge, encodeChallengeResponse, generateChallengeResponse } from "src/common/challenge";
 
 export const program = new Command();
 
@@ -37,7 +38,9 @@ program
   .option("--contract-address <string>", "Override the contract address")
   .option("--content-type <string>", "Override the content type for *ALL* files uploaded")
   .option("--remove-deleted", "Removes previously uploaded (but now deleted) items from the manifest")
-  .option("--force-chunking", "Forces usage of chunking for all files regardless of size");
+  .option("--force-chunking", "Forces usage of chunking for all files regardless of size")
+  .option("--offchain", "Uploads file(s) as offchain transactions");
+
 // Define commands
 // uses NPM view to query the package's version.
 program.version(Irys.VERSION, "-v, --version", "Gets the current package version of the Irys client");
@@ -95,7 +98,7 @@ program
     try {
       const irys = await init(options, "upload");
       const tags = parseTags(options?.tags);
-      const res = await irys.uploadFile(file, { tags: tags ?? [] });
+      const res = await irys.uploadFile(file, { tags: tags ?? [], upload: { offchain: options.offchain } });
       console.log(`Uploaded to https://gateway.irys.xyz/${res?.id}`);
     } catch (err: any) {
       console.error(`Error whilst uploading file: ${options.debug ? err.stack : err.message} `);
@@ -135,7 +138,7 @@ async function uploadDir(folder: string): Promise<void> {
         console.log(log);
       },
       itemOptions: {
-        upload: {},
+        upload: { offchain: options.offchain },
       },
     });
     if (!res) return console.log("Nothing to upload");
@@ -197,6 +200,22 @@ program
     } catch (err: any) {
       console.error(`Error whilst getting price: ${options.debug ? err.stack : err.message} `);
       return;
+    }
+  });
+
+program
+  .command("respond")
+  .description("Respond to an encoded challenge")
+  .argument("<challenge>", "The challenge string")
+  .action(async (challenge: string) => {
+    try {
+      const chobj = decodeChallenge(challenge);
+      const irys = await init(options, "respond");
+      const response = await generateChallengeResponse({ challenge: chobj, irys });
+      const encRes = encodeChallengeResponse(response);
+      console.log(`Challenge response: ${encRes}`);
+    } catch (e) {
+      console.error(`Error while responding to challenge - ${e}`);
     }
   });
 

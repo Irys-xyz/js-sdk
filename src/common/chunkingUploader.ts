@@ -3,7 +3,7 @@ import type { Readable } from "stream";
 import { PassThrough } from "stream";
 import { EventEmitter } from "events";
 import type Api from "./api";
-import type { Arbundles, Token, UploadOptions, UploadResponse } from "./types";
+import type { Arbundles, Token, UploadOptions, UploadReceipt, UploadResponse } from "./types";
 import Utils from "./utils";
 import Crypto from "crypto";
 import retry from "async-retry";
@@ -90,7 +90,10 @@ export class ChunkingUploader extends EventEmitter {
     this.emit("resume");
   }
 
-  public async uploadTransaction(data: Readable | Buffer | DataItem, opts?: UploadOptions): Promise<AxiosResponse<UploadResponse>> {
+  uploadTransaction(data: Readable | Buffer | DataItem, opts: UploadOptions & { offchain: true }): Promise<AxiosResponse<UploadResponse>>;
+  uploadTransaction(data: Readable | Buffer | DataItem, opts?: UploadOptions): Promise<AxiosResponse<UploadReceipt>>;
+
+  public async uploadTransaction(data: Readable | Buffer | DataItem, opts?: UploadOptions): Promise<AxiosResponse<UploadReceipt>> {
     this.uploadOptions = opts;
     if (this.arbundles.DataItem.isDataItem(data)) {
       return this.runUpload(data.getRaw());
@@ -99,28 +102,37 @@ export class ChunkingUploader extends EventEmitter {
     }
   }
 
+  uploadData(
+    dataStream: Readable | Buffer,
+    options?: DataItemCreateOptions & { upload?: UploadOptions & { offchain: true } },
+  ): Promise<AxiosResponse<UploadResponse>>;
+
+  uploadData(dataStream: Readable | Buffer, options?: DataItemCreateOptions & { upload?: UploadOptions }): Promise<AxiosResponse<UploadReceipt>>;
+
   public async uploadData(
     dataStream: Readable | Buffer,
     options?: DataItemCreateOptions & { upload?: UploadOptions },
-  ): Promise<AxiosResponse<UploadResponse>> {
+  ): Promise<AxiosResponse<UploadReceipt>> {
     this.uploadOptions = options?.upload;
     return this.runUpload(dataStream, { ...options });
   }
 
-  async runUpload(dataStream: Readable | Buffer, transactionOpts?: DataItemCreateOptions): Promise<AxiosResponse<UploadResponse>> {
+  async runUpload(dataStream: Readable | Buffer, transactionOpts?: DataItemCreateOptions): Promise<AxiosResponse<UploadReceipt>> {
     let id = this.uploadID;
 
     const isTransaction = transactionOpts === undefined;
 
-    const headers = { "x-chunking-version": "2" };
+    const baseHeaders = { "x-chunking-version": "2" };
+    const prefix = this.uploadOptions?.offchain ? "/od" : "";
+    const addPrefix = (url: string): string => prefix + url;
 
     let getres;
     if (!id) {
-      getres = await this.api.get(`/chunks/${this.token}/-1/-1`, { headers });
+      getres = await this.api.get(addPrefix(`/chunks/${this.token}/-1/-1`), { headers: baseHeaders });
       Utils.checkAndThrow(getres, "Getting upload token");
       this.uploadID = id = getres.data.id;
     } else {
-      getres = await this.api.get(`/chunks/${this.token}/${id}/-1`, { headers });
+      getres = await this.api.get(addPrefix(`/chunks/${this.token}/${id}/-1`), { headers: baseHeaders });
       if (getres.status === 404) throw new Error(`Upload ID not found - your upload has probably expired.`);
       Utils.checkAndThrow(getres, "Getting upload info");
       if (this.chunkSize != +getres.data.size) {
@@ -133,13 +145,15 @@ export class ChunkingUploader extends EventEmitter {
       throw new Error(`Chunk size out of allowed range: ${min} - ${max}`);
     }
 
+    // TODO: add UD prefix to all calls here
+
     let totalUploaded = 0;
     const promiseFactory = (d: Buffer, o: number, c: number): Promise<{ o: number; d: AxiosResponse<UploadResponse> }> => {
       return new Promise((r) => {
         retry(async (bail) => {
           await this.api
-            .post(`/chunks/${this.token}/${id}/${o}`, d, {
-              headers: { "Content-Type": "application/octet-stream", ...headers },
+            .post(addPrefix(`/chunks/${this.token}/${id}/${o}`), d, {
+              headers: { "Content-Type": "application/octet-stream", ...baseHeaders },
               maxBodyLength: Infinity,
               maxContentLength: Infinity,
             })
@@ -302,11 +316,12 @@ export class ChunkingUploader extends EventEmitter {
 
       await promiseFactory(heldChunk, 0, 0);
     }
+    const headers = { "Content-Type": "application/octet-stream", ...baseHeaders };
+    if (this.uploadOptions?.offchainExpiresInSeconds) headers["x-irys-expires"] = this.uploadOptions.offchainExpiresInSeconds;
 
-    // potential improvement: write chunks into a file at offsets, instead of individual chunks + doing a concatenating copy
-    const finishUpload = await this.api.post(`/chunks/${this.token}/${id}/-1`, null, {
-      headers: { "Content-Type": "application/octet-stream", ...headers },
-      timeout: this.api.config?.timeout ?? 40_000 * 10, // server side reconstruction can take a while
+    const finishUpload = await this.api.post(addPrefix(`/chunks/${this.token}/${id}/-1`), null, {
+      headers,
+      timeout: this.api.config?.timeout ?? 40_000 * 10,
     });
 
     if (finishUpload.status === 402) {
@@ -321,13 +336,13 @@ export class ChunkingUploader extends EventEmitter {
       throw new Error(finishUpload.data as any as string);
     }
 
-    finishUpload.data.verify = Utils.verifyReceipt.bind({}, this.arbundles, finishUpload.data.data);
+    if (finishUpload.data.deadlineHeight) finishUpload.data.verify = Utils.verifyReceipt.bind({}, this.arbundles, finishUpload.data.data);
 
     this.emit("done", finishUpload);
     return finishUpload;
   }
 
-  get completionPromise(): Promise<AxiosResponse<UploadResponse>> {
+  get completionPromise(): Promise<AxiosResponse<UploadResponse | UploadReceipt>> {
     return new Promise((r) => this.on("done", r));
   }
 }
