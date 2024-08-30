@@ -6,7 +6,8 @@
         "target": "esnext",
         "moduleResolution": "bundler",
         "outDir": "./build/esm",
-        "rootDir": "./src"
+        "rootDir": "./src",
+        "composite": false
     },
     "include": [
         "src/**/*"

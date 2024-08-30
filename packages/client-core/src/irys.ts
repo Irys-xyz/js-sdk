@@ -26,7 +26,7 @@ import { withdrawBalance } from "./withdrawal";
 import Query from "@irys/query";
 import type { Approval } from "./approval";
 
-export class Irys {
+export abstract class Irys {
   public api!: Api;
   public utils!: Utils;
   public uploader!: Uploader;
@@ -71,15 +71,7 @@ export class Irys {
     return this.tokenConfig.getSigner();
   }
 
-  get search(): InstanceType<typeof Query>["search"] {
-    const q = new Query({ url: new URL("/graphql", this.url) });
-    return q.search.bind(q);
-  }
-
-  public query(queryOpts?: ConstructorParameters<typeof Query>[0]): Query {
-    return new Query(queryOpts ?? { url: new URL("graphql", this.url) });
-  }
-
+  
   async withdrawBalance(amount: BigNumber.Value | "all"): Promise<WithdrawalResponse> {
     return withdrawBalance(this.utils, this.api, amount);
   }
@@ -171,7 +163,17 @@ export class Irys {
       },
     };
   }
-}
+  
+  get search(): InstanceType<typeof Query>["search"] {
+    const q = new Query({ url: new URL("/graphql", this.url) });
+    return q.search.bind(q);
+  }
+
+  public query(queryOpts?: ConstructorParameters<typeof Query>[0]): Query {
+    return new Query(queryOpts ?? { url: new URL("graphql", this.url) });
+  }
+
+};
 
 export default Irys;
 

@@ -2,7 +2,7 @@ import "@irys-network/bundler-client-core/hack"
 import { Transaction } from "@irys-network/bundler-client-core/transactions";
 import Api from "@irys-network/bundler-client-core/api";
 import Fund from "@irys-network/bundler-client-core/fund";
-import Irys from "@irys-network/bundler-client-core/irys";
+import {Irys} from "@irys-network/bundler-client-core/irys";
 import type { CreateAndUploadOptions, IrysConfig, Network, UploadResponse } from "@irys-network/bundler-client-core/types";
 import Utils from "@irys-network/bundler-client-core/utils";
 import type { NodeToken } from "./types";
@@ -10,7 +10,6 @@ import NodeUploader from "./upload";
 import * as arbundles from "./utils";
 import { NodeProvenance } from "./provenance";
 import { Approval } from "@irys-network/bundler-client-core/approval";
-
 
 export class BaseNodeIrys extends Irys {
   public uploader: NodeUploader; // re-define type

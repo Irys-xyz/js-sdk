@@ -1,7 +1,7 @@
 import { Irys, IrysConfig, Network
  } from "@irys-network/bundler-client-core";
 import { NodeIrysConfig, NodeToken } from "./types";
-import BaseNodeIrys from "./base";
+import {BaseNodeIrys} from "./base";
 
 type Adapter = (adapter: NodeToken) => Promise<NodeToken>
 type Constructable<A extends any[], T> = {
@@ -49,7 +49,7 @@ export class Builder {
         return this
     }
 
-    public async build(): Promise<BaseNodeIrys> {
+    public async build() {
         const irys = new BaseNodeIrys({
             url: this.config.url,
             network: this.config.network,

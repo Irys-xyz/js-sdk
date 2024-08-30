@@ -18,6 +18,7 @@
     ],
     "scripts": {
         "build": "turbo run build",
+        "build:nocache": "turbo run build --no-cache",
         "build:docs": "typedoc",
         "clean": "turbo run clean",
         "format": "prettier --check packages/",

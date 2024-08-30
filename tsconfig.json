@@ -31,18 +31,18 @@
     "resolveJsonModule": true,
     "esModuleInterop": true,
     "removeComments": false,
-    "jsx": "preserve",
-    "stripInternal": true
+    // "stripInternal": true
   },
   "ts-node": {
     "require": [
       "tsconfig-paths/register"
     ],
     "esm": false,
-    "transpileOnly": true,
+    "transpileOnly": false,
     "compilerOptions": {
-      "module": "commonjs",
-      "moduleResolution": "Node"
+      "module": "node16",
+      "target": "es2021",
+      "moduleResolution": "node16"
     }
   },
   "typedocOptions": {
