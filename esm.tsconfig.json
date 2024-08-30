@@ -1,0 +1,19 @@
+{
+    "extends": "./tsconfig.json",
+    "compilerOptions": {
+        "declaration": true,
+        "module": "esnext",
+        "target": "esnext",
+        "moduleResolution": "bundler",
+        "outDir": "./build/esm",
+        "rootDir": "./src"
+    },
+    "include": [
+        "src/**/*"
+    ],
+    "exclude": [
+        "./src/cjsIndex.ts",
+        "**/__tests__/**/*",
+        "tests/**/*"
+    ]
+}

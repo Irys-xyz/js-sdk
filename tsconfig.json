@@ -1,0 +1,62 @@
+{
+  "include": [
+    "packages/*/src",
+    "packages/*/test"
+  ],
+  "exclude": [
+    "node_modules",
+    "packages/*/node_modules"
+  ],
+  "compilerOptions": {
+    "baseUrl": ".",
+    // "declaration": true,
+    "sourceMap": true,
+    "noEmit": false,
+    "noEmitOnError": true,
+    // "emitDeclarationOnly": true,
+    "target": "ES2022",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "allowJs": false,
+    "alwaysStrict": true,
+    "skipLibCheck": true,
+    "noUnusedLocals": true,
+    "strictNullChecks": true,
+    "noImplicitAny": true,
+    "noImplicitThis": true,
+    "noImplicitReturns": false,
+    "importHelpers": true,
+    "strict": true,
+    "isolatedModules": true,
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "removeComments": false,
+    "jsx": "preserve",
+    "stripInternal": true
+  },
+  "ts-node": {
+    "require": [
+      "tsconfig-paths/register"
+    ],
+    "esm": false,
+    "transpileOnly": true,
+    "compilerOptions": {
+      "module": "commonjs",
+      "moduleResolution": "Node"
+    }
+  },
+  "typedocOptions": {
+    "entryPoints": ".",
+    "entryPointStrategy": "packages",
+    "out": "typedoc",
+    "readme": "README.md",
+    "name": "Irys network SDK — API References",
+    "includeVersion": true,
+    "excludeNotDocumented": false,
+    "categorizeByGroup": false,
+    "defaultCategory": "Other",
+    "categoryOrder": [
+      "*"
+    ]
+  }
+}
