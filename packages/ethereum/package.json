@@ -1,0 +1,78 @@
+{
+  "name": "@irys-network/bundler-ethereum-node",
+  "version": "0.0.1",
+  "description": "TODO",
+  "license": "MIT",
+  "sideEffects": false,
+  "module": "dist/esm/index.js",
+  "main": "dist/cjs/index.js",
+  "types": "dist/types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/types/index.d.ts",
+      "import": "./dist/esm/index.js",
+      "require": "./dist/cjs/index.js"
+    },
+    "./esm/*": {
+      "types": "./dist/types/*.d.ts",
+      "default": "./dist/esm/*.js"
+    },
+    "./cjs/*": {
+      "types": "./dist/types/*.d.ts",
+      "default": "./dist/cjs/*.js"
+    },
+    "./*": {
+      "types": "./dist/types/*.d.ts",
+      "import": "./dist/esm/*.js",
+      "require": "./dist/cjs/*.js"
+    }
+  },
+  "files": [
+    "/dist/cjs",
+    "/dist/esm",
+    "/dist/types",
+    "/src"
+  ],
+  "scripts": {
+    "lint": "eslint --ext js,ts,tsx src",
+    "lint:fix": "eslint --fix --ext js,ts,tsx src",
+    "clean": "rimraf dist",
+    "build": "pnpm clean && concurrently \" tsc && sh ../../scripts/fix-pkg.sh esm module && tsc-esm-fix \" \" tsc -p test/tsconfig.json \" \"tsc -p cjs.tsconfig.json && sh ../../scripts/fix-pkg.sh cjs commonjs \"",
+    "test": "ava"
+  },
+  "dependencies": {
+    "@ethersproject/bignumber": "^5.7.0",
+    "@ethersproject/providers": "^5.7.2",
+    "@ethersproject/wallet": "^5.7.0",
+    "@irys-network/bundler-client-core": "workspace:^",
+    "@irys-network/bundler-client-node": "workspace:^",
+    "arbundles": "^0.11.1",
+    "bignumber.js": "^9.1.2"
+  },
+  "devDependencies": {
+    "@ava/typescript": "^5.0.0",
+    "ava": "^6.1.3"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "author": "Irys maintainers <hello@irys.xyz>",
+  "homepage": "https://irys.xyz",
+  "repository": {
+    "url": "https://github.com/irys-xyz/network-bundler-js-sdk.git"
+  },
+  "typedoc": {
+    "entryPoint": "./src/index.ts",
+    "readmeFile": "./README.md",
+    "displayName": "ethereum-node"
+  },
+  "ava": {
+    "typescript": {
+      "compile": false,
+      "rewritePaths": {
+        "src/": "dist/test/src/",
+        "test/": "dist/test/test/"
+      }
+    }
+  }
+}
