@@ -1,11 +1,11 @@
-import type { IrysConfig, Token } from "@irys-network/bundler-client-core/types";
+import type { IrysConfig, Network, Token } from "@irys-network/bundler-client-core/types";
 import BaseNodeIrys from "./base";
 export interface NodeToken extends Token {
   getPublicKey(): string | Buffer;
 }
 
 export type NodeIrysConfig<Key = any> = {
-  url: "node1" | "node2" | "devnet" | string;
+  url: Network |  string;
   key: Key;
   config?: IrysConfig;
 };

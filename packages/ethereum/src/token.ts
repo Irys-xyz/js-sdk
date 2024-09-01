@@ -9,9 +9,13 @@ import { BaseNodeToken } from "@irys-network/bundler-client-node/tokens/base";
 
 const ethereumSigner = EthereumSigner;
 
+type ConnectionInfo = Exclude<ConstructorParameters<typeof JsonRpcProvider>[0], string | null | undefined >
+
+export type EthereumTokenOpts = {providerOptions?: ConnectionInfo}
+
 export default class BaseEthereumToken extends BaseNodeToken {
   protected declare providerInstance: JsonRpcProvider;
-
+  protected declare opts: EthereumTokenOpts
   constructor(config: TokenConfig) {
     super(config);
     this.base = ["wei", 1e18];

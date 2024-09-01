@@ -9,6 +9,7 @@
     "rootDir": "../",
     "outDir": "../dist/test",
     "declarationDir": null,
+    "moduleResolution": "Node16",
     "declaration": false,
     "emitDeclarationOnly": false
   }
