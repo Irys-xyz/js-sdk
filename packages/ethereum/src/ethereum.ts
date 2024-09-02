@@ -5,7 +5,7 @@ import BigNumber from "bignumber.js";
 import { EthereumSigner, keccak256 } from "arbundles";
 import type { Signer } from "arbundles";
 import type { TokenConfig, Tx } from "@irys-network/core-bundler-client/types";
-import { BaseNodeToken } from "@irys-network/node-bundler-client/tokens/base";
+import { BaseNodeToken } from "@irys-network/bundler-client/tokens/base";
 
 const ethereumSigner = EthereumSigner;
 

@@ -2,7 +2,7 @@ import BigNumber from "bignumber.js";
 import { Contract } from "@ethersproject/contracts";
 import { Wallet } from "@ethersproject/wallet";
 import { keccak256 } from "arbundles";
-import { getRedstonePrice } from "@irys-network/node-bundler-client/tokens/base";
+import { getRedstonePrice } from "@irys-network/bundler-client/tokens/base";
 import EthereumConfig from "./ethereum";
 import type { TokenConfig, Tx } from "@irys-network/core-bundler-client/types";
 export interface ERC20TokenConfig extends TokenConfig {

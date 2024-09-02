@@ -1,6 +1,6 @@
 import { Finality } from "@solana/web3.js";
 import BaseSolanaToken from "./token";
-import {Builder, type TokenConfigTrimmed} from "@irys-network/node-bundler-client/builder"
+import {Builder, type TokenConfigTrimmed} from "@irys-network/bundler-client/builder"
  export class SolanaToken extends BaseSolanaToken {
     constructor(config: TokenConfigTrimmed) {
         super({name: "solana", ticker: "SOL", providerUrl: config.providerUrl ?? "https://api.mainnet-beta.solana.com/",

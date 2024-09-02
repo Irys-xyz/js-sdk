@@ -4,7 +4,7 @@ import BigNumber from "bignumber.js";
 import bs58 from "bs58";
 import nacl from "tweetnacl";
 import type { TokenConfig, Tx } from "@irys-network/core-bundler-client/types";
-import { BaseNodeToken } from "@irys-network/node-bundler-client/tokens/base";
+import { BaseNodeToken } from "@irys-network/bundler-client/tokens/base";
 import retry from "async-retry";
 import type { Finality } from "@solana/web3.js";
 import { ComputeBudgetProgram, Connection, Keypair, PublicKey, sendAndConfirmTransaction, SystemProgram, Transaction } from "@solana/web3.js";
