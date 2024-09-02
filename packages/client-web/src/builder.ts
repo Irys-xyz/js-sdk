@@ -3,7 +3,36 @@ import { Irys, IrysConfig, Network
 import { WebIrysConfig, WebToken } from "./types";
 import {BaseWebIrys} from "./base";
 
-type Adapter = {adaptToken: (tokenConfig: WebToken) => Promise<WebToken>}
+
+/// UNSTABLE
+export type Adapter = PreAdapter | PostAdapter | BiphaseAdapter
+
+export interface BaseAdapter {
+    phase: "pre" | "post" | "both" 
+    // custom function run on adapter load
+    // useful for 
+    load?: (builder: this) => void
+}
+
+export interface PreAdapter extends BaseAdapter  {
+    phase: "pre",
+    adaptTokenPre: (builder: Builder, tokenConfig: ConstructableWebToken) => Resolvable<void>
+
+}
+
+export interface PostAdapter extends BaseAdapter{
+    phase: "post",
+    adaptTokenPost: (builder: Builder, tokenConfig: WebToken) =>Resolvable<void>
+
+}
+
+export interface BiphaseAdapter extends BaseAdapter{
+    phase: "both",
+    adaptTokenPre: (builder: Builder, tokenConfig: ConstructableWebToken) => Resolvable<void>
+    adaptTokenPost: (builder: Builder, tokenConfig: WebToken) => Resolvable<void>
+
+}
+
 export type Resolvable<T> = T | Promise<T>
 type Constructable<A extends any[], T> = {
     new (...args: A): T
@@ -18,13 +47,18 @@ export type TokenConfigTrimmed<Wallet = string | object, Opts = any> = {
 };
 
 export class Builder {
-    public adapter: Adapter | undefined
+    // public adapters: Adapter[]
+    public preAdapters: (PreAdapter | BiphaseAdapter)[]
+    public postAdapters: (PostAdapter | BiphaseAdapter)[]
     public token: ConstructableWebToken
     protected provider: any
     protected config: WebIrysConfig & { config: IrysConfig, network: Network}
-    
+    public constructed?: WebToken
 
     constructor(tokenClass: ConstructableWebToken) {
+        this.preAdapters = []
+        this.postAdapters = []
+
         this.token = tokenClass;
         this.config = {
             url: "https://uploader.irys.xyz",
@@ -49,12 +83,23 @@ export class Builder {
         this.config.config.providerUrl = rpcUrl
         return this
     }
+
     public withTokenOptions(opts: any) {
         this.config.config.tokenOpts = opts
         return this
     }
-    public withAdapter(adapter: ConstructableWebToken) {
-        this.token = adapter
+
+    public bundlerUrl(url: URL) {
+        this.config.url = url.toString()
+        return this
+    }
+
+    public withAdapter(adapter: Adapter) {
+        // this.adapters.push(adapter)
+        if(adapter.phase != "post") this.preAdapters.push(adapter)
+        if(adapter.phase != "pre") this.postAdapters.push(adapter)
+            // @ts-expect-error type intersection issues
+        if(adapter.load) adapter.load(this)
         return this
     }
 
@@ -65,9 +110,14 @@ export class Builder {
             network: this.config.network,
             config: this.config.config,
             getTokenConfig: async (irys) => {
-                const constructed = new this.token({irys, wallet: this.provider, providerUrl: this.config.config.providerUrl})
-                const adapted = this.adapter ? await this.adapter.adaptToken(constructed) : constructed
-                return adapted
+                for (const preAdapter of this.preAdapters) {
+                    await preAdapter.adaptTokenPre(this, this.token)
+                }
+                this.constructed = new this.token({irys, wallet: this.provider, providerUrl: this.config.config.providerUrl})
+                for (const postAdapter of this.postAdapters) {
+                    await postAdapter.adaptTokenPost(this, this.constructed)
+                }
+                return this.constructed
             }
         })
         // TODO: fix this - this is required due to the async callback fn

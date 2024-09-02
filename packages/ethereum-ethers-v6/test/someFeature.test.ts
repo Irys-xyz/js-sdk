@@ -1,6 +1,6 @@
 import test from 'ava';
-import { EthereumEthersV6 } from '../src';
+import { EthersV6Adapter } from '../src';
 
 test('example test', async (t) => {
-  t.is(typeof EthereumEthersV6, 'function');
+  t.is(typeof EthersV6Adapter, 'function');
 });
