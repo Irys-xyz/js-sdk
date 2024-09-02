@@ -1,6 +1,6 @@
 {
   "name": "@irys-network/web-bundler-aptos",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Aptos web token client for Irys network bundlers",
   "license": "MIT",
   "sideEffects": false,

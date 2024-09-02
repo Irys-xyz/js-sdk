@@ -8,11 +8,7 @@
   ],
   "commit": false,
   "fixed": [],
-  "linked": [
-    [
-      "**"
-    ]
-  ],
+  "linked": [],
   "access": "public",
   "baseBranch": "master",
   "updateInternalDependencies": "patch",
