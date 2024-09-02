@@ -1,6 +1,6 @@
-import { Provenance } from "@irys-network/bundler-client-core/provenance";
-import type { UploadReceipt } from "@irys-network/bundler-client-core/types";
-import type { CreateAndUploadOptions } from "@irys-network/bundler-client-core/types";
+import { Provenance } from "@irys-network/core-bundler-client/provenance";
+import type { UploadReceipt } from "@irys-network/core-bundler-client/types";
+import type { CreateAndUploadOptions } from "@irys-network/core-bundler-client/types";
 import type NodeIrys from "./irys";
 
 export class NodeProvenance extends Provenance {

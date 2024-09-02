@@ -4,8 +4,8 @@ import { Wallet } from "@ethersproject/wallet";
 import { keccak256 } from "arbundles";
 import { getRedstonePrice } from "./base";
 import EthereumConfig from "./ethereum";
-import type { TokenConfig, Tx } from "@irys-network/bundler-client-core/types";
-import { erc20abi } from "@irys-network/bundler-client-core/utils";
+import type { TokenConfig, Tx } from "@irys-network/core-bundler-client/types";
+import { erc20abi } from "@irys-network/core-bundler-client/utils";
 // import { SigningKey } from "@ethersproject/signing-key";
 export interface ERC20TokenConfig extends TokenConfig {
   contractAddress: string;

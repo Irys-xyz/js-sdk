@@ -4,7 +4,7 @@ import { serialize } from "borsh";
 import type { Signer } from "arbundles";
 import { NearSigner } from "arbundles";
 import BigNumber from "bignumber.js";
-import type { TokenConfig, Tx } from "@irys-network/bundler-client-core/types";
+import type { TokenConfig, Tx } from "@irys-network/core-bundler-client/types";
 import { BaseNodeToken } from "./base";
 import bs58 from "bs58";
 import BN from "bn.js";

@@ -15,7 +15,7 @@ import {
 import type { Signer } from "arbundles";
 import { InjectedAptosSigner, AptosSigner } from "arbundles/web";
 import BigNumber from "bignumber.js";
-import type { TokenConfig, Tx } from "@irys-network/bundler-client-core/types";
+import type { TokenConfig, Tx } from "@irys-network/core-bundler-client/types";
 import sha3 from "js-sha3";
 import BaseWebToken from "./base";
 

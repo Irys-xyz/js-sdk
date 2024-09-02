@@ -3,10 +3,10 @@ import type { Signer } from "arbundles";
 import { getCryptoDriver } from "../utils";
 import base64url from "base64url";
 import type BigNumber from "bignumber.js";
-import type { Tx, TokenConfig } from "@irys-network/bundler-client-core/types";
+import type { Tx, TokenConfig } from "@irys-network/core-bundler-client/types";
 import axios from "axios";
 import type { WebToken } from "../types";
-import utils from "@irys-network/bundler-client-core/utils";
+import utils from "@irys-network/core-bundler-client/utils";
 import type { BaseWebIrys } from "../base";
 
 export abstract class BaseWebToken implements WebToken {

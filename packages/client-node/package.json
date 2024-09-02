@@ -1,5 +1,5 @@
 {
-  "name": "@irys-network/bundler-client-node",
+  "name": "@irys-network/node-bundler-client",
   "version": "0.0.1",
   "description": "TODO",
   "license": "MIT",
@@ -52,7 +52,7 @@
     "@ethersproject/contracts": "^5.7.0",
     "@ethersproject/providers": "^5.7.2",
     "@ethersproject/wallet": "^5.7.0",
-    "@irys-network/bundler-client-core": "workspace:^",
+    "@irys-network/core-bundler-client": "workspace:^",
     "@near-js/crypto": "^0.0.3",
     "@near-js/keystores-browser": "^0.0.3",
     "@near-js/providers": "^0.0.4",

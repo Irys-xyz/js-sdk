@@ -1,4 +1,4 @@
-import type { IrysConfig, Network } from "@irys-network/bundler-client-core/types";
+import type { IrysConfig, Network } from "@irys-network/core-bundler-client/types";
 import { BaseNodeIrys } from "./base";
 import getTokenConfig from "./tokens";
 

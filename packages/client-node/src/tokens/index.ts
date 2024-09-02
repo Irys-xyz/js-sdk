@@ -6,7 +6,7 @@ import NearConfig from "./near";
 import SolanaConfig from "./solana";
 import AlgorandConfig from "./algorand";
 import axios from "axios";
-import utils from "@irys-network/bundler-client-core/utils";
+import utils from "@irys-network/core-bundler-client/utils";
 import AptosConfig from "./aptos";
 import MultiSignatureAptos from "./multiAptos";
 import type BaseNodeIrys from "../base";

@@ -1,5 +1,5 @@
 import BigNumber from "bignumber.js";
-import type { TokenConfig } from "@irys-network/bundler-client-core/types";
+import type { TokenConfig } from "@irys-network/core-bundler-client/types";
 import Aptos from "./aptos";
 import type { Signer } from "arbundles";
 import { MultiSignatureAptosSigner } from "arbundles";
@@ -26,7 +26,7 @@ import {
   TransactionAuthenticatorEd25519,
   generateSigningMessageForTransaction,
 } from "@aptos-labs/ts-sdk";
-// import Utils from "@irys-network/bundler-client-core/utils";
+// import Utils from "@irys-network/core-bundler-client/utils";
 
 export type HexString = string;
 type CollectSignatures = (message: Uint8Array) => Promise<{ signatures: Buffer[]; bitmap: number[] }>;

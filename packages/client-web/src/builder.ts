@@ -1,5 +1,5 @@
 import { Irys, IrysConfig, Network
- } from "@irys-network/bundler-client-core";
+ } from "@irys-network/core-bundler-client";
 import { WebIrysConfig, WebToken } from "./types";
 import {BaseWebIrys} from "./base";
 

@@ -3,7 +3,7 @@ import BigNumber from "bignumber.js";
 import type { http } from "viem";
 import type { PublicClient, WalletClient } from "viem";
 import type { mainnet } from "viem/chains";
-import type { Tx } from "@irys-network/bundler-client-core/types";
+import type { Tx } from "@irys-network/core-bundler-client/types";
 import type EthereumConfig from "../tokens/ethereum";
 import type ERC20Config from "../tokens/erc20";
 import { InjectedTypedEthereumSigner } from "arbundles/web";

@@ -47,8 +47,8 @@
     "test": "ava"
   },
   "dependencies": {
-    "@irys-network/bundler-client-core": "workspace:^",
-    "@irys-network/bundler-client-node": "workspace:^",
+    "@irys-network/core-bundler-client": "workspace:^",
+    "@irys-network/node-bundler-client": "workspace:^",
     "arbundles": "^0.11.1",
     "bignumber.js": "^9.1.2",
     "bs58": "5.0.0",

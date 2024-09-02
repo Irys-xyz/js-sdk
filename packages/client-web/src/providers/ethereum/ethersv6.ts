@@ -2,7 +2,7 @@ import type { InjectedTypedEthereumSignerMinimalSigner } from "arbundles/web";
 import BigNumber from "bignumber.js";
 import { BigNumber as EthBigNumber } from "@ethersproject/bignumber";
 import type { BrowserProvider, JsonRpcSigner, TypedDataDomain } from "ethersv6";
-import type { Tx } from "@irys-network/bundler-client-core/types";
+import type { Tx } from "@irys-network/core-bundler-client/types";
 import type { MinimalProvider } from "../../tokens/ethereum";
 import EthereumConfig from "../../tokens/ethereum";
 

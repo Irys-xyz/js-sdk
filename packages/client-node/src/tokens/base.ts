@@ -1,10 +1,10 @@
 import type { Signer } from "arbundles";
 import type BigNumber from "bignumber.js";
-import type { Tx, TokenConfig } from "@irys-network/bundler-client-core/types";
+import type { Tx, TokenConfig } from "@irys-network/core-bundler-client/types";
 import axios from "axios";
 import type { NodeToken } from "../types";
-import utils from "@irys-network/bundler-client-core/utils";
-import type Utils from "@irys-network/bundler-client-core/utils";
+import utils from "@irys-network/core-bundler-client/utils";
+import type Utils from "@irys-network/core-bundler-client/utils";
 import type BaseNodeIrys from "../base";
 export abstract class BaseNodeToken implements NodeToken {
   public base!: [string, number];

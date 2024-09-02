@@ -1,15 +1,15 @@
-import "@irys-network/bundler-client-core/hack"
-import { Transaction } from "@irys-network/bundler-client-core/transactions";
-import Api from "@irys-network/bundler-client-core/api";
-import Fund from "@irys-network/bundler-client-core/fund";
-import {Irys} from "@irys-network/bundler-client-core/irys";
-import type { CreateAndUploadOptions, IrysConfig, Network, UploadResponse } from "@irys-network/bundler-client-core/types";
-import Utils from "@irys-network/bundler-client-core/utils";
+import "@irys-network/core-bundler-client/hack"
+import { Transaction } from "@irys-network/core-bundler-client/transactions";
+import Api from "@irys-network/core-bundler-client/api";
+import Fund from "@irys-network/core-bundler-client/fund";
+import {Irys} from "@irys-network/core-bundler-client/irys";
+import type { CreateAndUploadOptions, IrysConfig, Network, UploadResponse } from "@irys-network/core-bundler-client/types";
+import Utils from "@irys-network/core-bundler-client/utils";
 import type { NodeToken } from "./types";
 import NodeUploader from "./upload";
 import * as arbundles from "./utils";
 import { NodeProvenance } from "./provenance";
-import { Approval } from "@irys-network/bundler-client-core/approval";
+import { Approval } from "@irys-network/core-bundler-client/approval";
 
 export class BaseNodeIrys extends Irys {
   public uploader: NodeUploader; // re-define type

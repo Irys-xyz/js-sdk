@@ -1,15 +1,15 @@
-import "@irys-network/bundler-client-core/hack";
-import Api from "@irys-network/bundler-client-core/api";
-import Fund from "@irys-network/bundler-client-core/fund";
-import Irys from "@irys-network/bundler-client-core/irys";
-import Utils from "@irys-network/bundler-client-core/utils";
-import { Provenance } from "@irys-network/bundler-client-core/provenance";
-import { Transaction } from "@irys-network/bundler-client-core/transactions";
+import "@irys-network/core-bundler-client/hack";
+import Api from "@irys-network/core-bundler-client/api";
+import Fund from "@irys-network/core-bundler-client/fund";
+import Irys from "@irys-network/core-bundler-client/irys";
+import Utils from "@irys-network/core-bundler-client/utils";
+import { Provenance } from "@irys-network/core-bundler-client/provenance";
+import { Transaction } from "@irys-network/core-bundler-client/transactions";
 import type { WebToken } from "./types";
 import * as arbundles from "./utils";
 import { WebUploader } from "./upload";
-import type { IrysConfig, Network } from "@irys-network/bundler-client-core/types";
-import { Approval } from "@irys-network/bundler-client-core/approval";
+import type { IrysConfig, Network } from "@irys-network/core-bundler-client/types";
+import { Approval } from "@irys-network/core-bundler-client/approval";
 import { Resolvable } from "./builder";
 
 export class BaseWebIrys extends Irys {

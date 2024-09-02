@@ -1,6 +1,6 @@
 import BaseERC20Token from "./erc20";
 import BaseEthereumToken from "./ethereum";
-import {Builder, type TokenConfigTrimmed} from "@irys-network/bundler-client-web/builder"
+import {Builder, type TokenConfigTrimmed} from "@irys-network/web-bundler-client/builder"
 
  export class EthereumToken extends BaseEthereumToken {
     constructor(config: TokenConfigTrimmed) {

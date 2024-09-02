@@ -47,7 +47,7 @@
     "test": "ava"
   },
   "dependencies": {
-    "@irys-network/bundler-client-core": "workspace:^"
+    "@irys-network/core-bundler-client": "workspace:^"
   },
   "devDependencies": {
     "@ava/typescript": "^5.0.0",

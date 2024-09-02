@@ -1,8 +1,8 @@
 import BigNumber from "bignumber.js";
 import { Contract } from "@ethersproject/contracts";
-import type { TokenConfig, Tx } from "@irys-network/bundler-client-core/types";
+import type { TokenConfig, Tx } from "@irys-network/core-bundler-client/types";
 import EthereumConfig from "./ethereum";
-import { erc20abi } from "@irys-network/bundler-client-core/utils";
+import { erc20abi } from "@irys-network/core-bundler-client/utils";
 
 export interface ERC20TokenConfig extends TokenConfig {
   contractAddress: string;

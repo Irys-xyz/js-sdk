@@ -1,7 +1,7 @@
 import type { Signer } from "arbundles";
 import { NearSigner } from "arbundles/web";
 import BigNumber from "bignumber.js";
-import type { TokenConfig, Tx } from "@irys-network/bundler-client-core/types";
+import type { TokenConfig, Tx } from "@irys-network/core-bundler-client/types";
 import { KeyPair } from "@near-js/crypto";
 import { BrowserLocalStorageKeyStore } from "@near-js/keystores-browser";
 import { SCHEMA, Signature, SignedTransaction, actionCreators, createTransaction } from "@near-js/transactions";

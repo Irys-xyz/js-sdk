@@ -1,7 +1,7 @@
 import type { Signer } from "arbundles";
 import { HexInjectedSolanaSigner } from "arbundles/web";
 import BigNumber from "bignumber.js";
-import type { TokenConfig, Tx } from "@irys-network/bundler-client-core/types";
+import type { TokenConfig, Tx } from "@irys-network/core-bundler-client/types";
 import BaseWebToken from "./base";
 import bs58 from "bs58";
 // @ts-ignore stupid esm stuff (we're just importing as types so it's fine)

@@ -48,8 +48,8 @@
   },
   "dependencies": {
     "@ethersproject/bignumber": "^5.7.0",
-    "@irys-network/bundler-client-core": "workspace:^",
-    "@irys-network/bundler-client-web": "workspace:^",
+    "@irys-network/core-bundler-client": "workspace:^",
+    "@irys-network/web-bundler-client": "workspace:^",
     "@irys-network/bundler-ethereum-web": "workspace:^",
     "arbundles": "^0.11.1",
     "bignumber.js": "^9.1.2",

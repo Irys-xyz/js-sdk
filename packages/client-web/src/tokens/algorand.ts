@@ -1,6 +1,6 @@
 // import { InjectedAlgorandSigner, Signer } from "arbundles";
 // import BigNumber from "bignumber.js";
-// import { CurrencyConfig, Tx } from "@irys-network/bundler-client-core/types"
+// import { CurrencyConfig, Tx } from "@irys-network/core-bundler-client/types"
 // import BaseWebCurrency from "../currency"
 
 // import * as algosdk from "algosdk";

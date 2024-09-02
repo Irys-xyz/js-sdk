@@ -1,5 +1,5 @@
 // import { BaseWebIrys } from "./base";
-// import type { IrysConfig, Network } from "@irys-network/bundler-client-core/types";
+// import type { IrysConfig, Network } from "@irys-network/core-bundler-client/types";
 // import getTokenConfig from "./tokens";
 
 // export class WebIrys extends BaseWebIrys {

@@ -1,7 +1,7 @@
 // import { ArconnectSigner } from "arbundles";
 // import BigNumber from "bignumber.js";
 // import crypto from "crypto";
-// import type { TokenConfig, Tx } from "@irys-network/bundler-client-core/types";
+// import type { TokenConfig, Tx } from "@irys-network/core-bundler-client/types";
 // import base64url from "base64url";
 // import { Arweave } from "../utils";
 // // eslint-disable-next-line @typescript-eslint/no-unused-vars
