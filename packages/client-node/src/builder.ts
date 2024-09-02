@@ -1,9 +1,38 @@
 import { Irys, IrysConfig, Network
- } from "@irys-network/bundler-client-core";
+ } from "@irys-network/core-bundler-client";
 import { NodeIrysConfig, NodeToken } from "./types";
 import {BaseNodeIrys} from "./base";
 
-export type Adapter = (adapter: NodeToken) => Promise<NodeToken>
+// UNSTABLE
+export type Adapter = PreAdapter | PostAdapter | BiphaseAdapter
+
+export interface BaseAdapter {
+    phase: "pre" | "post" | "both" 
+    // custom function run on adapter load
+    // useful for 
+    load?: (builder: this) => void
+}
+
+export interface PreAdapter extends BaseAdapter  {
+    phase: "pre",
+    adaptTokenPre: (builder: Builder, tokenConfig: ConstructableNodeToken) => Resolvable<void>
+
+}
+
+export interface PostAdapter extends BaseAdapter{
+    phase: "post",
+    adaptTokenPost: (builder: Builder, tokenConfig: NodeToken) =>Resolvable<void>
+
+}
+
+export interface BiphaseAdapter extends BaseAdapter{
+    phase: "both",
+    adaptTokenPre: (builder: Builder, tokenConfig: ConstructableNodeToken) => Resolvable<void>
+    adaptTokenPost: (builder: Builder, tokenConfig: NodeToken) => Resolvable<void>
+
+}
+
+export type Resolvable<T> = T | Promise<T>
 export type Constructable<A extends any[], T> = {
     new (...args: A): T
 };
@@ -19,14 +48,17 @@ export type TokenConfigTrimmed<Wallet = string | object, Opts = any> = {
 };
 
 export class Builder {
-    public adapter: Adapter | undefined
+    public preAdapters: (PreAdapter | BiphaseAdapter)[]
+    public postAdapters: (PostAdapter | BiphaseAdapter)[]
     public token: ConstructableNodeToken
     protected wallet: any
     protected config: NodeIrysConfig & { config: IrysConfig, network: Network}
-    
+    public constructed?: NodeToken
 
     constructor(tokenClass: ConstructableNodeToken) {
-        
+        this.preAdapters = []
+        this.postAdapters = []
+
         this.token = tokenClass;
         this.config = {
             url: "https://uploader.irys.xyz",
@@ -41,27 +73,50 @@ export class Builder {
         return this
     }
 
-    public testnet() {
+    public mainnet() {
         this.config.network = "testnet"
         return this
 
     }
+
     public withRpc(rpcUrl: string) {
         this.config.config.providerUrl = rpcUrl
         return this
     }
+    
+    public bundlerUrl(url: URL) {
+        this.config.url = url.toString()
+        return this
+    }
+
+    public withAdapter(adapter: Adapter) {
+        // this.adapters.push(adapter)
+        if(adapter.phase != "post") this.preAdapters.push(adapter)
+        if(adapter.phase != "pre") this.postAdapters.push(adapter)
+            // @ts-expect-error type intersection issues
+        if(adapter.load) adapter.load(this)
+        return this
+    }
 
     public async build() {
+
         const irys = new BaseNodeIrys({
             url: this.config.url,
             network: this.config.network,
             config: this.config.config,
-            getTokenConfig: (irys) => {
-            
-                const constructed = new this.token({irys, wallet: this.wallet, providerUrl: this.config.config.providerUrl, opts: this.config.config.tokenOpts})
-                return constructed
+            getTokenConfig: async (irys) => {
+                for (const preAdapter of this.preAdapters) {
+                    await preAdapter.adaptTokenPre(this, this.token)
+                }
+                this.constructed = new this.token({irys, wallet: this.wallet, providerUrl: this.config.config.providerUrl})
+                for (const postAdapter of this.postAdapters) {
+                    await postAdapter.adaptTokenPost(this, this.constructed)
+                }
+                return this.constructed
+        
             }
         })
+        await irys.build({wallet: this.wallet, config: this.config.config})
         await irys.ready();
         return irys
     }

@@ -1,11 +1,10 @@
-import { Provenance } from "@irys-network/bundler-client-core/provenance";
-import type { UploadReceipt } from "@irys-network/bundler-client-core/types";
-import type { CreateAndUploadOptions } from "@irys-network/bundler-client-core/types";
-import type NodeIrys from "./irys";
-
+import { Provenance } from "@irys-network/core-bundler-client/provenance";
+import type { UploadReceipt } from "@irys-network/core-bundler-client/types";
+import type { CreateAndUploadOptions } from "@irys-network/core-bundler-client/types";
+import type {BaseNodeIrys} from "./base"
 export class NodeProvenance extends Provenance {
-  declare irys: NodeIrys;
-  constructor(irys: NodeIrys) {
+  declare irys: BaseNodeIrys;
+  constructor(irys: BaseNodeIrys) {
     super(irys);
   }
 

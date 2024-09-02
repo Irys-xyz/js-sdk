@@ -1,7 +1,7 @@
 {
-  "name": "@irys-network/bundler-ethereum-node",
-  "version": "0.0.1",
-  "description": "TODO",
+  "name": "@irys-network/bundler-ethereum",
+  "version": "0.0.2",
+  "description": "Ethereum NodeJS token client for Irys network bundlers",
   "license": "MIT",
   "sideEffects": false,
   "module": "dist/esm/index.js",
@@ -42,10 +42,11 @@
   },
   "dependencies": {
     "@ethersproject/bignumber": "^5.7.0",
+    "@ethersproject/contracts": "^5.7.0",
     "@ethersproject/providers": "^5.7.2",
     "@ethersproject/wallet": "^5.7.0",
-    "@irys-network/bundler-client-core": "workspace:^",
-    "@irys-network/bundler-client-node": "workspace:^",
+    "@irys-network/core-bundler-client": "workspace:^",
+    "@irys-network/bundler-client": "workspace:^",
     "arbundles": "^0.11.1",
     "bignumber.js": "^9.1.2"
   },
