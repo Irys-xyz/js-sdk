@@ -1,5 +1,5 @@
 import BaseWebIrys from "@irys-network/bundler-client-web/base";
-import BaseEthereumToken from "./token";
+import BaseEthereumToken from "./ethereum";
 import type {  WebIrysConfig } from "@irys-network/bundler-client-web/types";
 
 export class EthereumIrys extends BaseWebIrys {

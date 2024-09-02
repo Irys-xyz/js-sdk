@@ -42,6 +42,7 @@
   },
   "dependencies": {
     "@ethersproject/bignumber": "^5.7.0",
+    "@ethersproject/contracts": "^5.7.0",
     "@ethersproject/providers": "^5.7.2",
     "@irys-network/bundler-client-core": "workspace:^",
     "@irys-network/bundler-client-web": "workspace:^",

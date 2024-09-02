@@ -1,3 +1,3 @@
-import EthereumWebIrys from "./ethereum"
-export {EthereumWebIrys}
+import EthereumWebIrys from "./clients"
 export default EthereumWebIrys
+export * from "./clients"

@@ -1,5 +1,5 @@
 import BaseNodeIrys from "@irys-network/bundler-client-node/base";
-import BaseEthereumToken from "./token";
+import BaseEthereumToken from "./ethereum";
 import type { NodeIrysConfig } from "@irys-network/bundler-client-node/types";
 
 export class EthereumIrys extends BaseNodeIrys {
