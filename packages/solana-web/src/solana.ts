@@ -3,8 +3,9 @@ import BaseSolanaToken from "./token";
 import {Builder, type TokenConfigTrimmed} from "@irys-network/web-bundler-client/builder"
  export class SolanaToken extends BaseSolanaToken {
     constructor(config: TokenConfigTrimmed) {
-        super({name: "solana", ticker: "SOL", providerUrl: config.providerUrl ?? "https://api.mainnet-beta.solana.com/",
-           ...config
+        super({name: "solana", ticker: "SOL",
+           ...config,
+           providerUrl: config.providerUrl ?? "https://api.mainnet-beta.solana.com/",
          })
     }
 }
@@ -12,8 +13,9 @@ import {Builder, type TokenConfigTrimmed} from "@irys-network/web-bundler-client
 function getBoundSolana({name, ticker, providerUrl}: {name: string, ticker: string, providerUrl: string}) {
     return class SolanaToken extends BaseSolanaToken {
         constructor(config: TokenConfigTrimmed) {
-            super({name, ticker, providerUrl: config.providerUrl ?? providerUrl,
-               ...config
+            super({name, ticker, 
+               ...config,
+               providerUrl: config.providerUrl ?? providerUrl,
              })
         }
     }

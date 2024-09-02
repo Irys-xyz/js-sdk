@@ -3,8 +3,9 @@ import BaseEthereumToken, { EthereumTokenOpts } from "./ethereum";
 import {Builder, type TokenConfigTrimmed} from "@irys-network/bundler-client/builder"
  export class EthereumToken extends BaseEthereumToken {
     constructor(config: TokenConfigTrimmed) {
-        super({name: "ethereum", ticker: "ETH", providerUrl: config.providerUrl ?? "https://cloudflare-eth.com/",
-           ...config
+        super({name: "ethereum", ticker: "ETH",
+           ...config,
+           providerUrl: config.providerUrl ?? "https://cloudflare-eth.com/",
          })
     }
 }
@@ -13,8 +14,9 @@ import {Builder, type TokenConfigTrimmed} from "@irys-network/bundler-client/bui
 function getBoundEth({name, ticker, providerUrl}: {name: string, ticker: string, providerUrl: string}) {
     return class EthereumToken extends BaseEthereumToken {
         constructor(config: TokenConfigTrimmed) {
-            super({name, ticker, providerUrl: config.providerUrl ?? providerUrl,
-               ...config
+            super({name, ticker,
+               ...config,
+               providerUrl: config.providerUrl ?? providerUrl,
              })
         }
     }
@@ -23,9 +25,10 @@ function getBoundEth({name, ticker, providerUrl}: {name: string, ticker: string,
 function getBoundERC20({name, ticker, providerUrl, contractAddress}: {name: string, ticker: string, providerUrl: string, contractAddress: string}) {
     return class ERC20Token extends BaseERC20Token {
         constructor(config: TokenConfigTrimmed) {
-            super({name, ticker, providerUrl: config.providerUrl ?? providerUrl,
-                contractAddress: config.opts?.contractAddress ?? contractAddress,
-               ...config
+            super({name, ticker,
+               ...config,
+               providerUrl: config.providerUrl ?? providerUrl,
+               contractAddress: config.opts?.contractAddress ?? contractAddress,
              })
         }
     }

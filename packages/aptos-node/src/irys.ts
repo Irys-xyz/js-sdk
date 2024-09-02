@@ -4,8 +4,9 @@ import {Builder, type TokenConfigTrimmed} from "@irys-network/bundler-client/bui
 
  export class AptosToken extends BaseAptosToken {
     constructor(config: TokenConfigTrimmed) {
-        super({name: "aptos", ticker: "APT", providerUrl: config.providerUrl ??  Network.MAINNET,
-           ...config
+        super({name: "aptos", ticker: "APT",
+           ...config,
+           providerUrl: config.providerUrl ??  Network.MAINNET
          })
     }
 }

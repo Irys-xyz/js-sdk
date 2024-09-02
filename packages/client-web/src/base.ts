@@ -69,7 +69,7 @@ export class BaseWebIrys extends Irys {
       timeout: config?.timeout ?? 100000,
       headers: config?.headers,
     });
-
+    this.getTokenConfig = getTokenConfig
     
   }
 
