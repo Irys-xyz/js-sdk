@@ -1,0 +1,16 @@
+{
+  "extends": "../cjs.tsconfig.json",
+  "include": [
+    "../src",
+    "../test"
+  ],
+  "compilerOptions": {
+    "module": "Node16",
+    "rootDir": "../",
+    "outDir": "../dist/test",
+    "declarationDir": null,
+    "moduleResolution": "Node16",
+    "declaration": false,
+    "emitDeclarationOnly": false
+  }
+}
