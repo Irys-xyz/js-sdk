@@ -1,6 +1,6 @@
 {
   "name": "@irys-network/web-bundler-ethereum-viem-v2",
-  "version": "0.0.1",
+  "version": "0.0.0",
   "description": "TODO",
   "license": "MIT",
   "sideEffects": false,

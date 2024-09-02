@@ -39,10 +39,8 @@
 
 module.exports = {
   "env": {
-    "browser": false,
-    "es6": true,
-    "node": true,
-    "jest": true
+    browser: true,
+    es2021: true,
   },
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
