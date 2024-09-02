@@ -81,6 +81,7 @@ export abstract class Irys {
   }
 
   /**
+   * @deprecated use getBalance with no addres instead
    * Gets the balance for the loaded wallet
    * @returns balance (in winston)
    */
@@ -88,13 +89,16 @@ export abstract class Irys {
     if (!this.address) throw new Error("address is undefined");
     return this.utils.getBalance(this.address);
   }
+  
   /**
    * Gets the balance for the specified address
    * @param address address to query for
    * @returns the balance (in winston)
    */
-  async getBalance(address: string): Promise<BigNumber> {
-    return this.utils.getBalance(address);
+  async getBalance(address?: string): Promise<BigNumber> {
+    if(address) return this.utils.getBalance(address);
+    if (!this.address) throw new Error("address is undefined");
+    return this.utils.getBalance(this.address);
   }
 
   /**
