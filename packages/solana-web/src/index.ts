@@ -1,3 +1,3 @@
-import SolanaWebIrys from "./solana"
-export {SolanaWebIrys}
-export default SolanaWebIrys
+import SolanaBundlerWebIrys from "./solana"
+export {SolanaBundlerWebIrys}
+export default SolanaBundlerWebIrys

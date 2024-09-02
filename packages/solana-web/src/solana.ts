@@ -10,8 +10,8 @@ import {Builder, type TokenConfigTrimmed} from "@irys-network/web-bundler-client
 }
 
 
-export function SolanaWebIrys(opts?:  { finality?: Finality; disablePriorityFees?: boolean } ) {
+export function SolanaBundlerWebIrys(opts?:  { finality?: Finality; disablePriorityFees?: boolean } ) {
     // return a builder
     return new Builder(SolanaToken).withTokenOptions(opts)
 }
-export default SolanaWebIrys
+export default SolanaBundlerWebIrys

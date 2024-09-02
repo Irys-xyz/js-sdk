@@ -11,7 +11,7 @@ import {Builder, type TokenConfigTrimmed} from "@irys-network/bundler-client/bui
 }
 
 
-export function AptosNodeIrys() {
+export function AptosBundlerIrys() {
     return new Builder(AptosToken)/* .withTokenOptions(opts) */
 }
-export default AptosNodeIrys
+export default AptosBundlerIrys

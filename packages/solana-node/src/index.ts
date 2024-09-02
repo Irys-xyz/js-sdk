@@ -1,3 +1,3 @@
-import SolanaNodeIrys from "./solana"
-export {SolanaNodeIrys}
-export default SolanaNodeIrys
+import SolanaBundlerIrys from "./solana"
+export {SolanaBundlerIrys}
+export default SolanaBundlerIrys

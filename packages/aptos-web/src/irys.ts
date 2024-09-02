@@ -11,7 +11,7 @@ import {Builder, type TokenConfigTrimmed} from "@irys-network/web-bundler-client
 }
 
 
-export function AptosWebIrys() {
+export function AptosBundlerWebIrys() {
     return new Builder(AptosToken)/* .withTokenOptions(opts) */
 }
-export default AptosWebIrys
+export default AptosBundlerWebIrys

@@ -1,3 +1,3 @@
-import AptosWebIrys from "./irys"
-export {AptosWebIrys}
-export default AptosWebIrys
+import AptosBundlerWebIrys from "./irys"
+export {AptosBundlerWebIrys}
+export default AptosBundlerWebIrys

@@ -1,3 +1,3 @@
-import EthereumNodeIrys from "./clients"
+import EthereumBundlerIrys from "./clients"
 export * from "./clients"
-export default EthereumNodeIrys
+export default EthereumBundlerIrys
