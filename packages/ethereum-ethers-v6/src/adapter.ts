@@ -3,7 +3,7 @@ import BigNumber from "bignumber.js";
 import { BigNumber as EthBigNumber } from "@ethersproject/bignumber";
 import type { BrowserProvider, JsonRpcSigner, TypedDataDomain } from "ethers";
 import type { Tx } from "@irys-network/core-bundler-client/types";
-import {EthereumConfig, type MinimalProvider} from "@irys-network/bundler-ethereum-web/ethereum";
+import {EthereumConfig, type MinimalProvider} from "@irys-network/web-bundler-ethereum/ethereum";
 
 export class EthereumEthersV6 extends EthereumConfig {
   protected declare provider: BrowserProvider;

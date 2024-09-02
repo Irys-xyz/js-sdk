@@ -1,5 +1,5 @@
 {
-  "name": "@irys-network/bundler-ethereum-node",
+  "name": "@irys-network/node-bundler-ethereum",
   "version": "0.0.1",
   "description": "TODO",
   "license": "MIT",

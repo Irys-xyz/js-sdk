@@ -1,5 +1,5 @@
 {
-  "name": "@irys-network/bundler-client-ethereum-ethers-v6",
+  "name": "@irys-network/web-bundler-ethereum-ethers-v6",
   "version": "0.0.1",
   "description": "TODO",
   "license": "MIT",
@@ -50,7 +50,7 @@
     "@ethersproject/bignumber": "^5.7.0",
     "@irys-network/core-bundler-client": "workspace:^",
     "@irys-network/web-bundler-client": "workspace:^",
-    "@irys-network/bundler-ethereum-web": "workspace:^",
+    "@irys-network/web-bundler-ethereum": "workspace:^",
     "arbundles": "^0.11.1",
     "bignumber.js": "^9.1.2",
     "ethers": "6.7.1"

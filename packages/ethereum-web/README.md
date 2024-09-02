@@ -5,5 +5,5 @@ TODO
 ## Installation
 
 ```sh
-npm install @irys-network/bundler-ethereum-web
+npm install @irys-network/web-bundler-ethereum
 ```

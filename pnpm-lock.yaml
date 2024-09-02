@@ -120,10 +120,10 @@ importers:
       '@irys-network/web-bundler-client':
         specifier: workspace:^
         version: link:../packages/client-web
-      '@irys-network/bundler-ethereum-node':
+      '@irys-network/node-bundler-ethereum':
         specifier: workspace:^
         version: link:../packages/ethereum
-      '@irys-network/bundler-ethereum-web':
+      '@irys-network/web-bundler-ethereum':
         specifier: workspace:^
         version: link:../packages/ethereum-web
       '@irys-network/node-bundler-solana':
@@ -557,7 +557,7 @@ importers:
       '@irys-network/web-bundler-client':
         specifier: workspace:^
         version: link:../client-web
-      '@irys-network/bundler-ethereum-web':
+      '@irys-network/web-bundler-ethereum':
         specifier: workspace:^
         version: link:../ethereum-web
       arbundles:
