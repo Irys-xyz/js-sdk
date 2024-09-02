@@ -1,6 +1,6 @@
 # ethereum
 
-TODO
+Ethereum NodeJS token client for Irys network bundlers
 
 ## Installation
 

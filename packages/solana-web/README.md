@@ -1,9 +1,9 @@
-# solana-node
+# solana-web
 
-TODO
+Solana web token client for Irys network bundlers
 
 ## Installation
 
 ```sh
-npm install @irys-network/bundler-solana-node
+npm install @irys-network/web-bundler-solana
 ```

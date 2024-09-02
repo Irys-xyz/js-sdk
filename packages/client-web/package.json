@@ -1,7 +1,7 @@
 {
   "name": "@irys-network/web-bundler-client",
   "version": "0.0.1",
-  "description": "TODO",
+  "description": "Web token-agnostic library for Irys network bundler clients",
   "license": "MIT",
   "sideEffects": false,
   "module": "dist/esm/index.js",

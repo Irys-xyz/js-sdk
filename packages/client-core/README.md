@@ -1,9 +1,10 @@
-# core
+# client-core
 
-TODO
+Core multiplatform Irys network bundler client library
 
 ## Installation
+You shouldn't need to install this package directly, but if you must:
 
 ```sh
-npm install @irys-network/bundler-core
+npm install @irys-network/core-bundler-client
 ```

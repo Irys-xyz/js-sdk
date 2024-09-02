@@ -1,9 +1,9 @@
-# ethereum-ethers-v6
+# ethereum-viem-v2
 
-TODO
+Provider adapter library for adapting Viem v2 providers for use with the web Ethereum Irys bundler token client
 
 ## Installation
 
 ```sh
-npm install @irys-network/bundler-ethereum-ethers-v6
+npm install @irys-network/web-bundler-ethereum-viem-v2
 ```

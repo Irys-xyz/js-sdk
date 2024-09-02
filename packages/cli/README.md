@@ -1,6 +1,6 @@
 # cli
 
-TODO
+NodeJS multi-token CLI for Irys network bundlers
 
 ## Installation
 

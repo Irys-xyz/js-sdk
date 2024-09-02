@@ -1,6 +1,6 @@
 # ethereum-web
 
-TODO
+Ethereum web token client for Irys network bundlers
 
 ## Installation
 

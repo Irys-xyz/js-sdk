@@ -1,7 +1,7 @@
 {
   "name": "@irys-network/core-bundler-client",
   "version": "0.0.1",
-  "description": "TODO",
+  "description": "Core multiplatform Irys network bundler client library",
   "license": "MIT",
   "sideEffects": false,
   "module": "./dist/esm/index.js",
