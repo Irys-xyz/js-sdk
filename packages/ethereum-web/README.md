@@ -1,6 +1,6 @@
 # ethereum-web
 
-Ethereum web token client for Irys network bundlers
+Ethereum web token client for Irys network bundlers.
 
 ## Docs
 

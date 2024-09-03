@@ -1,6 +1,6 @@
 # solana-web
 
-Solana web token client for Irys network bundlers
+Solana web token client for Irys network bundlers.
 
 ## Installation
 

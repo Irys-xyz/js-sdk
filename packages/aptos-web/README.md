@@ -1,6 +1,6 @@
 # aptos-web
 
-Aptos web token client for Irys network bundlers
+Aptos web token client for Irys network bundlers.
 
 ## Docs
 

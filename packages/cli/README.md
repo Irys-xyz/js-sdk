@@ -1,6 +1,6 @@
 # CLI
 
-NodeJS multi-token CLI for Irys network bundlers
+NodeJS multi-token CLI for Irys network bundlers.
 
 ## Docs
 

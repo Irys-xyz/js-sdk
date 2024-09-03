@@ -1,6 +1,6 @@
 # solana-node
 
-Solana NodeJS token client for Irys network bundlers
+Solana NodeJS token client for Irys network bundlers.
 
 ## Docs
 
