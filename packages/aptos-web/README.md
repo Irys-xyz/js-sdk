@@ -1,6 +1,10 @@
 # aptos-web
 
-Aptos web token client for Irys network bundlers
+Aptos web token client for Irys network bundlers.
+
+## Docs
+
+https://docs.irys.xyz/build/d/irys-in-the-browser#aptos
 
 ## Installation
 

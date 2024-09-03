@@ -1,6 +1,10 @@
 # ethereum
 
-Ethereum NodeJS token client for Irys network bundlers
+Ethereum NodeJS token client for Irys network bundlers.
+
+## Docs
+
+https://docs.irys.xyz/build/d/sdk/install-configure
 
 ## Installation
 

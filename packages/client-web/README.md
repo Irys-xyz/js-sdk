@@ -1,6 +1,6 @@
 # client-web
 
-Web token-agnostic library for Irys network bundler clients
+Web token-agnostic library for Irys network bundler clients.
 
 ## Installation
 
