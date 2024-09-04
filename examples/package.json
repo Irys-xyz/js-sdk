@@ -3,6 +3,19 @@
     "private": true,
     "dependencies": {
         "@irys/upload": "workspace:^",
-        "@irys/upload-ethereum": "workspace:^"
-    }
+        "@irys/upload-ethereum": "workspace:^",
+        "@irys/upload-solana": "workspace:^",
+        "@irys/upload-aptos": "workspace:^",
+        "@irys/web-upload": "workspace:^",
+        "@irys/web-upload-ethereum": "workspace:^",
+        "@irys/web-upload-ethereum-ethers-v5": "workspace:^",
+        "@irys/web-upload-ethereum-ethers-v6": "workspace:^",
+        "@irys/web-upload-ethereum-viem-v2": "workspace:^"
+    },
+    "version": "1.0.0",
+    "scripts": {},
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "description": ""
 }
