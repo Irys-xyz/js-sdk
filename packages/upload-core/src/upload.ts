@@ -165,12 +165,12 @@ export class Uploader {
   }
 
   /**
-   * geneates a manifest JSON object
+   * geneates a folder/path manifest JSON object
    * @param config.items mapping of logical paths to item IDs
    * @param config.indexFile optional logical path of the index file for the manifest
    * @returns
    */
-  public async generateManifest(config: { items: Map<string, string>; indexFile?: string }): Promise<Manifest> {
+  public async generateFolder(config: { items: Map<string, string>; indexFile?: string }): Promise<Manifest> {
     const { items, indexFile } = config;
     const manifest: Manifest = {
       manifest: "irys/paths",

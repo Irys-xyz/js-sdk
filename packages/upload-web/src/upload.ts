@@ -73,7 +73,7 @@ export class WebUploader extends Uploader {
       txMap.set(path, tx.id);
     }
     // generate manifest, add to bundle
-    const manifest = await this.generateManifest({ items: txMap, indexFile: opts?.indexFileRelPath });
+    const manifest = await this.generateFolder({ items: txMap, indexFile: opts?.indexFileRelPath });
     const manifestTx = this.irys.bundles.createData(
       JSON.stringify(manifest),
       opts?.separateManifestTx ? this.irys.tokenConfig.getSigner() : ephemeralSigner,
