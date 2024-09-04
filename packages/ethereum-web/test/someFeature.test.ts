@@ -1,6 +1,6 @@
 import test from 'ava';
-import { EthereumBundlerWebIrys } from '../src';
+import { WebEthereum } from '../src';
 
 test('example test', async (t) => {
-  t.is(typeof EthereumBundlerWebIrys, 'function');
+  t.is(typeof WebEthereum, 'function');
 });

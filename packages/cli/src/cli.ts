@@ -4,7 +4,6 @@ import BigNumber from "bignumber.js";
 import { Command } from "commander";
 import { readFileSync } from "fs";
 import inquirer from "inquirer";
-import Irys from "@irys/upload";
 import { checkPath } from "@irys/upload/upload";
 import { getToken } from "./token";
 import BaseNodeIrys from "@irys/upload/base";
@@ -221,7 +220,7 @@ async function confirmation(message: string): Promise<boolean> {
  * @param opts the parsed options from the cli
  * @returns a new Irys instance
  */
-async function init(opts: any, operation: string): Promise<Irys> {
+async function init(opts: any, operation: string): Promise<BaseNodeIrys> {
   let wallet: any;
   let irys: BaseNodeIrys;
   // every option needs a host/network and token so ensure they're present

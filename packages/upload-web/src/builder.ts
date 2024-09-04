@@ -16,20 +16,20 @@ export interface BaseAdapter {
 
 export interface PreAdapter extends BaseAdapter  {
     phase: "pre",
-    adaptTokenPre: (builder: Builder, tokenConfig: ConstructableWebToken) => Resolvable<void>
+    adaptTokenPre: (builder: UploadBuilder, tokenConfig: ConstructableWebToken) => Resolvable<void>
 
 }
 
 export interface PostAdapter extends BaseAdapter{
     phase: "post",
-    adaptTokenPost: (builder: Builder, tokenConfig: WebToken) =>Resolvable<void>
+    adaptTokenPost: (builder: UploadBuilder, tokenConfig: WebToken) =>Resolvable<void>
 
 }
 
 export interface BiphaseAdapter extends BaseAdapter{
     phase: "both",
-    adaptTokenPre: (builder: Builder, tokenConfig: ConstructableWebToken) => Resolvable<void>
-    adaptTokenPost: (builder: Builder, tokenConfig: WebToken) => Resolvable<void>
+    adaptTokenPre: (builder: UploadBuilder, tokenConfig: ConstructableWebToken) => Resolvable<void>
+    adaptTokenPost: (builder: UploadBuilder, tokenConfig: WebToken) => Resolvable<void>
 
 }
 
@@ -46,7 +46,7 @@ export type TokenConfigTrimmed<Wallet = string | object, Opts = any> = {
     opts?: Opts;
 };
 
-export class Builder {
+export class UploadBuilder {
     // public adapters: Adapter[]
     public preAdapters: (PreAdapter | BiphaseAdapter)[]
     public postAdapters: (PostAdapter | BiphaseAdapter)[]
@@ -144,4 +144,8 @@ export class Builder {
         return this.then().finally(onFinally);
       }
 
+}
+
+export const Builder = (tokenClass: ConstructableWebToken): UploadBuilder => {
+    return new UploadBuilder(tokenClass)
 }

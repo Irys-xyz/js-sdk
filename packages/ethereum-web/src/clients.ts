@@ -1,7 +1,7 @@
 import BaseWebToken from "@irys/web-upload/esm/tokens/base";
 import BaseERC20Token from "./erc20";
 import BaseEthereumToken from "./ethereum";
-import {Builder, Constructable, type TokenConfigTrimmed} from "@irys/web-upload/builder"
+import { Constructable, type TokenConfigTrimmed} from "@irys/web-upload/builder"
 
  export class EthereumToken extends BaseEthereumToken {
     constructor(config: TokenConfigTrimmed) {
@@ -35,7 +35,6 @@ function getBoundERC20({name, ticker, providerUrl, contractAddress}: {name: stri
         }
     }
 }
-type EthereumTokenOpts = {}
 
 // export function MaticBundlerWebIrys(opts?: EthereumTokenOpts) {
 //     return new Builder(getBoundEth({name: "matic", ticker: "MATIC", providerUrl: "https://polygon-rpc.com/" })).withTokenOptions(opts)
@@ -89,20 +88,20 @@ export const WebBera: Constructable<[TokenConfigTrimmed], BaseWebToken> = getBou
 // }
 export const WebScrollEth: Constructable<[TokenConfigTrimmed], BaseWebToken> = getBoundEth({name: "scroll-eth", ticker: "ETH", providerUrl:"https://rpc.scroll.io" })
 
-export function LineaEthBundlerWebIrys(opts?: EthereumTokenOpts) {
-    return new Builder(getBoundEth({name: "linea-eth", ticker: "ETH", providerUrl:"https://rpc.linea.build" })).withTokenOptions(opts)
-}
+// export function LineaEthBundlerWebIrys(opts?: EthereumTokenOpts) {
+//     return new Builder(getBoundEth({name: "linea-eth", ticker: "ETH", providerUrl:"https://rpc.linea.build" })).withTokenOptions(opts)
+// }
 export const WebLineaEth: Constructable<[TokenConfigTrimmed], BaseWebToken> = getBoundEth({name: "linea-eth", ticker: "ETH", providerUrl:"https://rpc.linea.build" })
 
-export function IotexBundlerWebIrys(opts?: EthereumTokenOpts) {
-    return new Builder(getBoundEth({name: "iotex", ticker: "IOTX", providerUrl:"https://babel-api.mainnet.iotex.io/" })).withTokenOptions(opts)
-}
+// export function IotexBundlerWebIrys(opts?: EthereumTokenOpts) {
+//     return new Builder(getBoundEth({name: "iotex", ticker: "IOTX", providerUrl:"https://babel-api.mainnet.iotex.io/" })).withTokenOptions(opts)
+// }
 export const WebIotex: Constructable<[TokenConfigTrimmed], BaseWebToken> = getBoundEth({name: "iotex", ticker: "IOTX", providerUrl:"https://babel-api.mainnet.iotex.io/" })
 
-export function EthereumBundlerWebIrys() {
-    // return a builder
-    return new Builder(EthereumToken)/* .withTokenOptions(opts) */
-}
+// export function EthereumBundlerWebIrys() {
+//     // return a builder
+//     return new Builder(EthereumToken)/* .withTokenOptions(opts) */
+// }
 // export const WebMatic: Constructable<[TokenConfigTrimmed], BaseWebToken> = getBoundEth({name: "matic", ticker: "MATIC", providerUrl: "https://polygon-rpc.com/" })
 export const WebEthereum = EthereumToken
 export default WebEthereum

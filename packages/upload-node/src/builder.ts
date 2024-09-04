@@ -16,20 +16,20 @@ export interface BaseAdapter {
 
 export interface PreAdapter extends BaseAdapter  {
     phase: "pre",
-    adaptTokenPre: (builder: Builder, tokenConfig: ConstructableNodeToken) => Resolvable<void>
+    adaptTokenPre: (builder: UploadBuilder, tokenConfig: ConstructableNodeToken) => Resolvable<void>
 
 }
 
 export interface PostAdapter extends BaseAdapter{
     phase: "post",
-    adaptTokenPost: (builder: Builder, tokenConfig: NodeToken) =>Resolvable<void>
+    adaptTokenPost: (builder: UploadBuilder, tokenConfig: NodeToken) =>Resolvable<void>
 
 }
 
 export interface BiphaseAdapter extends BaseAdapter{
     phase: "both",
-    adaptTokenPre: (builder: Builder, tokenConfig: ConstructableNodeToken) => Resolvable<void>
-    adaptTokenPost: (builder: Builder, tokenConfig: NodeToken) => Resolvable<void>
+    adaptTokenPre: (builder: UploadBuilder, tokenConfig: ConstructableNodeToken) => Resolvable<void>
+    adaptTokenPost: (builder: UploadBuilder, tokenConfig: NodeToken) => Resolvable<void>
 
 }
 
@@ -48,7 +48,7 @@ export type TokenConfigTrimmed<Wallet = string | object, Opts = any> = {
     opts?: Opts;
 };
 
-export class Builder {
+export class UploadBuilder {
     public preAdapters: (PreAdapter | BiphaseAdapter)[]
     public postAdapters: (PostAdapter | BiphaseAdapter)[]
     public token: ConstructableNodeToken
@@ -151,3 +151,6 @@ export class Builder {
 // function isClass(target: any): target is { new (...args: any[]): any } {
 //     return target && typeof target === "function" && (/^(object|array)$/i.test(target.constructor.name) === false)
 //   }
+export const Builder =(tokenClass: ConstructableNodeToken): UploadBuilder => {
+    return new UploadBuilder(tokenClass)
+}
