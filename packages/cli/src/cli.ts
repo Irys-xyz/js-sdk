@@ -8,7 +8,7 @@ import Irys from "@irys/upload";
 import { checkPath } from "@irys/upload/upload";
 import { getToken } from "./token";
 import BaseNodeIrys from "@irys/upload/base";
-import { IrysConfig } from "@irys/core-bundler-client";
+import { IrysConfig } from "@irys/upload-core";
 
 
 export const program = new Command();

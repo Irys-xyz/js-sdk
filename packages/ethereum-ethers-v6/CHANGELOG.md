@@ -8,7 +8,7 @@
 
 - Updated dependencies [[`781bd24`](https://github.com/Irys-xyz/network-bundler-js-sdk/commit/781bd243f8da378acd996130d9b6fd6fe33c0499)]:
   - @irys/web-upload-ethereum@0.0.2
-  - @irys/core-bundler-client@0.0.2
+  - @irys/upload-core@0.0.2
   - @irys/web-upload@0.0.2
 
 ## 0.0.1
@@ -21,5 +21,5 @@
 
 - Updated dependencies [[`a8a1342`](https://github.com/Irys-xyz/network-bundler-js-sdk/commit/a8a134288cb0197c2e30121a1c2f17f8e02731d9)]:
   - @irys/web-upload-ethereum@0.0.1
-  - @irys/core-bundler-client@0.0.1
+  - @irys/upload-core@0.0.1
   - @irys/web-upload@0.0.1

@@ -44,7 +44,7 @@
     "@ethersproject/bignumber": "^5.7.0",
     "@ethersproject/contracts": "^5.7.0",
     "@ethersproject/providers": "^5.7.2",
-    "@irys/core-bundler-client": "workspace:^",
+    "@irys/upload-core": "workspace:^",
     "@irys/web-upload": "workspace:^",
     "@irys/bundles": "^0.0.1",
     "bignumber.js": "^9.1.2"

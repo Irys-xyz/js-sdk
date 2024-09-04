@@ -1,6 +1,6 @@
 import { Network } from "@aptos-labs/ts-sdk";
 import BaseAptosToken from "./token";
-import {Builder, type TokenConfigTrimmed} from "@irys/web-upload/builder"
+import {type TokenConfigTrimmed} from "@irys/web-upload/builder"
 
  export class AptosToken extends BaseAptosToken {
     constructor(config: TokenConfigTrimmed) {
@@ -12,7 +12,10 @@ import {Builder, type TokenConfigTrimmed} from "@irys/web-upload/builder"
 }
 
 
-export function AptosBundlerWebIrys() {
-    return new Builder(AptosToken)/* .withTokenOptions(opts) */
-}
-export default AptosBundlerWebIrys
+// export function AptosBundlerWebIrys() {
+//     return new Builder(AptosToken)/* .withTokenOptions(opts) */
+// }
+// export default AptosBundlerWebIrys
+
+export const WebAptos = AptosToken
+export default WebAptos

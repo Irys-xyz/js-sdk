@@ -1,5 +1,5 @@
 import BigNumber from "bignumber.js";
-import type { Tx } from "@irys/core-bundler-client/types";
+import type { Tx } from "@irys/upload-core/types";
 import {EthereumConfig} from "@irys/web-upload-ethereum/ethereum";
 import type { http } from "viem";
 import type { PublicClient, WalletClient } from "viem";

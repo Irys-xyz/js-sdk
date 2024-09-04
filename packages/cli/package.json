@@ -52,7 +52,7 @@
     "bignumber.js": "^9.1.2",
     "commander": "^12.1.0",
     "inquirer": "^8.2.0",
-    "@irys/core-bundler-client": "workspace:^",
+    "@irys/upload-core": "workspace:^",
     "@irys/upload": "workspace:^",
     "@irys/upload-ethereum": "workspace:^",
     "@irys/upload-solana": "workspace:^",

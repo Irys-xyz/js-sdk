@@ -1,7 +1,7 @@
-import { Irys, IrysConfig, Network
- } from "packages/upload-core/dist/types";
+import { IrysConfig, Network} from "@irys/upload-core/types";
 import { WebIrysConfig, WebToken } from "./types";
 import {BaseWebIrys} from "./base";
+import { Irys } from "@irys/upload-core";
 
 
 /// UNSTABLE
@@ -34,10 +34,10 @@ export interface BiphaseAdapter extends BaseAdapter{
 }
 
 export type Resolvable<T> = T | Promise<T>
-type Constructable<A extends any[], T> = {
+export type Constructable<A extends any[], T> = {
     new (...args: A): T
 };
-type ConstructableWebToken = Constructable<[TokenConfigTrimmed],WebToken>
+export type ConstructableWebToken = Constructable<[TokenConfigTrimmed],WebToken>
 
 export type TokenConfigTrimmed<Wallet = string | object, Opts = any> = {
     irys: Irys;

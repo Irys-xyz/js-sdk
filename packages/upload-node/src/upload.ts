@@ -1,9 +1,9 @@
 import type { PathLike } from "fs";
 import { promises, createReadStream, createWriteStream } from "fs";
-import type { CreateAndUploadOptions, Token, IrysTransactonCtor, UploadReceipt, UploadResponse, Tags } from "packages/upload-core/dist/types/types";
-import Uploader from "packages/upload-core/dist/types/upload";
-import type Api from "packages/upload-core/dist/types/api";
-import type Utils from "packages/upload-core/dist/types/utils";
+import type { CreateAndUploadOptions, Token, IrysTransactonCtor, UploadReceipt, UploadResponse, Tags } from "@irys/upload-core/types";
+import Uploader from "@irys/upload-core/upload";
+import type Api from "@irys/upload-core/api";
+import type Utils from "@irys/upload-core/utils";
 import mime from "mime-types";
 import inquirer from "inquirer";
 import { Readable } from "stream";

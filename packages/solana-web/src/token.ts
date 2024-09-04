@@ -1,7 +1,7 @@
 import type { Signer } from "@irys/bundles";
 import { HexInjectedSolanaSigner } from "@irys/bundles/web";
 import BigNumber from "bignumber.js";
-import type { TokenConfig, Tx } from "@irys/core-bundler-client";
+import type { TokenConfig, Tx } from "@irys/upload-core";
 import BaseWebToken from "@irys/web-upload/tokens/base";
 import bs58 from "bs58";
 // @ts-expect-error only importing as type

@@ -1,4 +1,4 @@
-# @irys/core-bundler-client
+# @irys/upload-core
 
 ## 0.0.2
 

@@ -1,4 +1,4 @@
-import type { IrysConfig, Network, Token } from "packages/upload-core/dist/types/types";
+import type { IrysConfig, Network, Token } from "@irys/upload-core/types";
 import BaseNodeIrys from "./base";
 export interface NodeToken extends Token {
   getPublicKey(): string | Buffer;

@@ -48,7 +48,7 @@
   },
   "dependencies": {
     "@ethersproject/bignumber": "^5.7.0",
-    "@irys/core-bundler-client": "workspace:^",
+    "@irys/upload-core": "workspace:^",
     "@irys/web-upload": "workspace:^",
     "@irys/web-upload-ethereum": "workspace:^",
     "@irys/bundles": "^0.0.1",

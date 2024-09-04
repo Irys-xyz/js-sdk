@@ -41,7 +41,7 @@
     "test": "ava"
   },
   "dependencies": {
-    "@irys/core-bundler-client": "workspace:^",
+    "@irys/upload-core": "workspace:^",
     "@irys/bundles": "^0.0.1",
     "async-retry": "^1.3.3",
     "axios": "^1.7.5",

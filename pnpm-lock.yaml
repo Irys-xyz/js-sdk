@@ -126,12 +126,12 @@ importers:
       '@irys/bundles':
         specifier: ^0.0.1
         version: 0.0.1(arweave@1.15.1)(bufferutil@4.0.8)(encoding@0.1.13)(utf-8-validate@5.0.10)
-      '@irys/core-bundler-client':
-        specifier: workspace:^
-        version: link:../upload-core
       '@irys/upload':
         specifier: workspace:^
         version: link:../upload-node
+      '@irys/upload-core':
+        specifier: workspace:^
+        version: link:../upload-core
       async-retry:
         specifier: ^1.3.3
         version: 1.3.3
@@ -160,7 +160,7 @@ importers:
       '@irys/bundles':
         specifier: ^0.0.1
         version: 0.0.1(arweave@1.15.1)(bufferutil@4.0.8)(encoding@0.1.13)(utf-8-validate@5.0.10)
-      '@irys/core-bundler-client':
+      '@irys/upload-core':
         specifier: workspace:^
         version: link:../upload-core
       '@irys/web-upload':
@@ -191,15 +191,15 @@ importers:
       '@irys/bundles':
         specifier: ^0.0.1
         version: 0.0.1(arweave@1.15.1)(bufferutil@4.0.8)(encoding@0.1.13)(utf-8-validate@5.0.10)
-      '@irys/core-bundler-client':
-        specifier: workspace:^
-        version: link:../upload-core
       '@irys/upload':
         specifier: workspace:^
         version: link:../upload-node
       '@irys/upload-aptos':
         specifier: workspace:^
         version: link:../aptos-node
+      '@irys/upload-core':
+        specifier: workspace:^
+        version: link:../upload-core
       '@irys/upload-ethereum':
         specifier: workspace:^
         version: link:../ethereum
@@ -261,12 +261,12 @@ importers:
       '@irys/bundles':
         specifier: ^0.0.1
         version: 0.0.1(arweave@1.15.1)(bufferutil@4.0.8)(encoding@0.1.13)(utf-8-validate@5.0.10)
-      '@irys/core-bundler-client':
-        specifier: workspace:^
-        version: link:../upload-core
       '@irys/upload':
         specifier: workspace:^
         version: link:../upload-node
+      '@irys/upload-core':
+        specifier: workspace:^
+        version: link:../upload-core
       bignumber.js:
         specifier: ^9.1.2
         version: 9.1.2
@@ -286,7 +286,7 @@ importers:
       '@irys/bundles':
         specifier: ^0.0.1
         version: 0.0.1(arweave@1.15.1)(bufferutil@4.0.8)(encoding@0.1.13)(utf-8-validate@5.0.10)
-      '@irys/core-bundler-client':
+      '@irys/upload-core':
         specifier: workspace:^
         version: link:../upload-core
       '@irys/web-upload':
@@ -317,7 +317,7 @@ importers:
       '@irys/bundles':
         specifier: ^0.0.1
         version: 0.0.1(arweave@1.15.1)(bufferutil@4.0.8)(encoding@0.1.13)(utf-8-validate@5.0.10)
-      '@irys/core-bundler-client':
+      '@irys/upload-core':
         specifier: workspace:^
         version: link:../upload-core
       '@irys/web-upload':
@@ -348,7 +348,7 @@ importers:
       '@irys/bundles':
         specifier: ^0.0.1
         version: 0.0.1(arweave@1.15.1)(bufferutil@4.0.8)(encoding@0.1.13)(utf-8-validate@5.0.10)
-      '@irys/core-bundler-client':
+      '@irys/upload-core':
         specifier: workspace:^
         version: link:../upload-core
       '@irys/web-upload':
@@ -385,7 +385,7 @@ importers:
       '@irys/bundles':
         specifier: ^0.0.1
         version: 0.0.1(arweave@1.15.1)(bufferutil@4.0.8)(encoding@0.1.13)(utf-8-validate@5.0.10)
-      '@irys/core-bundler-client':
+      '@irys/upload-core':
         specifier: workspace:^
         version: link:../upload-core
       '@irys/web-upload':
@@ -407,12 +407,12 @@ importers:
       '@irys/bundles':
         specifier: ^0.0.1
         version: 0.0.1(arweave@1.15.1)(bufferutil@4.0.8)(encoding@0.1.13)(utf-8-validate@5.0.10)
-      '@irys/core-bundler-client':
-        specifier: workspace:^
-        version: link:../upload-core
       '@irys/upload':
         specifier: workspace:^
         version: link:../upload-node
+      '@irys/upload-core':
+        specifier: workspace:^
+        version: link:../upload-core
       '@solana/web3.js':
         specifier: ^1.95.3
         version: 1.95.3(bufferutil@4.0.8)(encoding@0.1.13)(utf-8-validate@5.0.10)
@@ -447,7 +447,7 @@ importers:
       '@irys/bundles':
         specifier: ^0.0.1
         version: 0.0.1(arweave@1.15.1)(bufferutil@4.0.8)(encoding@0.1.13)(utf-8-validate@5.0.10)
-      '@irys/core-bundler-client':
+      '@irys/upload-core':
         specifier: workspace:^
         version: link:../upload-core
       '@irys/web-upload':
@@ -521,7 +521,7 @@ importers:
       '@irys/bundles':
         specifier: ^0.0.1
         version: 0.0.1(arweave@1.15.1)(bufferutil@4.0.8)(encoding@0.1.13)(utf-8-validate@5.0.10)
-      '@irys/core-bundler-client':
+      '@irys/upload-core':
         specifier: workspace:^
         version: link:../upload-core
       async-retry:
@@ -573,7 +573,7 @@ importers:
       '@irys/bundles':
         specifier: ^0.0.1
         version: 0.0.1(arweave@1.15.1)(bufferutil@4.0.8)(encoding@0.1.13)(utf-8-validate@5.0.10)
-      '@irys/core-bundler-client':
+      '@irys/upload-core':
         specifier: workspace:^
         version: link:../upload-core
       async-retry:

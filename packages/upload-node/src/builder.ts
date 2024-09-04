@@ -1,7 +1,8 @@
-import { Irys, IrysConfig, Network
- } from "packages/upload-core/dist/types";
+import {  IrysConfig, Network
+ } from "@irys/upload-core/types";
 import { NodeIrysConfig, NodeToken } from "./types";
 import {BaseNodeIrys} from "./base";
+import { Irys } from "@irys/upload-core";
 
 // UNSTABLE
 export type Adapter = PreAdapter | PostAdapter | BiphaseAdapter
@@ -36,7 +37,7 @@ export type Resolvable<T> = T | Promise<T>
 export type Constructable<A extends any[], T> = {
     new (...args: A): T
 };
-type ConstructableNodeToken = Constructable<[TokenConfigTrimmed],NodeToken>
+export type ConstructableNodeToken = Constructable<[TokenConfigTrimmed],NodeToken>
 
 // type FnResolvable<T, U extends any[] = any[]> = T | ((...args: U) => T)  
 
