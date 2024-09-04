@@ -1,5 +1,12 @@
 # examples
 
+## 1.0.2
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @irys/web-upload-ethereum-viem-v2@0.0.2
+
 ## 1.0.1
 
 ### Patch Changes
