@@ -1,4 +1,4 @@
-import type { InjectedTypedEthereumSignerMinimalSigner } from "arbundles/web";
+import type { InjectedTypedEthereumSignerMinimalSigner } from "@irys/bundles/web";
 import BigNumber from "bignumber.js";
 import { BigNumber as EthBigNumber } from "@ethersproject/bignumber";
 import type { BrowserProvider, JsonRpcSigner, TypedDataDomain } from "ethers";

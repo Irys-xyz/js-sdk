@@ -1,4 +1,4 @@
-import type { Signer } from "arbundles";
+import type { Signer } from "@irys/bundles";
 import type BigNumber from "bignumber.js";
 import type { Tx, TokenConfig } from "@irys/core-bundler-client/types";
 import axios from "axios";

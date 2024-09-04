@@ -1,5 +1,5 @@
-import type { FileDataItem } from "arbundles/file";
-import type { Signer } from "arbundles";
+import type { FileDataItem } from "@irys/bundles/file";
+import type { Signer } from "@irys/bundles";
 import { getCryptoDriver } from "../utils";
 import base64url from "base64url";
 import type BigNumber from "bignumber.js";

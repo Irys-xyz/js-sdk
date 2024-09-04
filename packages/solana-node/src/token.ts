@@ -1,5 +1,5 @@
-import type { Signer } from "arbundles";
-import { HexSolanaSigner } from "arbundles";
+import type { Signer } from "@irys/bundles";
+import { HexSolanaSigner } from "@irys/bundles";
 import BigNumber from "bignumber.js";
 import bs58 from "bs58";
 import nacl from "tweetnacl";

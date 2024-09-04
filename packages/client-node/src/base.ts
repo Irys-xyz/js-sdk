@@ -7,7 +7,7 @@ import type { CreateAndUploadOptions, IrysConfig, Network, UploadResponse } from
 import Utils from "@irys/core-bundler-client/utils";
 import type { NodeToken } from "./types";
 import NodeUploader from "./upload";
-import * as arbundles from "./utils";
+import * as bundles from "./utils";
 import { Approval } from "@irys/core-bundler-client/approval";
 import { Resolvable } from "./builder";
 
@@ -31,7 +31,7 @@ export class BaseNodeIrys extends Irys {
     config?: IrysConfig;
     getTokenConfig: (irys: BaseNodeIrys) => Resolvable<NodeToken>;
   }) {
-    super({ url, network, arbundles });
+    super({ url, network, bundles });
     this.debug = config?.debug ?? false;
 
     this.api = new Api({

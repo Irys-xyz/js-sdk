@@ -1,7 +1,7 @@
 import Uploader from "@irys/core-bundler-client/upload";
 import type { CreateAndUploadOptions, Manifest, UploadOptions, UploadResponse } from "@irys/core-bundler-client/types";
-import type { DataItem, JWKInterface, Tag } from "arbundles";
-import { ArweaveSigner } from "arbundles";
+import type { DataItem, JWKInterface, Tag } from "@irys/bundles";
+import { ArweaveSigner } from "@irys/bundles";
 import BaseWebIrys from "./base";
 
 export type TaggedFile = File & {
@@ -57,7 +57,7 @@ export class WebUploader extends Uploader {
   > {
     const txs: DataItem[] = [];
     const txMap = new Map();
-    const throwawayKey = opts?.throwawayKey ?? (await this.irys.arbundles.getCryptoDriver().generateJWK());
+    const throwawayKey = opts?.throwawayKey ?? (await this.irys.bundles.getCryptoDriver().generateJWK());
     const ephemeralSigner = new ArweaveSigner(throwawayKey);
     for (const file of files) {
       const path = file.name ?? file.webkitRelativePath;
@@ -65,7 +65,7 @@ export class WebUploader extends Uploader {
 
       const tags = hasContentType ? file.tags : [...(file.tags ?? []), { name: "Content-Type", value: file.type }];
 
-      const tx = this.irys.arbundles.createData(Buffer.from(await file.arrayBuffer()), ephemeralSigner, {
+      const tx = this.irys.bundles.createData(Buffer.from(await file.arrayBuffer()), ephemeralSigner, {
         tags,
       });
       await tx.sign(ephemeralSigner);
@@ -74,7 +74,7 @@ export class WebUploader extends Uploader {
     }
     // generate manifest, add to bundle
     const manifest = await this.generateManifest({ items: txMap, indexFile: opts?.indexFileRelPath });
-    const manifestTx = this.irys.arbundles.createData(
+    const manifestTx = this.irys.bundles.createData(
       JSON.stringify(manifest),
       opts?.separateManifestTx ? this.irys.tokenConfig.getSigner() : ephemeralSigner,
       {

@@ -1,5 +1,5 @@
-import type { Signer } from "arbundles";
-import { HexInjectedSolanaSigner } from "arbundles/web";
+import type { Signer } from "@irys/bundles";
+import { HexInjectedSolanaSigner } from "@irys/bundles/web";
 import BigNumber from "bignumber.js";
 import type { TokenConfig, Tx } from "@irys/core-bundler-client";
 import BaseWebToken from "@irys/web-upload/tokens/base";

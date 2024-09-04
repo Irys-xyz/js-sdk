@@ -5,7 +5,7 @@ import Irys from "@irys/core-bundler-client/irys";
 import Utils from "@irys/core-bundler-client/utils";
 import { Transaction } from "@irys/core-bundler-client/transactions";
 import type { WebToken } from "./types";
-import * as arbundles from "./utils";
+import * as bundles from "./utils";
 import { WebUploader } from "./upload";
 import type { IrysConfig, Network } from "@irys/core-bundler-client/types";
 import { Approval } from "@irys/core-bundler-client/approval";
@@ -59,7 +59,7 @@ export class BaseWebIrys extends Irys {
     getTokenConfig: (irys: BaseWebIrys) => Resolvable<WebToken>;
   }) {
     // @ts-expect-error types
-    super({ url, network, arbundles });
+    super({ url, network, bundles });
 
     this.debug = config?.debug ?? false;
 

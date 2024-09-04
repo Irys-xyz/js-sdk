@@ -1,9 +1,9 @@
-import type { DataItem, DataItemCreateOptions } from "arbundles";
+import type { DataItem, DataItemCreateOptions } from "@irys/bundles";
 import type { Readable } from "stream";
 import { PassThrough } from "stream";
 import { EventEmitter } from "events";
 import type Api from "./api";
-import { UploadHeaders, type Arbundles, type Token, type UploadOptions, type UploadResponse } from "./types";
+import { UploadHeaders, type bundles, type Token, type UploadOptions, type UploadResponse } from "./types";
 import Utils from "./utils";
 import Crypto from "crypto";
 import retry from "async-retry";
@@ -35,12 +35,12 @@ export class ChunkingUploader extends EventEmitter {
   protected paused = false;
   protected isResume = false;
   protected uploadOptions: UploadOptions | undefined;
-  protected arbundles: Arbundles;
+  protected bundles: bundles;
 
   constructor(tokenConfig: Token, api: Api) {
     super({ captureRejections: true });
     this.tokenConfig = tokenConfig;
-    this.arbundles = this.tokenConfig.irys.arbundles;
+    this.bundles = this.tokenConfig.irys.bundles;
     this.api = api;
     this.token = this.tokenConfig.name;
     this.chunkSize = 25_000_000;
@@ -92,7 +92,7 @@ export class ChunkingUploader extends EventEmitter {
 
   public async uploadTransaction(data: Readable | Buffer | DataItem, opts?: UploadOptions): Promise<AxiosResponse<UploadResponse>> {
     this.uploadOptions = opts;
-    if (this.arbundles.DataItem.isDataItem(data)) {
+    if (this.bundles.DataItem.isDataItem(data)) {
       return this.runUpload(data.getRaw());
     } else {
       return this.runUpload(data);
@@ -208,7 +208,7 @@ export class ChunkingUploader extends EventEmitter {
     let txHeaderLength!: number;
     // doesn't matter if we randomise ID (anchor) between resumes, as the tx header/signing info is always uploaded last.
     if (!isTransaction) {
-      tx = this.arbundles.createData("", this.tokenConfig.getSigner(), {
+      tx = this.bundles.createData("", this.tokenConfig.getSigner(), {
         ...transactionOpts,
         anchor: transactionOpts?.anchor ?? Crypto.randomBytes(32).toString("base64").slice(0, 32),
       });
@@ -245,9 +245,9 @@ export class ChunkingUploader extends EventEmitter {
       offset += heldChunk.length;
       teeStream.write(heldChunk.slice(txLength));
       const sigComponents = [
-        this.arbundles.stringToBuffer("dataitem"),
-        this.arbundles.stringToBuffer("1"),
-        this.arbundles.stringToBuffer(tx.signatureType.toString()),
+        this.bundles.stringToBuffer("dataitem"),
+        this.bundles.stringToBuffer("1"),
+        this.bundles.stringToBuffer(tx.signatureType.toString()),
         tx.rawOwner,
         tx.rawTarget,
         tx.rawAnchor,
@@ -255,7 +255,7 @@ export class ChunkingUploader extends EventEmitter {
         new StreamToAsyncIterator<Buffer>(teeStream),
       ];
       // do *not* await, this needs to process in parallel to the upload process.
-      deephash = this.arbundles.deepHash(sigComponents);
+      deephash = this.bundles.deepHash(sigComponents);
     }
 
     let nextPresent = present.pop();
@@ -329,7 +329,7 @@ export class ChunkingUploader extends EventEmitter {
       throw new Error(finishUpload.data as any as string);
     }
 
-    finishUpload.data.verify = Utils.verifyReceipt.bind({}, this.arbundles, finishUpload.data.data);
+    finishUpload.data.verify = Utils.verifyReceipt.bind({}, this.bundles, finishUpload.data.data);
 
     this.emit("done", finishUpload);
     return finishUpload;

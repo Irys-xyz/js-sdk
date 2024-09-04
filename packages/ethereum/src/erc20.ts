@@ -1,7 +1,7 @@
 import BigNumber from "bignumber.js";
 import { Contract } from "@ethersproject/contracts";
 import { Wallet } from "@ethersproject/wallet";
-import { keccak256 } from "arbundles";
+import { keccak256 } from "@irys/bundles";
 import { getRedstonePrice } from "@irys/upload/tokens/base";
 import EthereumConfig from "./ethereum";
 import type { TokenConfig, Tx } from "@irys/core-bundler-client/types";

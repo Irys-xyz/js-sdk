@@ -1,4 +1,4 @@
-import type { DataItemCreateOptions, Signer } from "arbundles";
+import type { DataItemCreateOptions, Signer } from "@irys/bundles";
 import type BigNumber from "bignumber.js";
 import type { Readable } from "stream";
 import type Api from "./api";
@@ -6,7 +6,7 @@ import type Fund from "./fund";
 import buildIrysTransaction from "./transaction";
 import type { Transaction } from "./transactions";
 import type {
-  Arbundles,
+  bundles,
   CreateAndUploadOptions,
   Token,
   FundResponse,
@@ -37,12 +37,12 @@ export abstract class Irys {
   public approval!: Approval;
   protected _readyPromise: Promise<void> | undefined;
   public url: URL;
-  public arbundles: Arbundles;
+  public bundles: bundles;
   public IrysTransaction: IrysTransactonCtor;
   static VERSION = "REPLACEMEIRYSVERSION";
   public debug = false;
 
-  constructor({ url, network, arbundles }: { url?: string; network?: Network; arbundles: Arbundles }) {
+  constructor({ url, network, bundles }: { url?: string; network?: Network; bundles: bundles }) {
     switch (network) {
       case "testnet":
         url = "https://testnet-upload.irys.xyz";
@@ -52,7 +52,7 @@ export abstract class Irys {
     const parsed = new URL(url);
 
     this.url = parsed;
-    this.arbundles = arbundles;
+    this.bundles = bundles;
     this.IrysTransaction = buildIrysTransaction(this);
   }
 
@@ -118,11 +118,11 @@ export abstract class Irys {
   }
 
   public async verifyReceipt(receipt: UploadReceiptData): Promise<boolean> {
-    return Utils.verifyReceipt(this.arbundles, receipt);
+    return Utils.verifyReceipt(this.bundles, receipt);
   }
 
   /**
-   * Create a new IrysTransactions (flex token arbundles dataItem)
+   * Create a new IrysTransactions (flex token bundles dataItem)
    * @param data
    * @param opts - dataItemCreateOptions
    * @returns - a new IrysTransaction instance

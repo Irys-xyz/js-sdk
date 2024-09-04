@@ -7,7 +7,7 @@ import type Utils from "@irys/core-bundler-client/utils";
 import mime from "mime-types";
 import inquirer from "inquirer";
 import { Readable } from "stream";
-import type { DataItem } from "arbundles";
+import type { DataItem } from "@irys/bundles";
 import { basename, join, relative, resolve, sep } from "path";
 import {parse} from "csv-parse";
 import {stringify} from "csv-stringify";
@@ -273,7 +273,7 @@ export class NodeUploader extends Uploader {
    * @returns A dataItem
    */
   protected async processItem(item: string | Buffer | Readable | DataItem, opts?: CreateAndUploadOptions): Promise<any> {
-    if (this.arbundles.DataItem.isDataItem(item)) {
+    if (this.bundles.DataItem.isDataItem(item)) {
       return this.uploadTransaction(item, { ...opts?.upload });
     }
 

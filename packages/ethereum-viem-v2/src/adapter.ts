@@ -4,7 +4,7 @@ import {EthereumConfig} from "@irys/web-upload-ethereum/ethereum";
 import type { http } from "viem";
 import type { PublicClient, WalletClient } from "viem";
 import type { mainnet } from "viem/chains";
-import { InjectedTypedEthereumSigner } from "arbundles/web";
+import { InjectedTypedEthereumSigner } from "@irys/bundles/web";
 
 export const getV2Adapter  = (base: {new(...args: any): EthereumConfig}, opts: {publicClient: PublicClient<ReturnType<typeof http>, typeof mainnet>, accountIndex: number }): {new(...args: any): EthereumConfig} => {
   const accountIndex = opts.accountIndex ?? 0

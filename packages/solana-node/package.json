@@ -49,7 +49,7 @@
   "dependencies": {
     "@irys/core-bundler-client": "workspace:^",
     "@irys/upload": "workspace:^",
-    "arbundles": "^0.11.1",
+    "@irys/bundles": "^0.0.1",
     "bignumber.js": "^9.1.2",
     "bs58": "5.0.0",
     "tweetnacl": "^1.0.3",

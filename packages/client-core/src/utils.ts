@@ -2,7 +2,7 @@ import type { AxiosResponse } from "axios";
 import base64url from "base64url";
 import BigNumber from "bignumber.js";
 import type Api from "./api";
-import type { Arbundles, Token, UploadReceipt, UploadReceiptData } from "./types";
+import type {bundles, Token, UploadReceipt, UploadReceiptData } from "./types";
 import AsyncRetry from "async-retry";
 BigNumber.set({ DECIMAL_PLACES: 50 });
 
@@ -14,12 +14,12 @@ export class Utils {
   public api: Api;
   public token: string;
   public tokenConfig: Token;
-  protected arbundles: Arbundles;
+  protected bundles: bundles;
   constructor(api: Api, token: string, tokenConfig: Token) {
     this.api = api;
     this.token = token;
     this.tokenConfig = tokenConfig;
-    this.arbundles = this.tokenConfig.irys.arbundles;
+    this.bundles = this.tokenConfig.irys.bundles;
   }
 
   /**
@@ -95,7 +95,7 @@ export class Utils {
       };
     }
     // create a 0 data byte tx to estimate the per tx header overhead
-    const headerSizeAvg = folderInfo.headerSizeAvg ?? this.arbundles.createData("", this.tokenConfig.getSigner()).getRaw().length;
+    const headerSizeAvg = folderInfo.headerSizeAvg ?? this.bundles.createData("", this.tokenConfig.getSigner()).getRaw().length;
     const pricePerTxBase = await this.getPrice(this.tokenConfig.name, headerSizeAvg);
     const basePriceForTxs = pricePerTxBase.multipliedBy(folderInfo.fileCount);
     const priceForData = (await this.getPrice(this.tokenConfig.name, folderInfo.totalBytes)).plus(basePriceForTxs).decimalPlaces(0);
@@ -179,11 +179,11 @@ export class Utils {
   }
 
   async verifyReceipt(receipt: UploadReceiptData): Promise<boolean> {
-    return Utils.verifyReceipt(this.arbundles, receipt);
+    return Utils.verifyReceipt(this.bundles, receipt);
   }
 
   static async verifyReceipt(
-    dependencies: Pick<Arbundles, "stringToBuffer" | "getCryptoDriver" | "deepHash">,
+    dependencies: Pick<bundles, "stringToBuffer" | "getCryptoDriver" | "deepHash">,
     receipt: UploadReceiptData,
   ): Promise<boolean> {
     const { id, deadlineHeight, timestamp, public: pubKey, signature, version } = receipt;

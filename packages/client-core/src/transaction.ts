@@ -1,4 +1,4 @@
-import type { Signer } from "arbundles";
+import type { Signer } from "@irys/bundles";
 import type BigNumber from "bignumber.js";
 import Crypto from "crypto";
 import type Irys from "./irys";
@@ -16,20 +16,20 @@ import type {
  * Takes the same parameters as a regular DataItem.
  */
 
-export default function buildIrysTransaction(irys: Pick<Irys, "uploader" | "tokenConfig" | "arbundles" | "utils">): IrysTransactonCtor {
-  class IrysTransaction extends irys.arbundles.DataItem implements IIrysTransaction {
-    public Irys: Pick<Irys, "uploader" | "tokenConfig" | "arbundles" | "utils">;
+export default function buildIrysTransaction(irys: Pick<Irys, "uploader" | "tokenConfig" | "bundles" | "utils">): IrysTransactonCtor {
+  class IrysTransaction extends irys.bundles.DataItem implements IIrysTransaction {
+    public Irys: Pick<Irys, "uploader" | "tokenConfig" | "bundles" | "utils">;
     public signer: Signer;
 
     constructor(
       data: string | Uint8Array,
-      irys: Pick<Irys, "uploader" | "tokenConfig" | "arbundles" | "utils">,
+      irys: Pick<Irys, "uploader" | "tokenConfig" | "bundles" | "utils">,
       opts?: IrysTransactionCreateOptions,
     ) {
       super(
         opts?.dataIsRawTransaction === true
           ? Buffer.from(data)
-          : irys.arbundles
+          : irys.bundles
               .createData(data, irys.tokenConfig.getSigner(), {
                 ...opts,
                 anchor: opts?.anchor ?? Crypto.randomBytes(32).toString("base64").slice(0, 32),
@@ -71,7 +71,7 @@ export default function buildIrysTransaction(irys: Pick<Irys, "uploader" | "toke
     }
 
     async isValid(): Promise<boolean> {
-      return irys.arbundles.DataItem.verify(this.getRaw());
+      return irys.bundles.DataItem.verify(this.getRaw());
     }
   }
   return IrysTransaction;

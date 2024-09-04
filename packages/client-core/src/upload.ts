@@ -1,7 +1,7 @@
 /* eslint-disable no-case-declarations */
 import { PromisePool } from "@supercharge/promise-pool";
-import type { DataItem, JWKInterface } from "arbundles/node";
-import { ArweaveSigner } from "arbundles";
+import type { DataItem, JWKInterface } from "@irys/bundles/node";
+import { ArweaveSigner } from "@irys/bundles";
 import type { AxiosResponse } from "axios";
 import base64url from "base64url";
 import type { Readable } from "stream";
@@ -9,7 +9,7 @@ import type Api from "./api";
 import { ChunkingUploader } from "./chunkingUploader";
 import {
   type Token,
-  type Arbundles,
+  type bundles,
   type IrysTransactonCtor,
   type UploadOptions,
   type UploadReceipt,
@@ -33,14 +33,14 @@ export class Uploader {
   protected utils: Utils;
   protected contentTypeOverride: string | undefined;
   protected forceUseChunking: boolean | undefined;
-  protected arbundles: Arbundles;
+  protected bundles: bundles;
   protected irysTransaction: IrysTransactonCtor;
 
   constructor(api: Api, utils: Utils, token: string, tokenConfig: Token, irysTransaction: IrysTransactonCtor) {
     this.api = api;
     this.token = token;
     this.tokenConfig = tokenConfig;
-    this.arbundles = this.tokenConfig.irys.arbundles;
+    this.bundles = this.tokenConfig.irys.bundles;
     this.utils = utils;
     this.irysTransaction = irysTransaction;
   }
@@ -58,7 +58,7 @@ export class Uploader {
 
   public async uploadTransaction(transaction: DataItem | Readable | Buffer, opts?: UploadOptions): Promise<AxiosResponse<UploadResponse>> {
     let res: AxiosResponse<UploadResponse>;
-    const isDataItem = this.arbundles.DataItem.isDataItem(transaction);
+    const isDataItem = this.bundles.DataItem.isDataItem(transaction);
     if (this.forceUseChunking || (isDataItem && transaction.getRaw().length >= CHUNKING_THRESHOLD) || !isDataItem) {
       res = await this.chunkedUploader.uploadTransaction(isDataItem ? transaction.getRaw() : transaction, opts);
     } else {
@@ -94,7 +94,7 @@ export class Uploader {
     }
     if (Buffer.isBuffer(data)) {
       if (data.length <= CHUNKING_THRESHOLD) {
-        const dataItem = this.arbundles.createData(data, this.tokenConfig.getSigner(), {
+        const dataItem = this.bundles.createData(data, this.tokenConfig.getSigner(), {
           ...opts,
           anchor: opts?.anchor ?? randomBytes(32).toString("base64").slice(0, 32),
         });
@@ -158,7 +158,7 @@ export class Uploader {
   }
 
   protected async processItem(data: string | Buffer | Readable | DataItem, opts?: CreateAndUploadOptions): Promise<any> {
-    if (this.arbundles.DataItem.isDataItem(data)) {
+    if (this.bundles.DataItem.isDataItem(data)) {
       return this.uploadTransaction(data, { ...opts?.upload });
     }
     return this.uploadData(data, opts);
@@ -232,13 +232,13 @@ export class Uploader {
     transactions: (IrysTransaction | DataItem | Buffer)[],
     opts?: UploadOptions & { throwawayKey?: JWKInterface },
   ): Promise<AxiosResponse<UploadResponse> & { throwawayKey: JWKInterface; throwawayKeyAddress: string; txs: DataItem[] }> {
-    const throwawayKey = opts?.throwawayKey ?? (await this.arbundles.getCryptoDriver().generateJWK());
+    const throwawayKey = opts?.throwawayKey ?? (await this.bundles.getCryptoDriver().generateJWK());
     const ephemeralSigner = new ArweaveSigner(throwawayKey);
-    const txs = transactions.map((tx) => (this.arbundles.DataItem.isDataItem(tx) ? tx : this.arbundles.createData(tx, ephemeralSigner)));
-    const bundle = await this.arbundles.bundleAndSignData(txs, ephemeralSigner);
+    const txs = transactions.map((tx) => (this.bundles.DataItem.isDataItem(tx) ? tx : this.bundles.createData(tx, ephemeralSigner)));
+    const bundle = await this.bundles.bundleAndSignData(txs, ephemeralSigner);
 
     // upload bundle with bundle specific tags, use actual signer for this.
-    const tx = this.arbundles.createData(bundle.getRaw(), this.tokenConfig.getSigner(), {
+    const tx = this.bundles.createData(bundle.getRaw(), this.tokenConfig.getSigner(), {
       tags: [
         { name: "Bundle-Format", value: "binary" },
         { name: "Bundle-Version", value: "2.0.0" },
@@ -248,7 +248,7 @@ export class Uploader {
 
     const res = await this.uploadTransaction(tx, opts);
     const throwawayKeyAddress = base64url(
-      Buffer.from(await this.arbundles.getCryptoDriver().hash(base64url.toBuffer(base64url(ephemeralSigner.publicKey)))),
+      Buffer.from(await this.bundles.getCryptoDriver().hash(base64url.toBuffer(base64url(ephemeralSigner.publicKey)))),
     );
 
     return { ...res, txs, throwawayKey, throwawayKeyAddress };

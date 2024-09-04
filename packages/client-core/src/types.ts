@@ -1,5 +1,5 @@
 import type BigNumber from "bignumber.js";
-import type { DataItem, Signer, createData, deepHash, getCryptoDriver, stringToBuffer, DataItemCreateOptions, bundleAndSignData } from "arbundles";
+import type { DataItem, Signer, createData, deepHash, getCryptoDriver, stringToBuffer, DataItemCreateOptions, bundleAndSignData } from "@irys/bundles";
 import type Irys from "./irys";
 
 // common types shared between web and node versions
@@ -9,8 +9,8 @@ export type CreateTxData = {
   fee?: string;
 };
 
-// export type Arbundles = typeof arbundles | typeof webArbundles;
-export type Arbundles = {
+// export type arbundles = typeof arbundles | typeof web@irys/bundles;
+export type bundles = {
   createData: typeof createData;
   DataItem: typeof DataItem;
   deepHash: typeof deepHash;
@@ -30,7 +30,7 @@ export type IrysTransaction = {
 } & DataItem;
 export type IrysTransactonCtor = new (
   data: string | Uint8Array,
-  Irys: Pick<Irys, "uploader" | "tokenConfig" | "arbundles" | "utils">,
+  Irys: Pick<Irys, "uploader" | "tokenConfig" | "bundles" | "utils">,
   opts?: IrysTransactionCreateOptions,
 ) => IrysTransaction;
 

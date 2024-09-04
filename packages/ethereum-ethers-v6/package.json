@@ -51,7 +51,7 @@
     "@irys/core-bundler-client": "workspace:^",
     "@irys/web-upload": "workspace:^",
     "@irys/web-upload-ethereum": "workspace:^",
-    "arbundles": "^0.11.1",
+    "@irys/bundles": "^0.0.1",
     "bignumber.js": "^9.1.2",
     "ethers": "6.7.1"
   },

@@ -12,8 +12,8 @@ import {
   generateSignedTransaction,
   generateSigningMessageForTransaction,
 } from "@aptos-labs/ts-sdk";
-import type { Signer } from "arbundles";
-import { InjectedAptosSigner, AptosSigner } from "arbundles/web";
+import type { Signer } from "@irys/bundles";
+import { InjectedAptosSigner, AptosSigner } from "@irys/bundles/web";
 import BigNumber from "bignumber.js";
 import type { TokenConfig, Tx } from "@irys/core-bundler-client/types";
 import sha3 from "js-sha3";
