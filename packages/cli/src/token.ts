@@ -1,25 +1,26 @@
-import AptosBundlerIrys from "@irys/upload-aptos";
-import Builder from "@irys/upload";
-import EthereumBundlerIrys, { ArbitrumBundlerIrys, AvalancheBundlerIrys, BaseEthBundlerIrys, BeraBundlerIrys, BNBBundlerIrys, ChainlinkBundlerIrys, IotexBundlerIrys, LineaEthBundlerIrys, MaticBundlerIrys, ScrollEthBundlerIrys, USDCEthBundlerIrys, USDCPolygonBundlerIrys } from "@irys/upload-ethereum";
-import SolanaBundlerIrys from "@irys/upload-solana";
+import Aptos from "@irys/upload-aptos";
+import Ethereum, { Arbitrum, Avalanche, BaseEth, Bera, BNB, Chainlink, Iotex, LineaEth, Matic, ScrollEth, USDCEth, USDCPolygon } from "@irys/upload-ethereum";
+import Solana from "@irys/upload-solana";
+import { Constructable, TokenConfigTrimmed } from "@irys/upload/builder";
+import { BaseNodeToken } from "@irys/upload/tokens/base";
 
-export  function getToken(token: string): (...args: any[]) => Builder {
+export  function getToken(token: string): Constructable<[TokenConfigTrimmed], BaseNodeToken> {
     switch (token) {
-    case "ethereum": return EthereumBundlerIrys
-    case "matic": return MaticBundlerIrys
-    case "bnb": return BNBBundlerIrys
-    case "solana": return SolanaBundlerIrys
-    case "avalanche": return AvalancheBundlerIrys
-    case "base-eth": return BaseEthBundlerIrys
-    case "usdc-eth": return USDCEthBundlerIrys
-    case "arbitrum": return ArbitrumBundlerIrys
-    case "chainlink": return ChainlinkBundlerIrys
-    case "aptos": return AptosBundlerIrys
-    case "usdc-polygon": return USDCPolygonBundlerIrys
-    case "bera": return BeraBundlerIrys
-    case "scroll-eth": return ScrollEthBundlerIrys
-    case "linea-eth": return LineaEthBundlerIrys
-    case "iotex": return IotexBundlerIrys
+    case "ethereum": return Ethereum
+    case "matic": return Matic
+    case "bnb": return BNB
+    case "solana": return Solana
+    case "avalanche": return Avalanche
+    case "base-eth": return BaseEth
+    case "usdc-eth": return USDCEth
+    case "arbitrum": return Arbitrum
+    case "chainlink": return Chainlink
+    case "aptos": return Aptos
+    case "usdc-polygon": return USDCPolygon
+    case "bera": return Bera
+    case "scroll-eth": return ScrollEth
+    case "linea-eth": return LineaEth
+    case "iotex": return Iotex
     default:
         throw new Error(`Unknown/Unsupported token ${token}`)
     }

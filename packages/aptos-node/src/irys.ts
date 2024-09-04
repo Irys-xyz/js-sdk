@@ -1,6 +1,7 @@
 import { Network } from "@aptos-labs/ts-sdk";
 import BaseAptosToken from "./token";
-import {Builder, type TokenConfigTrimmed} from "@irys/upload/builder"
+import {Constructable, type TokenConfigTrimmed} from "@irys/upload/builder"
+import { BaseNodeToken } from "@irys/upload/esm/tokens/base";
 
  export class AptosToken extends BaseAptosToken {
     constructor(config: TokenConfigTrimmed) {
@@ -12,7 +13,10 @@ import {Builder, type TokenConfigTrimmed} from "@irys/upload/builder"
 }
 
 
-export function AptosBundlerIrys() {
-    return new Builder(AptosToken)/* .withTokenOptions(opts) */
-}
-export default AptosBundlerIrys
+// export function AptosBundlerIrys() {
+//     return new Builder(AptosToken)/* .withTokenOptions(opts) */
+// }
+// export default AptosBundlerIrys
+
+export const Aptos: Constructable<[TokenConfigTrimmed], BaseNodeToken> = AptosToken;
+export default Aptos

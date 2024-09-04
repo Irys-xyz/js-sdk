@@ -261,7 +261,7 @@ async function init(opts: any, operation: string): Promise<Irys> {
     //   },
     // });
     // await irys.ready();
-    const builder = getToken(opts.token.toLowerCase())()
+    const token = getToken(opts.token.toLowerCase()) /* new getToken(opts.token.toLowerCase())() */
     wallet = wallet ?? ""
     const config: IrysConfig = {
       providerUrl: opts.providerUrl,
@@ -274,7 +274,7 @@ async function init(opts: any, operation: string): Promise<Irys> {
         network: opts.network,
         config,
         getTokenConfig: async (irys) => {
-          return new builder.token({irys, wallet, providerUrl: config.providerUrl})
+          return new token({irys, wallet, providerUrl: config.providerUrl})
         }
     })
     await irys.build({wallet:wallet ?? "", config})
