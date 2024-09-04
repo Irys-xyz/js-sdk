@@ -113,7 +113,7 @@ importers:
     dependencies:
       '@irys/upload':
         specifier: workspace:^
-        version: link:../packages/client-node
+        version: link:../packages/upload-node
       '@irys/upload-ethereum':
         specifier: workspace:^
         version: link:../packages/ethereum
@@ -128,10 +128,10 @@ importers:
         version: 0.0.1(arweave@1.15.1)(bufferutil@4.0.8)(encoding@0.1.13)(utf-8-validate@5.0.10)
       '@irys/core-bundler-client':
         specifier: workspace:^
-        version: link:../client-core
+        version: link:../upload-core
       '@irys/upload':
         specifier: workspace:^
-        version: link:../client-node
+        version: link:../upload-node
       async-retry:
         specifier: ^1.3.3
         version: 1.3.3
@@ -162,10 +162,10 @@ importers:
         version: 0.0.1(arweave@1.15.1)(bufferutil@4.0.8)(encoding@0.1.13)(utf-8-validate@5.0.10)
       '@irys/core-bundler-client':
         specifier: workspace:^
-        version: link:../client-core
+        version: link:../upload-core
       '@irys/web-upload':
         specifier: workspace:^
-        version: link:../client-web
+        version: link:../upload-web
       async-retry:
         specifier: ^1.3.3
         version: 1.3.3
@@ -193,10 +193,10 @@ importers:
         version: 0.0.1(arweave@1.15.1)(bufferutil@4.0.8)(encoding@0.1.13)(utf-8-validate@5.0.10)
       '@irys/core-bundler-client':
         specifier: workspace:^
-        version: link:../client-core
+        version: link:../upload-core
       '@irys/upload':
         specifier: workspace:^
-        version: link:../client-node
+        version: link:../upload-node
       '@irys/upload-aptos':
         specifier: workspace:^
         version: link:../aptos-node
@@ -244,7 +244,245 @@ importers:
         specifier: ^6.1.3
         version: 6.1.3(@ava/typescript@5.0.0)(encoding@0.1.13)
 
-  packages/client-core:
+  packages/ethereum:
+    dependencies:
+      '@ethersproject/bignumber':
+        specifier: ^5.7.0
+        version: 5.7.0
+      '@ethersproject/contracts':
+        specifier: ^5.7.0
+        version: 5.7.0
+      '@ethersproject/providers':
+        specifier: ^5.7.2
+        version: 5.7.2(bufferutil@4.0.8)(utf-8-validate@5.0.10)
+      '@ethersproject/wallet':
+        specifier: ^5.7.0
+        version: 5.7.0
+      '@irys/bundles':
+        specifier: ^0.0.1
+        version: 0.0.1(arweave@1.15.1)(bufferutil@4.0.8)(encoding@0.1.13)(utf-8-validate@5.0.10)
+      '@irys/core-bundler-client':
+        specifier: workspace:^
+        version: link:../upload-core
+      '@irys/upload':
+        specifier: workspace:^
+        version: link:../upload-node
+      bignumber.js:
+        specifier: ^9.1.2
+        version: 9.1.2
+    devDependencies:
+      '@ava/typescript':
+        specifier: ^5.0.0
+        version: 5.0.0
+      ava:
+        specifier: ^6.1.3
+        version: 6.1.3(@ava/typescript@5.0.0)(encoding@0.1.13)
+
+  packages/ethereum-ethers-v5:
+    dependencies:
+      '@ethersproject/bignumber':
+        specifier: ^5.7.0
+        version: 5.7.0
+      '@irys/bundles':
+        specifier: ^0.0.1
+        version: 0.0.1(arweave@1.15.1)(bufferutil@4.0.8)(encoding@0.1.13)(utf-8-validate@5.0.10)
+      '@irys/core-bundler-client':
+        specifier: workspace:^
+        version: link:../upload-core
+      '@irys/web-upload':
+        specifier: workspace:^
+        version: link:../upload-web
+      '@irys/web-upload-ethereum':
+        specifier: workspace:^
+        version: link:../ethereum-web
+      bignumber.js:
+        specifier: ^9.1.2
+        version: 9.1.2
+      ethers:
+        specifier: 6.7.1
+        version: 6.7.1(bufferutil@4.0.8)(utf-8-validate@5.0.10)
+    devDependencies:
+      '@ava/typescript':
+        specifier: ^5.0.0
+        version: 5.0.0
+      ava:
+        specifier: ^6.1.3
+        version: 6.1.3(@ava/typescript@5.0.0)(encoding@0.1.13)
+
+  packages/ethereum-ethers-v6:
+    dependencies:
+      '@ethersproject/bignumber':
+        specifier: ^5.7.0
+        version: 5.7.0
+      '@irys/bundles':
+        specifier: ^0.0.1
+        version: 0.0.1(arweave@1.15.1)(bufferutil@4.0.8)(encoding@0.1.13)(utf-8-validate@5.0.10)
+      '@irys/core-bundler-client':
+        specifier: workspace:^
+        version: link:../upload-core
+      '@irys/web-upload':
+        specifier: workspace:^
+        version: link:../upload-web
+      '@irys/web-upload-ethereum':
+        specifier: workspace:^
+        version: link:../ethereum-web
+      bignumber.js:
+        specifier: ^9.1.2
+        version: 9.1.2
+      ethers:
+        specifier: 6.7.1
+        version: 6.7.1(bufferutil@4.0.8)(utf-8-validate@5.0.10)
+    devDependencies:
+      '@ava/typescript':
+        specifier: ^5.0.0
+        version: 5.0.0
+      ava:
+        specifier: ^6.1.3
+        version: 6.1.3(@ava/typescript@5.0.0)(encoding@0.1.13)
+
+  packages/ethereum-viem-v2:
+    dependencies:
+      '@ethersproject/bignumber':
+        specifier: ^5.7.0
+        version: 5.7.0
+      '@irys/bundles':
+        specifier: ^0.0.1
+        version: 0.0.1(arweave@1.15.1)(bufferutil@4.0.8)(encoding@0.1.13)(utf-8-validate@5.0.10)
+      '@irys/core-bundler-client':
+        specifier: workspace:^
+        version: link:../upload-core
+      '@irys/web-upload':
+        specifier: workspace:^
+        version: link:../upload-web
+      '@irys/web-upload-ethereum':
+        specifier: workspace:^
+        version: link:../ethereum-web
+      bignumber.js:
+        specifier: ^9.1.2
+        version: 9.1.2
+    devDependencies:
+      '@ava/typescript':
+        specifier: ^5.0.0
+        version: 5.0.0
+      ava:
+        specifier: ^6.1.3
+        version: 6.1.3(@ava/typescript@5.0.0)(encoding@0.1.13)
+      viem:
+        specifier: ^2.7.1
+        version: 2.7.1(bufferutil@4.0.8)(typescript@5.5.4)(utf-8-validate@5.0.10)
+
+  packages/ethereum-web:
+    dependencies:
+      '@ethersproject/bignumber':
+        specifier: ^5.7.0
+        version: 5.7.0
+      '@ethersproject/contracts':
+        specifier: ^5.7.0
+        version: 5.7.0
+      '@ethersproject/providers':
+        specifier: ^5.7.2
+        version: 5.7.2(bufferutil@4.0.8)(utf-8-validate@5.0.10)
+      '@irys/bundles':
+        specifier: ^0.0.1
+        version: 0.0.1(arweave@1.15.1)(bufferutil@4.0.8)(encoding@0.1.13)(utf-8-validate@5.0.10)
+      '@irys/core-bundler-client':
+        specifier: workspace:^
+        version: link:../upload-core
+      '@irys/web-upload':
+        specifier: workspace:^
+        version: link:../upload-web
+      bignumber.js:
+        specifier: ^9.1.2
+        version: 9.1.2
+    devDependencies:
+      '@ava/typescript':
+        specifier: ^5.0.0
+        version: 5.0.0
+      ava:
+        specifier: ^6.1.3
+        version: 6.1.3(@ava/typescript@5.0.0)(encoding@0.1.13)
+
+  packages/solana-node:
+    dependencies:
+      '@irys/bundles':
+        specifier: ^0.0.1
+        version: 0.0.1(arweave@1.15.1)(bufferutil@4.0.8)(encoding@0.1.13)(utf-8-validate@5.0.10)
+      '@irys/core-bundler-client':
+        specifier: workspace:^
+        version: link:../upload-core
+      '@irys/upload':
+        specifier: workspace:^
+        version: link:../upload-node
+      '@solana/web3.js':
+        specifier: ^1.95.3
+        version: 1.95.3(bufferutil@4.0.8)(encoding@0.1.13)(utf-8-validate@5.0.10)
+      async-retry:
+        specifier: ^1.3.3
+        version: 1.3.3
+      bignumber.js:
+        specifier: ^9.1.2
+        version: 9.1.2
+      bs58:
+        specifier: 5.0.0
+        version: 5.0.0
+      tweetnacl:
+        specifier: ^1.0.3
+        version: 1.0.3
+    devDependencies:
+      '@ava/typescript':
+        specifier: ^5.0.0
+        version: 5.0.0
+      '@types/async-retry':
+        specifier: ^1.4.8
+        version: 1.4.8
+      '@types/bn.js':
+        specifier: ^5.1.5
+        version: 5.1.5
+      ava:
+        specifier: ^6.1.3
+        version: 6.1.3(@ava/typescript@5.0.0)(encoding@0.1.13)
+
+  packages/solana-web:
+    dependencies:
+      '@irys/bundles':
+        specifier: ^0.0.1
+        version: 0.0.1(arweave@1.15.1)(bufferutil@4.0.8)(encoding@0.1.13)(utf-8-validate@5.0.10)
+      '@irys/core-bundler-client':
+        specifier: workspace:^
+        version: link:../upload-core
+      '@irys/web-upload':
+        specifier: workspace:^
+        version: link:../upload-web
+      '@solana/web3.js':
+        specifier: ^1.95.3
+        version: 1.95.3(bufferutil@4.0.8)(encoding@0.1.13)(utf-8-validate@5.0.10)
+      async-retry:
+        specifier: ^1.3.3
+        version: 1.3.3
+      bignumber.js:
+        specifier: ^9.1.2
+        version: 9.1.2
+      bs58:
+        specifier: 5.0.0
+        version: 5.0.0
+      tweetnacl:
+        specifier: ^1.0.3
+        version: 1.0.3
+    devDependencies:
+      '@ava/typescript':
+        specifier: ^5.0.0
+        version: 5.0.0
+      '@types/async-retry':
+        specifier: ^1.4.8
+        version: 1.4.8
+      '@types/bn.js':
+        specifier: ^5.1.5
+        version: 5.1.5
+      ava:
+        specifier: ^6.1.3
+        version: 6.1.3(@ava/typescript@5.0.0)(encoding@0.1.13)
+
+  packages/upload-core:
     dependencies:
       '@irys/bundles':
         specifier: ^0.0.1
@@ -278,14 +516,14 @@ importers:
         specifier: ^6.1.3
         version: 6.1.3(@ava/typescript@5.0.0)(encoding@0.1.13)
 
-  packages/client-node:
+  packages/upload-node:
     dependencies:
       '@irys/bundles':
         specifier: ^0.0.1
         version: 0.0.1(arweave@1.15.1)(bufferutil@4.0.8)(encoding@0.1.13)(utf-8-validate@5.0.10)
       '@irys/core-bundler-client':
         specifier: workspace:^
-        version: link:../client-core
+        version: link:../upload-core
       async-retry:
         specifier: ^1.3.3
         version: 1.3.3
@@ -330,14 +568,14 @@ importers:
         specifier: ^6.1.3
         version: 6.1.3(@ava/typescript@5.0.0)(encoding@0.1.13)
 
-  packages/client-web:
+  packages/upload-web:
     dependencies:
       '@irys/bundles':
         specifier: ^0.0.1
         version: 0.0.1(arweave@1.15.1)(bufferutil@4.0.8)(encoding@0.1.13)(utf-8-validate@5.0.10)
       '@irys/core-bundler-client':
         specifier: workspace:^
-        version: link:../client-core
+        version: link:../upload-core
       async-retry:
         specifier: ^1.3.3
         version: 1.3.3
@@ -363,244 +601,6 @@ importers:
       '@types/mime-types':
         specifier: ^2.1.4
         version: 2.1.4
-      ava:
-        specifier: ^6.1.3
-        version: 6.1.3(@ava/typescript@5.0.0)(encoding@0.1.13)
-
-  packages/ethereum:
-    dependencies:
-      '@ethersproject/bignumber':
-        specifier: ^5.7.0
-        version: 5.7.0
-      '@ethersproject/contracts':
-        specifier: ^5.7.0
-        version: 5.7.0
-      '@ethersproject/providers':
-        specifier: ^5.7.2
-        version: 5.7.2(bufferutil@4.0.8)(utf-8-validate@5.0.10)
-      '@ethersproject/wallet':
-        specifier: ^5.7.0
-        version: 5.7.0
-      '@irys/bundles':
-        specifier: ^0.0.1
-        version: 0.0.1(arweave@1.15.1)(bufferutil@4.0.8)(encoding@0.1.13)(utf-8-validate@5.0.10)
-      '@irys/core-bundler-client':
-        specifier: workspace:^
-        version: link:../client-core
-      '@irys/upload':
-        specifier: workspace:^
-        version: link:../client-node
-      bignumber.js:
-        specifier: ^9.1.2
-        version: 9.1.2
-    devDependencies:
-      '@ava/typescript':
-        specifier: ^5.0.0
-        version: 5.0.0
-      ava:
-        specifier: ^6.1.3
-        version: 6.1.3(@ava/typescript@5.0.0)(encoding@0.1.13)
-
-  packages/ethereum-ethers-v5:
-    dependencies:
-      '@ethersproject/bignumber':
-        specifier: ^5.7.0
-        version: 5.7.0
-      '@irys/bundles':
-        specifier: ^0.0.1
-        version: 0.0.1(arweave@1.15.1)(bufferutil@4.0.8)(encoding@0.1.13)(utf-8-validate@5.0.10)
-      '@irys/core-bundler-client':
-        specifier: workspace:^
-        version: link:../client-core
-      '@irys/web-upload':
-        specifier: workspace:^
-        version: link:../client-web
-      '@irys/web-upload-ethereum':
-        specifier: workspace:^
-        version: link:../ethereum-web
-      bignumber.js:
-        specifier: ^9.1.2
-        version: 9.1.2
-      ethers:
-        specifier: 6.7.1
-        version: 6.7.1(bufferutil@4.0.8)(utf-8-validate@5.0.10)
-    devDependencies:
-      '@ava/typescript':
-        specifier: ^5.0.0
-        version: 5.0.0
-      ava:
-        specifier: ^6.1.3
-        version: 6.1.3(@ava/typescript@5.0.0)(encoding@0.1.13)
-
-  packages/ethereum-ethers-v6:
-    dependencies:
-      '@ethersproject/bignumber':
-        specifier: ^5.7.0
-        version: 5.7.0
-      '@irys/bundles':
-        specifier: ^0.0.1
-        version: 0.0.1(arweave@1.15.1)(bufferutil@4.0.8)(encoding@0.1.13)(utf-8-validate@5.0.10)
-      '@irys/core-bundler-client':
-        specifier: workspace:^
-        version: link:../client-core
-      '@irys/web-upload':
-        specifier: workspace:^
-        version: link:../client-web
-      '@irys/web-upload-ethereum':
-        specifier: workspace:^
-        version: link:../ethereum-web
-      bignumber.js:
-        specifier: ^9.1.2
-        version: 9.1.2
-      ethers:
-        specifier: 6.7.1
-        version: 6.7.1(bufferutil@4.0.8)(utf-8-validate@5.0.10)
-    devDependencies:
-      '@ava/typescript':
-        specifier: ^5.0.0
-        version: 5.0.0
-      ava:
-        specifier: ^6.1.3
-        version: 6.1.3(@ava/typescript@5.0.0)(encoding@0.1.13)
-
-  packages/ethereum-viem-v2:
-    dependencies:
-      '@ethersproject/bignumber':
-        specifier: ^5.7.0
-        version: 5.7.0
-      '@irys/bundles':
-        specifier: ^0.0.1
-        version: 0.0.1(arweave@1.15.1)(bufferutil@4.0.8)(encoding@0.1.13)(utf-8-validate@5.0.10)
-      '@irys/core-bundler-client':
-        specifier: workspace:^
-        version: link:../client-core
-      '@irys/web-upload':
-        specifier: workspace:^
-        version: link:../client-web
-      '@irys/web-upload-ethereum':
-        specifier: workspace:^
-        version: link:../ethereum-web
-      bignumber.js:
-        specifier: ^9.1.2
-        version: 9.1.2
-    devDependencies:
-      '@ava/typescript':
-        specifier: ^5.0.0
-        version: 5.0.0
-      ava:
-        specifier: ^6.1.3
-        version: 6.1.3(@ava/typescript@5.0.0)(encoding@0.1.13)
-      viem:
-        specifier: ^2.7.1
-        version: 2.7.1(bufferutil@4.0.8)(typescript@5.5.4)(utf-8-validate@5.0.10)
-
-  packages/ethereum-web:
-    dependencies:
-      '@ethersproject/bignumber':
-        specifier: ^5.7.0
-        version: 5.7.0
-      '@ethersproject/contracts':
-        specifier: ^5.7.0
-        version: 5.7.0
-      '@ethersproject/providers':
-        specifier: ^5.7.2
-        version: 5.7.2(bufferutil@4.0.8)(utf-8-validate@5.0.10)
-      '@irys/bundles':
-        specifier: ^0.0.1
-        version: 0.0.1(arweave@1.15.1)(bufferutil@4.0.8)(encoding@0.1.13)(utf-8-validate@5.0.10)
-      '@irys/core-bundler-client':
-        specifier: workspace:^
-        version: link:../client-core
-      '@irys/web-upload':
-        specifier: workspace:^
-        version: link:../client-web
-      bignumber.js:
-        specifier: ^9.1.2
-        version: 9.1.2
-    devDependencies:
-      '@ava/typescript':
-        specifier: ^5.0.0
-        version: 5.0.0
-      ava:
-        specifier: ^6.1.3
-        version: 6.1.3(@ava/typescript@5.0.0)(encoding@0.1.13)
-
-  packages/solana-node:
-    dependencies:
-      '@irys/bundles':
-        specifier: ^0.0.1
-        version: 0.0.1(arweave@1.15.1)(bufferutil@4.0.8)(encoding@0.1.13)(utf-8-validate@5.0.10)
-      '@irys/core-bundler-client':
-        specifier: workspace:^
-        version: link:../client-core
-      '@irys/upload':
-        specifier: workspace:^
-        version: link:../client-node
-      '@solana/web3.js':
-        specifier: ^1.95.3
-        version: 1.95.3(bufferutil@4.0.8)(encoding@0.1.13)(utf-8-validate@5.0.10)
-      async-retry:
-        specifier: ^1.3.3
-        version: 1.3.3
-      bignumber.js:
-        specifier: ^9.1.2
-        version: 9.1.2
-      bs58:
-        specifier: 5.0.0
-        version: 5.0.0
-      tweetnacl:
-        specifier: ^1.0.3
-        version: 1.0.3
-    devDependencies:
-      '@ava/typescript':
-        specifier: ^5.0.0
-        version: 5.0.0
-      '@types/async-retry':
-        specifier: ^1.4.8
-        version: 1.4.8
-      '@types/bn.js':
-        specifier: ^5.1.5
-        version: 5.1.5
-      ava:
-        specifier: ^6.1.3
-        version: 6.1.3(@ava/typescript@5.0.0)(encoding@0.1.13)
-
-  packages/solana-web:
-    dependencies:
-      '@irys/bundles':
-        specifier: ^0.0.1
-        version: 0.0.1(arweave@1.15.1)(bufferutil@4.0.8)(encoding@0.1.13)(utf-8-validate@5.0.10)
-      '@irys/core-bundler-client':
-        specifier: workspace:^
-        version: link:../client-core
-      '@irys/web-upload':
-        specifier: workspace:^
-        version: link:../client-web
-      '@solana/web3.js':
-        specifier: ^1.95.3
-        version: 1.95.3(bufferutil@4.0.8)(encoding@0.1.13)(utf-8-validate@5.0.10)
-      async-retry:
-        specifier: ^1.3.3
-        version: 1.3.3
-      bignumber.js:
-        specifier: ^9.1.2
-        version: 9.1.2
-      bs58:
-        specifier: 5.0.0
-        version: 5.0.0
-      tweetnacl:
-        specifier: ^1.0.3
-        version: 1.0.3
-    devDependencies:
-      '@ava/typescript':
-        specifier: ^5.0.0
-        version: 5.0.0
-      '@types/async-retry':
-        specifier: ^1.4.8
-        version: 1.4.8
-      '@types/bn.js':
-        specifier: ^5.1.5
-        version: 5.1.5
       ava:
         specifier: ^6.1.3
         version: 6.1.3(@ava/typescript@5.0.0)(encoding@0.1.13)
