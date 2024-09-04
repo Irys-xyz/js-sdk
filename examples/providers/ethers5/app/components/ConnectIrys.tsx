@@ -13,7 +13,7 @@ const connectIrys = async () => {
   try {
     //@ts-ignore
     const provider = new ethers.providers.Web3Provider(window.ethereum);
-    const irysUploader = await WebUploader(WebEthereum).withProvider(EthersV5Adapter(provider));
+    const irysUploader = await WebUploader(WebEthereum).withAdapter(EthersV5Adapter(provider));
     console.log(`Connected to Irys from ${irysUploader.address}`);
     return `Connected to Irys from ${irysUploader.address}`;
   } catch (error) {
@@ -28,7 +28,7 @@ const ConnectIrys = (): JSX.Element => {
   const [isConnecting, setIsConnecting] = useState<boolean>(false); // State to track connection status
 
   const connectToIrys = async () => {
-    setIsConnecting(true); 
+    setIsConnecting(true);
     try {
       const message = await connectIrys();
       setStatusMessage(message);
@@ -37,7 +37,7 @@ const ConnectIrys = (): JSX.Element => {
       console.log(error);
       setStatusMessage("Error connecting to Irys");
     } finally {
-      setIsConnecting(false); 
+      setIsConnecting(false);
     }
   };
 

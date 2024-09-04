@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { ReactTyped } from "react-typed";
 import { SiRetroarch } from "react-icons/si";
-import Link from "next/link"; 
+import Link from "next/link";
 
 import { WebUploader } from "@irys/web-upload";
 import { WebEthereum } from "@irys/web-upload-ethereum";
@@ -13,7 +13,7 @@ const getIrysUploader = async () => {
   try {
     //@ts-ignore
     const provider = new ethers.providers.Web3Provider(window.ethereum);
-    const irysUploader = await WebUploader(WebEthereum).withProvider(EthersV5Adapter(provider));
+    const irysUploader = await WebUploader(WebEthereum).withAdapter(EthersV5Adapter(provider));
     console.log(`Connected to Irys from ${irysUploader.address}`);
     return `Connected to Irys from ${irysUploader.address}`;
   } catch (error) {
@@ -25,8 +25,8 @@ const getIrysUploader = async () => {
 const UploadText = (): JSX.Element => {
   const [isUploading, setIsUploading] = useState<boolean>(false);
   const [statusMessage, setStatusMessage] = useState<string>("");
-  const [textData, setTextData] = useState<string>(""); 
-  const [uploadedUrl, setUploadedUrl] = useState<string | null>(null); 
+  const [textData, setTextData] = useState<string>("");
+  const [uploadedUrl, setUploadedUrl] = useState<string | null>(null);
 
   const handleUpload = async () => {
 
@@ -38,7 +38,7 @@ const UploadText = (): JSX.Element => {
       const receipt = await irysUploader.upload(textData, { tags });
 
       const url = `https://gateway.irys.xyz/${receipt.id}`;
-      setUploadedUrl(url); 
+      setUploadedUrl(url);
       setStatusMessage("Data uploaded successfully");
     } catch (error) {
       setStatusMessage("Error uploading data");

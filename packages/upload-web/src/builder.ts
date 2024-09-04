@@ -68,7 +68,7 @@ export class UploadBuilder {
         }
     }
 
-    public withProvider(provider: Resolvable<Adapter>){
+    public withProvider(provider:any){
         this.provider = provider;
         return this
     }
@@ -104,7 +104,6 @@ export class UploadBuilder {
     }
 
     public async build() {
-        if(!this.provider) throw new Error("Missing required provider");
         const irys = new BaseWebIrys({
             url: this.config.url,
             network: this.config.network,
@@ -113,6 +112,7 @@ export class UploadBuilder {
                 for (const preAdapter of this.preAdapters) {
                     await preAdapter.adaptTokenPre(this, this.token)
                 }
+                if(!this.provider) throw new Error("Missing required provider");
                 this.constructed = new this.token({irys, wallet: this.provider, providerUrl: this.config.config.providerUrl})
                 for (const postAdapter of this.postAdapters) {
                     await postAdapter.adaptTokenPost(this, this.constructed)
