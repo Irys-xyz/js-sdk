@@ -1,7 +1,8 @@
 "use client";
 import { useState } from "react";
-import { ethers } from "ethers";
-import { SiRetroarch } from "react-icons/si"; 
+import { SiRetroarch } from "react-icons/si";
+import { createWalletClient, custom } from "viem";
+import { sepolia } from "viem/chains";
 
 const ConnectWallet = (): JSX.Element => {
   const [isConnected, setIsConnected] = useState<boolean>(false);
@@ -10,25 +11,25 @@ const ConnectWallet = (): JSX.Element => {
   const [isConnecting, setIsConnecting] = useState<boolean>(false);
 
   const connectWallet = async () => {
-    //@ts-ignore
-    if (typeof window.ethereum !== "undefined") {
-      try {
-        setIsConnecting(true);
+    try {
+      setIsConnecting(true);
+      //@ts-ignore
+      const [account] = await window.ethereum.request({ method: "eth_requestAccounts" });
+      const provider = createWalletClient({
+        account,
+        chain: sepolia,
         //@ts-ignore
-        const provider = new ethers.providers.Web3Provider(window.ethereum);
-        await provider.send("eth_requestAccounts", []);
-        const signer = provider.getSigner();
-        const address = await signer.getAddress();
-        setWalletAddress(address);
-        setStatusMessage(`Connected from ${address}`);
-        setIsConnected(true);
-      } catch (error) {
-        console.error("Error connecting to wallet:", error);
-      } finally {
-        setIsConnecting(false);
-      }
-    } else {
-      console.error("No wallet provider found");
+        transport: custom(window.ethereum),
+      });
+
+      setWalletAddress(account);
+      setStatusMessage(`Connected from ${account}`);
+      setIsConnected(true);
+    } catch (error) {
+      console.error("Error connecting to wallet:", error);
+      setStatusMessage("Error connecting to wallet");
+    } finally {
+      setIsConnecting(false);
     }
   };
 

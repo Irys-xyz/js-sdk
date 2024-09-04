@@ -15,9 +15,9 @@ const ConnectWallet = (): JSX.Element => {
       try {
         setIsConnecting(true);
         //@ts-ignore
-        const provider = new ethers.providers.Web3Provider(window.ethereum);
-        await provider.send("eth_requestAccounts", []);
-        const signer = provider.getSigner();
+        const provider = new ethers.BrowserProvider(window.ethereum); 
+        const accounts = await provider.send("eth_requestAccounts", []);
+        const signer = await provider.getSigner();
         const address = await signer.getAddress();
         setWalletAddress(address);
         setStatusMessage(`Connected from ${address}`);

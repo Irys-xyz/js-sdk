@@ -1,32 +1,46 @@
 "use client";
 import { useState } from "react";
 import { SiRetroarch } from "react-icons/si";
-import Link from "next/link";
+import Link from "next/link"; 
+
+import { sepolia } from "viem/chains";
+import { createWalletClient, createPublicClient, custom } from "viem";
 
 import { WebUploader } from "@irys/web-upload";
 import { WebEthereum } from "@irys/web-upload-ethereum";
-
-import { ethers } from "ethers";
+import { ViemV2Adapter } from "@irys/web-upload-ethereum-viem-v2";
 
 const getIrysUploader = async () => {
   try {
     //@ts-ignore
-    const provider = new ethers.providers.Web3Provider(window.ethereum);
-    const irysUploader = await WebUploader(WebEthereum).withProvider(provider);
-    //@ts-ignore
-    console.log(`Connected to Irys from ${irysUploader.address}`);
+    const [account] = await window.ethereum.request({ method: "eth_requestAccounts" });
+
+    const provider = createWalletClient({
+      account,
+      chain: sepolia,
+      //@ts-ignore
+      transport: custom(window.ethereum),
+    });
+
+    const publicClient = createPublicClient({
+      chain: sepolia,
+      //@ts-ignore
+      transport: custom(window.ethereum)
+    });
+
+    const irysUploader = await WebUploader(WebEthereum).withProvider(ViemV2Adapter(provider, { publicClient }));
     return irysUploader;
   } catch (error) {
-    console.error("Error connecting to WebIrys:", error);
-    throw new Error("Error connecting to WebIrys");
+    console.error("Error connecting to Irys:", error);
+    throw new Error("Error connecting to Irys");
   }
 };
 
 const UploadText = (): JSX.Element => {
   const [isUploading, setIsUploading] = useState<boolean>(false);
   const [statusMessage, setStatusMessage] = useState<string>("");
-  const [textData, setTextData] = useState<string>("");
-  const [uploadedUrl, setUploadedUrl] = useState<string | null>(null);
+  const [textData, setTextData] = useState<string>(""); 
+  const [uploadedUrl, setUploadedUrl] = useState<string | null>(null); 
 
   const handleUpload = async () => {
     setIsUploading(true);
@@ -37,10 +51,9 @@ const UploadText = (): JSX.Element => {
       const receipt = await irysUploader.upload(textData, { tags });
 
       const url = `https://gateway.irys.xyz/${receipt.id}`;
-      setUploadedUrl(url);
+      setUploadedUrl(url); 
       setStatusMessage("Data uploaded successfully");
     } catch (error) {
-      console.error(error);
       setStatusMessage("Error uploading data");
       setUploadedUrl(null);
     } finally {
@@ -58,7 +71,6 @@ const UploadText = (): JSX.Element => {
 
   return (
     <div className="border-2 border-primary rounded-2xl p-4 w-full max-w-md">
-      {/* First Row: Text field and Upload button */}
       <div className="flex flex-row items-center mb-4">
         <input
           type="text"
@@ -76,7 +88,6 @@ const UploadText = (): JSX.Element => {
         </button>
       </div>
 
-      {/* Second Row: Status message */}
       <div className="mt-4 text-primary">
         {statusMessage}
         {uploadedUrl && (

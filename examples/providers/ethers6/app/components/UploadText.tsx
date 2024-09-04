@@ -1,32 +1,30 @@
 "use client";
 import { useState } from "react";
 import { SiRetroarch } from "react-icons/si";
-import Link from "next/link";
+import Link from "next/link"; 
 
 import { WebUploader } from "@irys/web-upload";
 import { WebEthereum } from "@irys/web-upload-ethereum";
-
+import EthersV6Adapter from "@irys/web-upload-ethereum-ethers-v6";
 import { ethers } from "ethers";
 
 const getIrysUploader = async () => {
   try {
     //@ts-ignore
-    const provider = new ethers.providers.Web3Provider(window.ethereum);
-    const irysUploader = await WebUploader(WebEthereum).withProvider(provider);
-    //@ts-ignore
-    console.log(`Connected to Irys from ${irysUploader.address}`);
+    const provider = new ethers.BrowserProvider(window.ethereum);
+    const irysUploader = await WebUploader(WebEthereum).withProvider(EthersV6Adapter(provider));  
     return irysUploader;
   } catch (error) {
-    console.error("Error connecting to WebIrys:", error);
-    throw new Error("Error connecting to WebIrys");
+    console.error("Error connecting to Irys:", error);
+    throw new Error("Error connecting to Irys");
   }
 };
 
 const UploadText = (): JSX.Element => {
   const [isUploading, setIsUploading] = useState<boolean>(false);
   const [statusMessage, setStatusMessage] = useState<string>("");
-  const [textData, setTextData] = useState<string>("");
-  const [uploadedUrl, setUploadedUrl] = useState<string | null>(null);
+  const [textData, setTextData] = useState<string>(""); 
+  const [uploadedUrl, setUploadedUrl] = useState<string | null>(null); 
 
   const handleUpload = async () => {
     setIsUploading(true);
@@ -37,10 +35,9 @@ const UploadText = (): JSX.Element => {
       const receipt = await irysUploader.upload(textData, { tags });
 
       const url = `https://gateway.irys.xyz/${receipt.id}`;
-      setUploadedUrl(url);
+      setUploadedUrl(url); 
       setStatusMessage("Data uploaded successfully");
     } catch (error) {
-      console.error(error);
       setStatusMessage("Error uploading data");
       setUploadedUrl(null);
     } finally {

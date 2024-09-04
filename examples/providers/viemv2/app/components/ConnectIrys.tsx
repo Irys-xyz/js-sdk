@@ -1,23 +1,39 @@
 "use client";
 import { useState } from "react";
 import { SiRetroarch } from "react-icons/si";
+import { sepolia } from "viem/chains";
+import { createWalletClient, createPublicClient, custom } from "viem";
+
 import { WebUploader } from "@irys/web-upload";
 import { WebEthereum } from "@irys/web-upload-ethereum";
-import { ethers } from "ethers";
+import { ViemV2Adapter } from "@irys/web-upload-ethereum-viem-v2";
 
-const connectIrys = async () => {
+// Function to connect to WebIrys
+const doConnectIrys = async (): Promise<string> => {
   try {
     //@ts-ignore
-    const provider = new ethers.providers.Web3Provider(window.ethereum);
-    const irysUploader = await WebUploader(WebEthereum).withProvider(provider);
+    const [account] = await window.ethereum.request({ method: "eth_requestAccounts" });
 
-    //@ts-ignore
+    const provider = createWalletClient({
+      account,
+      chain: sepolia,
+      //@ts-ignore
+      transport: custom(window.ethereum),
+    });
+
+    const publicClient = createPublicClient({
+      chain: sepolia,
+      //@ts-ignore
+      transport: custom(window.ethereum)
+    });
+
+    const irysUploader = await WebUploader(WebEthereum).withProvider(ViemV2Adapter(provider, { publicClient }));
+    
     console.log(`Connected to Irys from ${irysUploader.address}`);
-    //@ts-ignore
     return `Connected to Irys from ${irysUploader.address}`;
   } catch (error) {
-    console.error("Error connecting to WebIrys:", error);
-    throw new Error("Error connecting to WebIrys");
+    console.error("Error connecting to Irys:", error);
+    throw new Error("Error connecting to Irys");
   }
 };
 
@@ -29,12 +45,11 @@ const ConnectIrys = (): JSX.Element => {
   const connectToIrys = async () => {
     setIsConnecting(true);
     try {
-      const message = await connectIrys();
+      const message = await doConnectIrys();
       setStatusMessage(message);
       setIsConnected(true);
     } catch (error) {
-      console.log(error);
-      setStatusMessage("Error connecting to Irys");
+      setStatusMessage("Error connecting to WebIrys");
     } finally {
       setIsConnecting(false);
     }

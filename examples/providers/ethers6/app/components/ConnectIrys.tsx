@@ -1,20 +1,21 @@
 "use client";
 import { useState } from "react";
 import { SiRetroarch } from "react-icons/si";
-import { WebUploader } from "@irys/web-upload";
-import { WebEthereum } from "@irys/web-upload-ethereum";
 import { ethers } from "ethers";
 
-const connectIrys = async () => {
+import { WebUploader } from "@irys/web-upload";
+import { WebEthereum } from "@irys/web-upload-ethereum";
+import { EthersV6Adapter } from "@irys/web-upload-ethereum-ethers-v6";
+
+const doConnectIrys = async (): Promise<string> => {
   try {
     //@ts-ignore
-    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const provider = new ethers.BrowserProvider(window.ethereum);
+    //const irysUploader = await WebUploader(WebEthereum).withProvider(EthersV6Adapter(provider));
     const irysUploader = await WebUploader(WebEthereum).withProvider(provider);
 
-    //@ts-ignore
-    console.log(`Connected to Irys from ${irysUploader.address}`);
-    //@ts-ignore
-    return `Connected to Irys from ${irysUploader.address}`;
+    console.log(`Connected to WebIrys from ${irysUploader.address}`);
+    return `Connected to WebIrys from ${irysUploader.address}`;
   } catch (error) {
     console.error("Error connecting to WebIrys:", error);
     throw new Error("Error connecting to WebIrys");
@@ -29,12 +30,11 @@ const ConnectIrys = (): JSX.Element => {
   const connectToIrys = async () => {
     setIsConnecting(true);
     try {
-      const message = await connectIrys();
+      const message = await doConnectIrys();
       setStatusMessage(message);
       setIsConnected(true);
     } catch (error) {
-      console.log(error);
-      setStatusMessage("Error connecting to Irys");
+      setStatusMessage("Error connecting to WebIrys");
     } finally {
       setIsConnecting(false);
     }

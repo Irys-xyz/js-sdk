@@ -5,7 +5,7 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Irys Provider Test: Ethers 5",
+  title: "Irys Provider Test: Viem",
   description: "Example repo to help test different providers",
 };
 

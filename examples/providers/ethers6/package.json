@@ -1,5 +1,5 @@
 {
-  "name": "ethers5",
+  "name": "ethers6",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -11,7 +11,8 @@
   "dependencies": {
     "@irys/web-upload": "workspace:^",
     "@irys/web-upload-ethereum": "workspace:^",
-    "ethers": "^5.7.2",
+    "@irys/web-upload-ethereum-ethers-v6": "workspace:^",
+    "ethers": "^6.13.2",
     "next": "14.2.7",
     "react": "^18",
     "react-dom": "^18",

@@ -5,8 +5,8 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Irys Provider Test: Ethers 5",
-  description: "Example repo to help test different providers",
+  title: "Irys Provider Test: Ethers 6",
+  description: "Example repo to help test Irys + Ethers6",
 };
 
 export default function RootLayout({
