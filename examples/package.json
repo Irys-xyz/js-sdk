@@ -8,7 +8,6 @@
         "@irys/upload-aptos": "workspace:^",
         "@irys/web-upload": "workspace:^",
         "@irys/web-upload-ethereum": "workspace:^",
-        "@irys/web-upload-ethereum-ethers-v5": "workspace:^",
         "@irys/web-upload-ethereum-ethers-v6": "workspace:^",
         "@irys/web-upload-ethereum-viem-v2": "workspace:^"
     },

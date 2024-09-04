@@ -6,14 +6,14 @@ import Link from "next/link";
 
 import { WebUploader } from "@irys/web-upload";
 import { WebEthereum } from "@irys/web-upload-ethereum";
-import { EthersV5Adapter } from "@irys/web-upload-ethereum-ethers-v5";
+
 import { ethers } from "ethers";
 
 const getIrysUploader = async () => {
   try {
     //@ts-ignore
     const provider = new ethers.providers.Web3Provider(window.ethereum);
-    const irysUploader = await WebUploader(WebEthereum).withAdapter(EthersV5Adapter(provider));
+    const irysUploader = await WebUploader(WebEthereum).withProvider(provider);
     console.log(`Connected to Irys from ${irysUploader.address}`);
     return `Connected to Irys from ${irysUploader.address}`;
   } catch (error) {
