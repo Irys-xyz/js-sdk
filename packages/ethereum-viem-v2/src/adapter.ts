@@ -1,6 +1,6 @@
 import BigNumber from "bignumber.js";
-import type { Tx } from "@irys-network/core-bundler-client/types";
-import {EthereumConfig} from "@irys-network/web-bundler-ethereum/ethereum";
+import type { Tx } from "@irys/core-bundler-client/types";
+import {EthereumConfig} from "@irys/web-upload-ethereum/ethereum";
 import type { http } from "viem";
 import type { PublicClient, WalletClient } from "viem";
 import type { mainnet } from "viem/chains";

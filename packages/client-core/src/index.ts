@@ -3,7 +3,6 @@ export * from "./approval"
 export * from "./chunkingUploader";
 export * from "./fund";
 export * from "./irys"
-export * from "./provenance"
 export * from "./transaction"
 export * from "./transactions"
 export * from "./types"

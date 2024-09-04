@@ -1,6 +1,6 @@
-import BaseNodeIrys from "@irys-network/bundler-client/base";
+import BaseNodeIrys from "@irys/upload/base";
 import BaseEthereumToken from "./ethereum";
-import type { NodeIrysConfig } from "@irys-network/bundler-client/types";
+import type { NodeIrysConfig } from "@irys/upload/types";
 
 export class EthereumIrys extends BaseNodeIrys {
   constructor({ url, key, config }: NodeIrysConfig<string>) {

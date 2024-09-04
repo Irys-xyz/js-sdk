@@ -2,8 +2,8 @@ import type { InjectedTypedEthereumSignerMinimalSigner } from "arbundles/web";
 import BigNumber from "bignumber.js";
 import { BigNumber as EthBigNumber } from "@ethersproject/bignumber";
 import type { BrowserProvider, JsonRpcSigner, TypedDataDomain } from "ethers";
-import type { Tx } from "@irys-network/core-bundler-client/types";
-import {EthereumConfig, type MinimalProvider} from "@irys-network/web-bundler-ethereum/ethereum";
+import type { Tx } from "@irys/core-bundler-client/types";
+import {EthereumConfig, type MinimalProvider} from "@irys/web-upload-ethereum/ethereum";
 
 export const getV6Adapter  = (base: {new(...args: any): EthereumConfig}): {new(...args: any): EthereumConfig} => {
   return class EthereumEthersV6 extends base {

@@ -1,6 +1,6 @@
 import BaseERC20Token from "./erc20";
 import BaseEthereumToken, { EthereumTokenOpts } from "./ethereum";
-import {Builder, type TokenConfigTrimmed} from "@irys-network/bundler-client/builder"
+import {Builder, type TokenConfigTrimmed} from "@irys/upload/builder"
  export class EthereumToken extends BaseEthereumToken {
     constructor(config: TokenConfigTrimmed) {
         super({name: "ethereum", ticker: "ETH",

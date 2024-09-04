@@ -1,5 +1,5 @@
-import Uploader from "@irys-network/core-bundler-client/upload";
-import type { CreateAndUploadOptions, Manifest, UploadOptions, UploadResponse } from "@irys-network/core-bundler-client/types";
+import Uploader from "@irys/core-bundler-client/upload";
+import type { CreateAndUploadOptions, Manifest, UploadOptions, UploadResponse } from "@irys/core-bundler-client/types";
 import type { DataItem, JWKInterface, Tag } from "arbundles";
 import { ArweaveSigner } from "arbundles";
 import BaseWebIrys from "./base";

@@ -1,4 +1,4 @@
-# @irys-network/core-bundler-client
+# @irys/core-bundler-client
 
 ## 0.0.2
 

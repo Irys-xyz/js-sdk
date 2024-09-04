@@ -111,34 +111,22 @@ importers:
 
   examples:
     dependencies:
-      '@irys-network/bundler-client':
+      '@irys/upload':
         specifier: workspace:^
         version: link:../packages/client-node
-      '@irys-network/bundler-ethereum':
+      '@irys/upload-ethereum':
         specifier: workspace:^
         version: link:../packages/ethereum
-      '@irys-network/bundler-solana':
-        specifier: workspace:^
-        version: link:../packages/solana-node
-      '@irys-network/web-bundler-client':
-        specifier: workspace:^
-        version: link:../packages/client-web
-      '@irys-network/web-bundler-ethereum':
-        specifier: workspace:^
-        version: link:../packages/ethereum-web
-      '@irys-network/web-bundler-ethereum-ethers-v6':
-        specifier: workspace:^
-        version: link:../packages/ethereum-ethers-v6
 
   packages/aptos-node:
     dependencies:
       '@aptos-labs/ts-sdk':
         specifier: ^1.27.1
         version: 1.27.1
-      '@irys-network/bundler-client':
+      '@irys/upload':
         specifier: workspace:^
         version: link:../client-node
-      '@irys-network/core-bundler-client':
+      '@irys/core-bundler-client':
         specifier: workspace:^
         version: link:../client-core
       arbundles:
@@ -169,10 +157,10 @@ importers:
       '@aptos-labs/ts-sdk':
         specifier: ^1.27.1
         version: 1.27.1
-      '@irys-network/core-bundler-client':
+      '@irys/core-bundler-client':
         specifier: workspace:^
         version: link:../client-core
-      '@irys-network/web-bundler-client':
+      '@irys/web-upload':
         specifier: workspace:^
         version: link:../client-web
       arbundles:
@@ -200,19 +188,19 @@ importers:
 
   packages/cli:
     dependencies:
-      '@irys-network/bundler-aptos':
+      '@irys/upload-aptos':
         specifier: workspace:^
         version: link:../aptos-node
-      '@irys-network/bundler-client':
+      '@irys/upload':
         specifier: workspace:^
         version: link:../client-node
-      '@irys-network/bundler-ethereum':
+      '@irys/upload-ethereum':
         specifier: workspace:^
         version: link:../ethereum
-      '@irys-network/bundler-solana':
+      '@irys/upload-solana':
         specifier: workspace:^
         version: link:../solana-node
-      '@irys-network/core-bundler-client':
+      '@irys/core-bundler-client':
         specifier: workspace:^
         version: link:../client-core
       arbundles:
@@ -292,7 +280,7 @@ importers:
 
   packages/client-node:
     dependencies:
-      '@irys-network/core-bundler-client':
+      '@irys/core-bundler-client':
         specifier: workspace:^
         version: link:../client-core
       arbundles:
@@ -344,7 +332,7 @@ importers:
 
   packages/client-web:
     dependencies:
-      '@irys-network/core-bundler-client':
+      '@irys/core-bundler-client':
         specifier: workspace:^
         version: link:../client-core
       arbundles:
@@ -393,10 +381,10 @@ importers:
       '@ethersproject/wallet':
         specifier: ^5.7.0
         version: 5.7.0
-      '@irys-network/bundler-client':
+      '@irys/upload':
         specifier: workspace:^
         version: link:../client-node
-      '@irys-network/core-bundler-client':
+      '@irys/core-bundler-client':
         specifier: workspace:^
         version: link:../client-core
       arbundles:
@@ -418,13 +406,13 @@ importers:
       '@ethersproject/bignumber':
         specifier: ^5.7.0
         version: 5.7.0
-      '@irys-network/core-bundler-client':
+      '@irys/core-bundler-client':
         specifier: workspace:^
         version: link:../client-core
-      '@irys-network/web-bundler-client':
+      '@irys/web-upload':
         specifier: workspace:^
         version: link:../client-web
-      '@irys-network/web-bundler-ethereum':
+      '@irys/web-upload-ethereum':
         specifier: workspace:^
         version: link:../ethereum-web
       arbundles:
@@ -449,13 +437,13 @@ importers:
       '@ethersproject/bignumber':
         specifier: ^5.7.0
         version: 5.7.0
-      '@irys-network/core-bundler-client':
+      '@irys/core-bundler-client':
         specifier: workspace:^
         version: link:../client-core
-      '@irys-network/web-bundler-client':
+      '@irys/web-upload':
         specifier: workspace:^
         version: link:../client-web
-      '@irys-network/web-bundler-ethereum':
+      '@irys/web-upload-ethereum':
         specifier: workspace:^
         version: link:../ethereum-web
       arbundles:
@@ -480,13 +468,13 @@ importers:
       '@ethersproject/bignumber':
         specifier: ^5.7.0
         version: 5.7.0
-      '@irys-network/core-bundler-client':
+      '@irys/core-bundler-client':
         specifier: workspace:^
         version: link:../client-core
-      '@irys-network/web-bundler-client':
+      '@irys/web-upload':
         specifier: workspace:^
         version: link:../client-web
-      '@irys-network/web-bundler-ethereum':
+      '@irys/web-upload-ethereum':
         specifier: workspace:^
         version: link:../ethereum-web
       arbundles:
@@ -517,10 +505,10 @@ importers:
       '@ethersproject/providers':
         specifier: ^5.7.2
         version: 5.7.2(bufferutil@4.0.8)(utf-8-validate@5.0.10)
-      '@irys-network/core-bundler-client':
+      '@irys/core-bundler-client':
         specifier: workspace:^
         version: link:../client-core
-      '@irys-network/web-bundler-client':
+      '@irys/web-upload':
         specifier: workspace:^
         version: link:../client-web
       arbundles:
@@ -539,10 +527,10 @@ importers:
 
   packages/solana-node:
     dependencies:
-      '@irys-network/bundler-client':
+      '@irys/upload':
         specifier: workspace:^
         version: link:../client-node
-      '@irys-network/core-bundler-client':
+      '@irys/core-bundler-client':
         specifier: workspace:^
         version: link:../client-core
       '@solana/web3.js':
@@ -579,10 +567,10 @@ importers:
 
   packages/solana-web:
     dependencies:
-      '@irys-network/core-bundler-client':
+      '@irys/core-bundler-client':
         specifier: workspace:^
         version: link:../client-core
-      '@irys-network/web-bundler-client':
+      '@irys/web-upload':
         specifier: workspace:^
         version: link:../client-web
       '@solana/web3.js':

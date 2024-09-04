@@ -1,4 +1,4 @@
-import { type Adapter } from "@irys-network/web-bundler-client/builder";
+import { type Adapter } from "@irys/web-upload/builder";
 
 
 export function EthersV5Adapter(provider: any): Adapter {

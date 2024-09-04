@@ -1,5 +1,5 @@
 {
-  "name": "@irys-network/web-bundler-ethereum-ethers-v5",
+  "name": "@irys/web-upload-ethereum-ethers-v5",
   "version": "0.0.2",
   "description": "Provider adapter library for adapting ethersv5 providers for use with the web Ethereum Irys bundler token client",
   "license": "MIT",
@@ -48,9 +48,9 @@
   },
   "dependencies": {
     "@ethersproject/bignumber": "^5.7.0",
-    "@irys-network/core-bundler-client": "workspace:^",
-    "@irys-network/web-bundler-client": "workspace:^",
-    "@irys-network/web-bundler-ethereum": "workspace:^",
+    "@irys/core-bundler-client": "workspace:^",
+    "@irys/web-upload": "workspace:^",
+    "@irys/web-upload-ethereum": "workspace:^",
     "arbundles": "^0.11.1",
     "bignumber.js": "^9.1.2",
     "ethers": "6.7.1"

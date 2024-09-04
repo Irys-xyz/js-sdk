@@ -5,5 +5,5 @@ Provider adapter library for adapting ethersv5 providers for use with the web Et
 ## Installation
 
 ```sh
-npm install @irys-network/web-bundler-ethereum-ethers-v5
+npm install @irys/web-upload-ethereum-ethers-v5
 ```

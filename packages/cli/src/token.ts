@@ -1,7 +1,7 @@
-import AptosBundlerIrys from "@irys-network/bundler-aptos";
-import Builder from "@irys-network/bundler-client";
-import EthereumBundlerIrys, { ArbitrumBundlerIrys, AvalancheBundlerIrys, BaseEthBundlerIrys, BeraBundlerIrys, BNBBundlerIrys, ChainlinkBundlerIrys, IotexBundlerIrys, LineaEthBundlerIrys, MaticBundlerIrys, ScrollEthBundlerIrys, USDCEthBundlerIrys, USDCPolygonBundlerIrys } from "@irys-network/bundler-ethereum";
-import SolanaBundlerIrys from "@irys-network/bundler-solana";
+import AptosBundlerIrys from "@irys/upload-aptos";
+import Builder from "@irys/upload";
+import EthereumBundlerIrys, { ArbitrumBundlerIrys, AvalancheBundlerIrys, BaseEthBundlerIrys, BeraBundlerIrys, BNBBundlerIrys, ChainlinkBundlerIrys, IotexBundlerIrys, LineaEthBundlerIrys, MaticBundlerIrys, ScrollEthBundlerIrys, USDCEthBundlerIrys, USDCPolygonBundlerIrys } from "@irys/upload-ethereum";
+import SolanaBundlerIrys from "@irys/upload-solana";
 
 export  function getToken(token: string): (...args: any[]) => Builder {
     switch (token) {

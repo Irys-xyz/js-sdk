@@ -1,5 +1,5 @@
 {
-  "name": "@irys-network/bundler-client-{{package-name}}",
+  "name": "@irys/upload-{{package-name}}",
   "version": "0.0.0",
   "description": "TODO",
   "license": "MIT",
@@ -47,7 +47,7 @@
     "test": "ava"
   },
   "dependencies": {
-    "@irys-network/core-bundler-client": "workspace:^"
+    "@irys/core-bundler-client": "workspace:^"
   },
   "devDependencies": {
     "@ava/typescript": "^5.0.0",

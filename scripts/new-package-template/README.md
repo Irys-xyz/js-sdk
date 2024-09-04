@@ -5,5 +5,5 @@ TODO
 ## Installation
 
 ```sh
-npm install @irys-network/bundler-{{package-name}}
+npm install @irys/upload-{{package-name}}
 ```

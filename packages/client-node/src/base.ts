@@ -1,21 +1,19 @@
-import "@irys-network/core-bundler-client/hack"
-import { Transaction } from "@irys-network/core-bundler-client/transactions";
-import Api from "@irys-network/core-bundler-client/api";
-import Fund from "@irys-network/core-bundler-client/fund";
-import {Irys} from "@irys-network/core-bundler-client/irys";
-import type { CreateAndUploadOptions, IrysConfig, Network, UploadResponse } from "@irys-network/core-bundler-client/types";
-import Utils from "@irys-network/core-bundler-client/utils";
+import "@irys/core-bundler-client/hack"
+import { Transaction } from "@irys/core-bundler-client/transactions";
+import Api from "@irys/core-bundler-client/api";
+import Fund from "@irys/core-bundler-client/fund";
+import {Irys} from "@irys/core-bundler-client/irys";
+import type { CreateAndUploadOptions, IrysConfig, Network, UploadResponse } from "@irys/core-bundler-client/types";
+import Utils from "@irys/core-bundler-client/utils";
 import type { NodeToken } from "./types";
 import NodeUploader from "./upload";
 import * as arbundles from "./utils";
-import { NodeProvenance } from "./provenance";
-import { Approval } from "@irys-network/core-bundler-client/approval";
+import { Approval } from "@irys/core-bundler-client/approval";
 import { Resolvable } from "./builder";
 
 export class BaseNodeIrys extends Irys {
   public declare uploader: NodeUploader; // re-define type
   public declare tokenConfig: NodeToken;
-  public declare provenance: NodeProvenance;
   public getTokenConfig!:  (irys: BaseNodeIrys) => Resolvable<NodeToken>;
   /**
    * Constructs a new Irys instance, as well as supporting subclasses
@@ -58,7 +56,6 @@ export class BaseNodeIrys extends Irys {
     this.utils = new Utils(this.api, this.token, this.tokenConfig);
     this.funder = new Fund(this.utils);
     this.uploader = new NodeUploader(this.api, this.utils, this.token, this.tokenConfig, this.IrysTransaction);
-    this.provenance = new NodeProvenance(this);
     this.transactions = new Transaction(this);
     this.approval = new Approval(this);
     this._readyPromise = this.tokenConfig.ready ? this.tokenConfig.ready() : new Promise((r) => r());

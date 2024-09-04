@@ -1,5 +1,5 @@
 {
-  "name": "@irys-network/core-bundler-client",
+  "name": "@irys/core-bundler-client",
   "version": "0.0.2",
   "description": "Core multiplatform Irys network bundler client library",
   "license": "MIT",

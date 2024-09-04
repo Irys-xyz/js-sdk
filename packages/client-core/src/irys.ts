@@ -3,7 +3,6 @@ import type BigNumber from "bignumber.js";
 import type { Readable } from "stream";
 import type Api from "./api";
 import type Fund from "./fund";
-import type { Provenance } from "./provenance";
 import buildIrysTransaction from "./transaction";
 import type { Transaction } from "./transactions";
 import type {
@@ -34,7 +33,6 @@ export abstract class Irys {
   public _address: string | undefined;
   public token!: string;
   public tokenConfig!: Token;
-  public provenance!: Provenance;
   public transactions!: Transaction;
   public approval!: Approval;
   protected _readyPromise: Promise<void> | undefined;

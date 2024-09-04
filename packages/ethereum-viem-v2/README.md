@@ -5,5 +5,5 @@ Provider adapter library for adapting Viem v2 providers for use with the web Eth
 ## Installation
 
 ```sh
-npm install @irys-network/web-bundler-ethereum-viem-v2
+npm install @irys/web-upload-ethereum-viem-v2
 ```

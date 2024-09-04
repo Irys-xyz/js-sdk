@@ -1,15 +1,14 @@
-import "@irys-network/core-bundler-client/hack";
-import Api from "@irys-network/core-bundler-client/api";
-import Fund from "@irys-network/core-bundler-client/fund";
-import Irys from "@irys-network/core-bundler-client/irys";
-import Utils from "@irys-network/core-bundler-client/utils";
-import { Provenance } from "@irys-network/core-bundler-client/provenance";
-import { Transaction } from "@irys-network/core-bundler-client/transactions";
+import "@irys/core-bundler-client/hack";
+import Api from "@irys/core-bundler-client/api";
+import Fund from "@irys/core-bundler-client/fund";
+import Irys from "@irys/core-bundler-client/irys";
+import Utils from "@irys/core-bundler-client/utils";
+import { Transaction } from "@irys/core-bundler-client/transactions";
 import type { WebToken } from "./types";
 import * as arbundles from "./utils";
 import { WebUploader } from "./upload";
-import type { IrysConfig, Network } from "@irys-network/core-bundler-client/types";
-import { Approval } from "@irys-network/core-bundler-client/approval";
+import type { IrysConfig, Network } from "@irys/core-bundler-client/types";
+import { Approval } from "@irys/core-bundler-client/approval";
 import { Resolvable } from "./builder";
 
 export class BaseWebIrys extends Irys {
@@ -87,7 +86,6 @@ export class BaseWebIrys extends Irys {
     this.uploader = new WebUploader(this);
     this.funder = new Fund(this.utils);
     this.uploader = new WebUploader(this);
-    this.provenance = new Provenance(this);
     this.transactions = new Transaction(this);
     this.approval = new Approval(this);
     this.address = "Please run `await Irys.ready()`";

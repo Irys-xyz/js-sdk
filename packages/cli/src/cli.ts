@@ -4,11 +4,11 @@ import BigNumber from "bignumber.js";
 import { Command } from "commander";
 import { readFileSync } from "fs";
 import inquirer from "inquirer";
-import Irys from "@irys-network/bundler-client";
-import { checkPath } from "@irys-network/bundler-client/upload";
+import Irys from "@irys/upload";
+import { checkPath } from "@irys/upload/upload";
 import { getToken } from "./token";
-import BaseNodeIrys from "@irys-network/bundler-client/base";
-import { IrysConfig } from "@irys-network/core-bundler-client";
+import BaseNodeIrys from "@irys/upload/base";
+import { IrysConfig } from "@irys/core-bundler-client";
 
 
 export const program = new Command();

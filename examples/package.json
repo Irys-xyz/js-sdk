@@ -2,7 +2,7 @@
     "name": "examples",
     "private": true,
     "dependencies": {
-        "@irys-network/bundler-client-node": "workspace:^",
-        "@irys-network/bundler-ethereum-node": "workspace:^"
+        "@irys/upload": "workspace:^",
+        "@irys/upload-ethereum": "workspace:^"
     }
 }
