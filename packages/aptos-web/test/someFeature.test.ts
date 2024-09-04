@@ -1,6 +1,6 @@
 import test from 'ava';
-import { AptosBundlerWebIrys } from '../src';
+import { WebAptos } from '../src';
 
 test('example test', async (t) => {
-  t.is(typeof AptosBundlerWebIrys, 'function');
+  t.is(typeof WebAptos, 'function');
 });
