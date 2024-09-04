@@ -9,8 +9,9 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@irys-network/web-bundler-ethereum": "^0.0.2",
-    "@irys-network/web-bundler-ethereum-viem-v2": "^0.0.2",
+    "@irys/web-upload": "workspace:^",
+    "@irys/web-upload-ethereum": "workspace:^",
+    "@irys/web-upload-ethereum-viem-v2": "workspace:^",
     "next": "14.2.7",
     "react": "^18",
     "react-dom": "^18",
