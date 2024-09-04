@@ -28,7 +28,7 @@ const getIrysUploader = async () => {
       transport: custom(window.ethereum)
     });
 
-    const irysUploader = await WebUploader(WebEthereum).withProvider(ViemV2Adapter(provider, { publicClient }));
+    const irysUploader = await WebUploader(WebEthereum).withAdapter(ViemV2Adapter(provider, { publicClient }));
     return irysUploader;
   } catch (error) {
     console.error("Error connecting to Irys:", error);

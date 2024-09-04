@@ -13,21 +13,23 @@ const doConnectIrys = async (): Promise<string> => {
   try {
     //@ts-ignore
     const [account] = await window.ethereum.request({ method: "eth_requestAccounts" });
-
+    console.log({account})
     const provider = createWalletClient({
       account,
       chain: sepolia,
       //@ts-ignore
       transport: custom(window.ethereum),
     });
+    console.log({provider})
 
     const publicClient = createPublicClient({
       chain: sepolia,
       //@ts-ignore
       transport: custom(window.ethereum)
     });
+    console.log({publicClient})
 
-    const irysUploader = await WebUploader(WebEthereum).withProvider(ViemV2Adapter(provider, { publicClient }));
+    const irysUploader = await WebUploader(WebEthereum).withAdapter(ViemV2Adapter(provider, { publicClient }));
     
     console.log(`Connected to Irys from ${irysUploader.address}`);
     return `Connected to Irys from ${irysUploader.address}`;

@@ -11,14 +11,14 @@ const doConnectIrys = async (): Promise<string> => {
   try {
     //@ts-ignore
     const provider = new ethers.BrowserProvider(window.ethereum);
-    //const irysUploader = await WebUploader(WebEthereum).withProvider(EthersV6Adapter(provider));
-    const irysUploader = await WebUploader(WebEthereum).withProvider(provider);
+    // Use .withAdapter() as it's a wrapper around providers
+    const irysUploader = await WebUploader(WebEthereum).withAdapter(EthersV6Adapter(provider));
 
-    console.log(`Connected to WebIrys from ${irysUploader.address}`);
+    console.log(`Connected to Irys from ${irysUploader.address}`);
     return `Connected to WebIrys from ${irysUploader.address}`;
   } catch (error) {
-    console.error("Error connecting to WebIrys:", error);
-    throw new Error("Error connecting to WebIrys");
+    console.error("Error connecting to Irys:", error);
+    throw new Error("Error connecting to Irys");
   }
 };
 
@@ -34,7 +34,7 @@ const ConnectIrys = (): JSX.Element => {
       setStatusMessage(message);
       setIsConnected(true);
     } catch (error) {
-      setStatusMessage("Error connecting to WebIrys");
+      setStatusMessage("Error connecting to Irys");
     } finally {
       setIsConnecting(false);
     }

@@ -12,7 +12,7 @@ const getIrysUploader = async () => {
   try {
     //@ts-ignore
     const provider = new ethers.BrowserProvider(window.ethereum);
-    const irysUploader = await WebUploader(WebEthereum).withProvider(EthersV6Adapter(provider));  
+    const irysUploader = await WebUploader(WebEthereum).withAdapter(EthersV6Adapter(provider));  
     return irysUploader;
   } catch (error) {
     console.error("Error connecting to Irys:", error);

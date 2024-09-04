@@ -18,7 +18,7 @@ https://docs.irys.xyz
 
 Migrating from our old SDK? We've got a handy guide for you.
 
-https://migrating-to.irys.xyz
+https://migrate-to.irys.xyz
 
 ## What is a Bundler?
 
