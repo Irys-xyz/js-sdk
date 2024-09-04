@@ -11,7 +11,7 @@
         "@irys/web-upload-ethereum-ethers-v6": "workspace:^",
         "@irys/web-upload-ethereum-viem-v2": "workspace:^"
     },
-    "version": "1.0.0",
+    "version": "1.0.1",
     "scripts": {},
     "keywords": [],
     "author": "",

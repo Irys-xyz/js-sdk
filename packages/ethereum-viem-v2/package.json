@@ -1,6 +1,6 @@
 {
   "name": "@irys/web-upload-ethereum-viem-v2",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Provider adapter library for adapting Viem v2 providers for use with the web Ethereum Irys bundler token client",
   "license": "MIT",
   "sideEffects": false,

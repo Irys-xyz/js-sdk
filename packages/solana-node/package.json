@@ -1,6 +1,6 @@
 {
   "name": "@irys/upload-solana",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Solana NodeJS token client for Irys network bundlers",
   "license": "MIT",
   "sideEffects": false,
