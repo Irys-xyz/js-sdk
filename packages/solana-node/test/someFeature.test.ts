@@ -1,6 +1,6 @@
 import test from 'ava';
-import { SolanaBundlerIrys } from '../src';
+import { Solana } from '../src';
 
 test('example test', async (t) => {
-  t.is(typeof SolanaBundlerIrys, 'function');
+  t.is(typeof Solana, 'function');
 });
