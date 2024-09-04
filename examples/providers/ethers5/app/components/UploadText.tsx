@@ -15,7 +15,8 @@ const getIrysUploader = async () => {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const irysUploader = await WebUploader(WebEthereum).withProvider(provider);
     console.log(`Connected to Irys from ${irysUploader.address}`);
-    return `Connected to Irys from ${irysUploader.address}`;
+    // return `Connected to Irys from ${irysUploader.address}`;
+    return irysUploader;
   } catch (error) {
     console.error("Error connecting to WebIrys:", error);
     throw new Error("Error connecting to WebIrys");
@@ -41,6 +42,7 @@ const UploadText = (): JSX.Element => {
       setUploadedUrl(url);
       setStatusMessage("Data uploaded successfully");
     } catch (error) {
+      console.error(error);
       setStatusMessage("Error uploading data");
       setUploadedUrl(null);
     } finally {
