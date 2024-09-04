@@ -1,8 +1,9 @@
 # client-core
 
-Core multiplatform Irys network bundler client library
+Core multi-platform Irys network bundler client library.
 
 ## Installation
+
 You shouldn't need to install this package directly, but if you must:
 
 ```sh
