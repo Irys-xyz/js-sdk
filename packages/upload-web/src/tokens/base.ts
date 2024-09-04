@@ -1,7 +1,4 @@
-import type { FileDataItem } from "@irys/bundles/file";
 import type { Signer } from "@irys/bundles";
-import { getCryptoDriver } from "../utils";
-import base64url from "base64url";
 import type BigNumber from "bignumber.js";
 import type { Tx, TokenConfig } from "packages/upload-core/dist/types/types";
 import axios from "axios";
@@ -40,9 +37,6 @@ export abstract class BaseWebToken implements WebToken {
     this._address = this.wallet ? this.ownerToAddress(await this.getPublicKey()) : undefined;
   }
 
-  async getId(item: FileDataItem): Promise<string> {
-    return base64url.encode(Buffer.from(await getCryptoDriver().hash(await item.rawSignature())));
-  }
   async price(): Promise<number> {
     return getRedstonePrice(this.ticker);
   }
