@@ -1,6 +1,6 @@
 import test from 'ava';
-import { ViewV2Adapter } from '../src';
+import { ViemV2Adapter } from '../src';
 
 test('example test', async (t) => {
-  t.is(typeof ViewV2Adapter, 'function');
+  t.is(typeof ViemV2Adapter, 'function');
 });
