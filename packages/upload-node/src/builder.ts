@@ -1,5 +1,5 @@
 import { Irys, IrysConfig, Network
- } from "@irys/core-bundler-client";
+ } from "packages/upload-core/dist/types";
 import { NodeIrysConfig, NodeToken } from "./types";
 import {BaseNodeIrys} from "./base";
 
