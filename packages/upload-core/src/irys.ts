@@ -45,7 +45,7 @@ export abstract class Irys {
   constructor({ url, network, bundles }: { url?: string; network?: Network; bundles: bundles }) {
     switch (network) {
       case "testnet":
-        url = "https://testnet-upload.irys.xyz";
+        url ??= "https://testnet-upload.irys.xyz";
         break;
     }
     if (!url) throw new Error(`Missing required Irys constructor parameter: URL or valid Network`);
