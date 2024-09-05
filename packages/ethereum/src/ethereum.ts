@@ -4,7 +4,7 @@ import { Wallet } from "@ethersproject/wallet";
 import BigNumber from "bignumber.js";
 import { EthereumSigner, keccak256 } from "@irys/bundles";
 import type { Signer } from "@irys/bundles";
-import type { TokenConfig, Tx } from "@irys/upload-core/types";
+import type { TokenConfig, Tx } from "@irys/upload-core";
 import { BaseNodeToken } from "@irys/upload/tokens/base";
 
 const ethereumSigner = EthereumSigner;

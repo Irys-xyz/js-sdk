@@ -1,5 +1,15 @@
 # @irys/web-upload-ethereum-viem-v2
 
+## 0.0.3
+
+### Patch Changes
+
+- Fix use of export paths for TypeScript
+
+- Updated dependencies []:
+  - @irys/web-upload-ethereum@0.0.2
+  - @irys/web-upload@0.0.2
+
 ## 0.0.2
 
 ### Patch Changes

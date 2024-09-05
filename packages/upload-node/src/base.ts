@@ -1,14 +1,8 @@
 import "@irys/upload-core/hack"
-import { Transaction } from "@irys/upload-core/transactions";
-import Api from "@irys/upload-core/api";
-import Fund from "@irys/upload-core/fund";
-import {Irys} from "@irys/upload-core/irys";
-import type { CreateAndUploadOptions, IrysConfig, Network, UploadResponse } from "@irys/upload-core/types";
-import Utils from "@irys/upload-core/utils";
+import {Irys, Api, Fund, Transaction, type CreateAndUploadOptions, type IrysConfig, type Network, type UploadResponse, Utils, Approval} from "@irys/upload-core";
 import type { NodeToken } from "./types";
 import NodeUploader from "./upload";
 import * as bundles from "./utils";
-import { Approval } from "@irys/upload-core/approval";
 import { Resolvable } from "./builder";
 
 export class BaseNodeIrys extends Irys {

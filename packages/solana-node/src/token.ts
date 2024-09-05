@@ -3,7 +3,7 @@ import { HexSolanaSigner } from "@irys/bundles";
 import BigNumber from "bignumber.js";
 import bs58 from "bs58";
 import nacl from "tweetnacl";
-import type { TokenConfig, Tx } from "@irys/upload-core/types";
+import type { TokenConfig, Tx } from "@irys/upload-core";
 import { BaseNodeToken } from "@irys/upload/tokens/base";
 import retry from "async-retry";
 import type { Finality } from "@solana/web3.js";

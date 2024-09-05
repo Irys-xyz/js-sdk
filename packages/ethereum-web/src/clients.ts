@@ -103,5 +103,5 @@ export const WebIotex: Constructable<[TokenConfigTrimmed], BaseWebToken> = getBo
 //     return new Builder(EthereumToken)/* .withTokenOptions(opts) */
 // }
 // export const WebMatic: Constructable<[TokenConfigTrimmed], BaseWebToken> = getBoundEth({name: "matic", ticker: "MATIC", providerUrl: "https://polygon-rpc.com/" })
-export const WebEthereum = EthereumToken
+export const WebEthereum: Constructable<[TokenConfigTrimmed], BaseWebToken> =   EthereumToken
 export default WebEthereum

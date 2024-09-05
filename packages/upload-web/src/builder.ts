@@ -1,4 +1,4 @@
-import { IrysConfig, Network} from "@irys/upload-core/types";
+import { IrysConfig, Network} from "@irys/upload-core";
 import { WebIrysConfig, WebToken } from "./types";
 import {BaseWebIrys} from "./base";
 import { Irys } from "@irys/upload-core";
