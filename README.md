@@ -1,13 +1,13 @@
 
-# Irys Bundler SDK
+# Irys JS SDK
 
 ![](/assets/irys-sdk.png)
 
 ## What is Irys?
 
-Irys is the world's first L1 programmable datachain. On Irys, you can upload onchain data, deploy smart contracts, and those smart contracts can access and perform verifiable computations on onchain data.
+Irys is the world's first L1 programmable datachain. On Irys, you can upload onchain data, deploy smart contracts, and those smart contracts can access and perform verifiable compute on onchain data.
 
-This Irys Bundler SDK is for uploading onchain data.
+This Irys JS SDK is for uploading onchain data.
 
 ## Docs
 https://docs.irys.xyz
@@ -17,13 +17,9 @@ Migrating from our old SDK? We've got a handy guide for you.
 
 https://migrate-to.irys.xyz
 
-## What is a Bundler?
-
-Bundlers enable any number of data transactions to be uploaded at once. To upload data to Irys, start by connecting to a bundler and then use one of its  upload functions.
-
 ## Repos
 
-The Irys Bundler SDK reduces dependency bloat by providing dedicated packages for each [supported token](https://docs.irys.xyz/build/d/features/supported-tokens). 
+The Irys JS SDK reduces dependency bloat by providing dedicated packages for each [supported token](https://docs.irys.xyz/build/d/features/supported-tokens). 
 
 Install only the specific packages you require.
 
