@@ -70,6 +70,7 @@ export class UploadBuilder {
     }
 
     public withWallet(wallet: any){
+        if(!wallet) throw new Error("Provided wallet is undefined")
         this.wallet = wallet;
         return this
     }
