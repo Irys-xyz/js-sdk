@@ -1,6 +1,6 @@
 import BigNumber from "bignumber.js";
 import { Contract } from "@ethersproject/contracts";
-import type { TokenConfig, Tx } from "@irys/upload-core/types";
+import type { TokenConfig, Tx } from "@irys/upload-core";
 import EthereumConfig from "./ethereum";
 
 export interface ERC20TokenConfig extends TokenConfig {

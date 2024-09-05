@@ -1,6 +1,6 @@
 import type { PathLike } from "fs";
 import { promises, createReadStream, createWriteStream } from "fs";
-import type { CreateAndUploadOptions, Token, IrysTransactonCtor, UploadReceipt, UploadResponse, Tags } from "@irys/upload-core/types";
+import type { CreateAndUploadOptions, Token, IrysTransactonCtor, UploadReceipt, UploadResponse, Tags } from "@irys/upload-core";
 import Uploader from "@irys/upload-core/upload";
 import type Api from "@irys/upload-core/api";
 import type Utils from "@irys/upload-core/utils";

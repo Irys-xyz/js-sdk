@@ -1,6 +1,6 @@
 import type { Signer } from "@irys/bundles";
 import type BigNumber from "bignumber.js";
-import type { Tx, TokenConfig } from "@irys/upload-core/types";
+import type { Tx, TokenConfig } from "@irys/upload-core";
 import axios from "axios";
 import type { WebToken } from "../types";
 import utils from "@irys/upload-core/utils";

@@ -1,5 +1,5 @@
 import {  IrysConfig, Network
- } from "@irys/upload-core/types";
+ } from "@irys/upload-core";
 import { NodeIrysConfig, NodeToken } from "./types";
 import {BaseNodeIrys} from "./base";
 import { Irys } from "@irys/upload-core";
@@ -100,7 +100,7 @@ export class UploadBuilder {
         return this
     }
 
-    public async build() {
+    public async build(): Promise<BaseNodeIrys> {
 
         const irys = new BaseNodeIrys({
             url: this.config.url,

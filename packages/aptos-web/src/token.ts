@@ -15,7 +15,7 @@ import {
 import type { Signer } from "@irys/bundles";
 import { InjectedAptosSigner, AptosSigner } from "@irys/bundles/web";
 import BigNumber from "bignumber.js";
-import type { TokenConfig, Tx } from "@irys/upload-core/types";
+import type { TokenConfig, Tx } from "@irys/upload-core";
 import sha3 from "js-sha3";
 import BaseWebToken from "@irys/web-upload/tokens/base";
 
