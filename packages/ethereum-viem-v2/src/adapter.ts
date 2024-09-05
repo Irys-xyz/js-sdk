@@ -1,15 +1,16 @@
 import BigNumber from "bignumber.js";
-import type { Tx } from "@irys-network/core-bundler-client/types";
-import {EthereumConfig} from "@irys-network/web-bundler-ethereum/ethereum";
+import type { Tx } from "@irys/upload-core/types";
+import {EthereumConfig} from "@irys/web-upload-ethereum/ethereum";
 import type { http } from "viem";
 import type { PublicClient, WalletClient } from "viem";
 import type { mainnet } from "viem/chains";
-import { InjectedTypedEthereumSigner } from "arbundles/web";
+import { InjectedTypedEthereumSigner } from "@irys/bundles/web";
 
 export const getV2Adapter  = (base: {new(...args: any): EthereumConfig}, opts: {publicClient: PublicClient<ReturnType<typeof http>, typeof mainnet>, accountIndex: number }): {new(...args: any): EthereumConfig} => {
   const accountIndex = opts.accountIndex ?? 0
   return class Viemv2 extends base {
     protected declare provider: WalletClient;
+
     public async createTx(amount: BigNumber.Value, to: string, _fee?: string | undefined): Promise<{ txId: string | undefined; tx: any }> {
       const config = {
         account: this.address,
@@ -55,12 +56,18 @@ export const getV2Adapter  = (base: {new(...args: any): EthereumConfig}, opts: {
     async getFee(amount: BigNumber.Value, to?: string): Promise<BigNumber> {
         return new BigNumber(0)
     }
+    
     async sendTx(data: { account: `0x${string}`; to: `0x${string}`; value: bigint }): Promise<string> {
       return await this.provider.sendTransaction({ account: data.account, to: data.to, value: data.value, chain: this.provider.chain });
 
     }
   
+    public async getCurrentHeight(): Promise<BigNumber> {
+      return new BigNumber((await opts.publicClient.getBlockNumber()).toString())
+    }
+
     public async ready(): Promise<void> {
+      this.provider = this.wallet as unknown as WalletClient;
       await (await this.getSigner()).ready();
       this._address = await this.provider.getAddresses().then((r: { toString: () => string; }[]) => r[accountIndex].toString().toLowerCase());
       this.providerInstance = this.wallet;

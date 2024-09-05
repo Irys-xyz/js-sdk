@@ -2,10 +2,10 @@ import { BigNumber as EthBigNumber } from "@ethersproject/bignumber";
 import { JsonRpcProvider } from "@ethersproject/providers";
 import { Wallet } from "@ethersproject/wallet";
 import BigNumber from "bignumber.js";
-import { EthereumSigner, keccak256 } from "arbundles";
-import type { Signer } from "arbundles";
-import type { TokenConfig, Tx } from "@irys-network/core-bundler-client/types";
-import { BaseNodeToken } from "@irys-network/bundler-client/tokens/base";
+import { EthereumSigner, keccak256 } from "@irys/bundles";
+import type { Signer } from "@irys/bundles";
+import type { TokenConfig, Tx } from "@irys/upload-core/types";
+import { BaseNodeToken } from "@irys/upload/tokens/base";
 
 const ethereumSigner = EthereumSigner;
 

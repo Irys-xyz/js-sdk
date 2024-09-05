@@ -1,6 +1,6 @@
 import test from 'ava';
-import { SolanaBundlerWebIrys } from '../src';
+import { WebSolana } from '../src';
 
 test('example test', async (t) => {
-  t.is(typeof SolanaBundlerWebIrys, 'function');
+  t.is(typeof WebSolana, 'function');
 });

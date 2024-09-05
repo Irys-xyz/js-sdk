@@ -1,3 +1,3 @@
-import AptosBundlerIrys from "./irys"
-export {AptosBundlerIrys as AptosNodeIrys}
-export default AptosBundlerIrys
+import Aptos from "./irys"
+export {Aptos}
+export default Aptos

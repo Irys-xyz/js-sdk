@@ -1,9 +1,9 @@
 import type { JsonRpcSigner, TransactionRequest, Web3Provider } from "@ethersproject/providers";
 import { BigNumber as EthBigNumber } from "@ethersproject/bignumber";
 import BigNumber from "bignumber.js";
-import type { Tx, TokenConfig } from "@irys-network/core-bundler-client/types";
-import {BaseWebToken} from "@irys-network/web-bundler-client/tokens/base";
-import { InjectedTypedEthereumSigner, type InjectedTypedEthereumSignerMinimalSigner } from "arbundles/web";
+import type { Tx, TokenConfig } from "@irys/upload-core/types";
+import {BaseWebToken} from "@irys/web-upload/tokens/base";
+import { InjectedTypedEthereumSigner, type InjectedTypedEthereumSignerMinimalSigner } from "@irys/bundles/web";
 
 const ethereumSigner = InjectedTypedEthereumSigner;
 

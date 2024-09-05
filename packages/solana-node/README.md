@@ -9,5 +9,5 @@ https://docs.irys.xyz/build/d/irys-in-the-browser#solana
 ## Installation
 
 ```sh
-npm install @irys-network/bundler-solana
+npm install @irys/upload-solana
 ```

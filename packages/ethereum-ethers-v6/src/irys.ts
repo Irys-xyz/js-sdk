@@ -1,6 +1,6 @@
-import type EthereumConfig from "@irys-network/web-bundler-ethereum/ethereum";
+import type EthereumConfig from "@irys/web-upload-ethereum/ethereum";
 import { getV6Adapter } from "./adapter";
-import { type Adapter } from "@irys-network/web-bundler-client/builder";
+import { type Adapter } from "@irys/web-upload/builder";
 
 
 export function EthersV6Adapter(provider: any): Adapter {

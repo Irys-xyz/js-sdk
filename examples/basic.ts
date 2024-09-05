@@ -1,5 +1,5 @@
-import Ethereum from "@irys-network/bundler-ethereum-node"
-import NodeIrys from "@irys-network/bundler-client-node"
+import Ethereum from "@irys/upload-ethereum"
+import NodeIrys from "@irys/upload"
 (async function(){
 
     const client = await new NodeIrys(Ethereum).withWallet("...").build()

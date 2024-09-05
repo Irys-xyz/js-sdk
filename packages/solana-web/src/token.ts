@@ -1,8 +1,8 @@
-import type { Signer } from "arbundles";
-import { HexInjectedSolanaSigner } from "arbundles/web";
+import type { Signer } from "@irys/bundles";
+import { HexInjectedSolanaSigner } from "@irys/bundles/web";
 import BigNumber from "bignumber.js";
-import type { TokenConfig, Tx } from "@irys-network/core-bundler-client";
-import BaseWebToken from "@irys-network/web-bundler-client/tokens/base";
+import type { TokenConfig, Tx } from "@irys/upload-core";
+import BaseWebToken from "@irys/web-upload/tokens/base";
 import bs58 from "bs58";
 // @ts-expect-error only importing as type
 import type { MessageSignerWalletAdapter } from "@solana/wallet-adapter-base";

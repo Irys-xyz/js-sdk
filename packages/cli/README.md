@@ -9,7 +9,7 @@ https://docs.irys.xyz/build/d/storage-cli/installation
 ## Installation
 
 ```sh
-npm install @irys-network/bundler-cli
+npm install @irys/upload-cli
 ```
 
 

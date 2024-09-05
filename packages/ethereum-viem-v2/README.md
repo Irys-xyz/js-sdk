@@ -9,5 +9,5 @@ https://docs.irys.xyz/build/d/irys-in-the-browser#viem-v2
 ## Installation
 
 ```sh
-npm install @irys-network/web-bundler-ethereum-viem-v2
+npm install @irys/web-upload-ethereum-viem-v2
 ```

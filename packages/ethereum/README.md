@@ -9,5 +9,5 @@ https://docs.irys.xyz/build/d/sdk/install-configure
 ## Installation
 
 ```sh
-npm install @irys-network/bundler-ethereum
+npm install @irys/upload-ethereum
 ```

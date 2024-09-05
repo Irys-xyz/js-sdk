@@ -1,6 +1,5 @@
-import { Finality } from "@solana/web3.js";
 import BaseSolanaToken from "./token";
-import {Builder, type TokenConfigTrimmed} from "@irys-network/web-bundler-client/builder"
+import {type ConstructableWebToken, type TokenConfigTrimmed} from "@irys/web-upload/builder"
  export class SolanaToken extends BaseSolanaToken {
     constructor(config: TokenConfigTrimmed) {
         super({name: "solana", ticker: "SOL",
@@ -23,13 +22,17 @@ function getBoundSolana({name, ticker, providerUrl}: {name: string, ticker: stri
 
 
 
-export function SolanaBundlerWebIrys(opts?:  { finality?: Finality; disablePriorityFees?: boolean } ) {
-    // return a builder
-    return new Builder(SolanaToken).withTokenOptions(opts)
-}
-export default SolanaBundlerWebIrys
+// export function SolanaBundlerWebIrys(opts?:  { finality?: Finality; disablePriorityFees?: boolean } ) {
+//     // return a builder
+//     return new Builder(SolanaToken).withTokenOptions(opts)
+// }
+// export default SolanaBundlerWebIrys
 
-export function EclipseBundlerWebIrys(opts?:  { finality?: Finality; disablePriorityFees?: boolean } ) {
-    return new Builder(getBoundSolana({name: "eclipse", ticker: "ETH", providerUrl:  "https://mainnetbeta-rpc.eclipse.xyz"}))
-    .withTokenOptions(opts)
-}
+// export function EclipseBundlerWebIrys(opts?:  { finality?: Finality; disablePriorityFees?: boolean } ) {
+//     return new Builder(getBoundSolana({name: "eclipse", ticker: "ETH", providerUrl:  "https://mainnetbeta-rpc.eclipse.xyz"}))
+//     .withTokenOptions(opts)
+// }
+
+export const WebSolana: ConstructableWebToken = SolanaToken
+export default WebSolana;
+export const WebEclipse: ConstructableWebToken = getBoundSolana({name: "eclipse", ticker: "ETH", providerUrl:  "https://mainnetbeta-rpc.eclipse.xyz"})

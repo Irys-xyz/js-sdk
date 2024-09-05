@@ -12,12 +12,12 @@ import {
   generateSignedTransaction,
   generateSigningMessageForTransaction,
 } from "@aptos-labs/ts-sdk";
-import type { Signer } from "arbundles";
-import { InjectedAptosSigner, AptosSigner } from "arbundles/web";
+import type { Signer } from "@irys/bundles";
+import { InjectedAptosSigner, AptosSigner } from "@irys/bundles/web";
 import BigNumber from "bignumber.js";
-import type { TokenConfig, Tx } from "@irys-network/core-bundler-client/types";
+import type { TokenConfig, Tx } from "@irys/upload-core/types";
 import sha3 from "js-sha3";
-import BaseWebToken from "@irys-network/web-bundler-client/tokens/base";
+import BaseWebToken from "@irys/web-upload/tokens/base";
 
 export type SignMessagePayload = {
   address?: boolean; // Should we include the address of the account in the message

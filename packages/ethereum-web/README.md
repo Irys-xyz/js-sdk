@@ -9,5 +9,5 @@ https://docs.irys.xyz/build/d/irys-in-the-browser
 ## Installation
 
 ```sh
-npm install @irys-network/web-bundler-ethereum
+npm install @irys/web-upload-ethereum
 ```

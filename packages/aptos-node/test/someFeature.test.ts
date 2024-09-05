@@ -1,6 +1,6 @@
 import test from 'ava';
-import { AptosNodeIrys } from '../src';
+import { Aptos } from '../src';
 
 test('example test', async (t) => {
-  t.is(typeof AptosNodeIrys, 'function');
+  t.is(typeof Aptos, 'function');
 });

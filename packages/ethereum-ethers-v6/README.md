@@ -9,5 +9,5 @@ https://docs.irys.xyz/build/d/irys-in-the-browser#ethers-v6
 ## Installation
 
 ```sh
-npm install @irys-network/web-bundler-ethereum-ethers-v6
+npm install @irys/web-upload-ethereum-ethers-v6
 ```
