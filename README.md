@@ -6,7 +6,7 @@
 
 ## What is Irys?
 
-[Irys](https://irys.xyz/) is the world's first L1 programmable datachain, designed to . On Irys, you can upload onchain data, deploy smart contracts, and those smart contracts can access and perform verifiable computations on onchain data.
+[Irys](https://irys.xyz/) is the world's first L1 programmable datachain. On Irys, you can upload onchain data, deploy smart contracts, and those smart contracts can access and perform verifiable computations on onchain data.
 
 This Irys Bundler SDK is for uploading onchain data. 
 
@@ -14,9 +14,15 @@ This Irys Bundler SDK is for uploading onchain data.
 
 https://docs.irys.xyz
 
+## Migrating
+
+Migrating from our old SDK? We've got a handy guide for you.
+
+https://migrate-to.irys.xyz
+
 ## What is a Bundler?
 
-Bundlers enable any number of data transactions to be uploaded at once. To upload data to Irys, start by connecting to a bundler and then use one of its  upload functions.
+Bundlers enable any number of data transactions to be uploaded at once. To upload data to Irys, start by connecting to a bundler and then use one of its upload functions.
 
 ## Repos
 
