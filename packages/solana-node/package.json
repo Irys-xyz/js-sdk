@@ -68,7 +68,7 @@
   "author": "Irys maintainers <hello@irys.xyz>",
   "homepage": "https://irys.xyz",
   "repository": {
-    "url": "https://github.com/irys-xyz/network-bundler-js-sdk.git"
+    "url": "https://github.com/irys-xyz/js-sdk.git"
   },
   "typedoc": {
     "entryPoint": "./src/index.ts",

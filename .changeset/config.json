@@ -3,7 +3,7 @@
   "changelog": [
     "@changesets/changelog-github",
     {
-      "repo": "irys-xyz/network-bundler-js-sdk"
+      "repo": "irys-xyz/js-sdk"
     }
   ],
   "commit": false,

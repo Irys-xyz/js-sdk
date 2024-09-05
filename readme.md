@@ -26,7 +26,7 @@ Bundlers enable any number of data transactions to be uploaded at once. To uploa
 
 ## Repos
 
-The Irys Bundler SDK reduces dependency bloat by providing dedicated packages for each [supported token](https://docs.irys.xyz/build/d/features/supported-tokens). 
+The Irys JS SDK reduces dependency bloat by providing dedicated packages for each [supported token](https://docs.irys.xyz/build/d/features/supported-tokens). 
 
 Install only the specific packages you require.
 
