@@ -25,10 +25,10 @@
         "format:fix": "prettier --write packages/",
         "lint": "turbo run lint",
         "lint:fix": "turbo run lint:fix",
-        "packages:change": "changeset",
         "packages:new": "node scripts/generate-new-package.mjs",
-        "packages:publish": "turbo run build && changeset publish --no-git-tag",
+        "packages:change": "changeset",
         "packages:version": "changeset version",
+        "packages:publish": "turbo run build && changeset publish --no-git-tag",
         "test": "turbo run test"
     },
     "browserslist": [

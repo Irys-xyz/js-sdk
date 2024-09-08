@@ -1,5 +1,14 @@
 # @irys/upload
 
+## 0.0.3
+
+### Patch Changes
+
+- Fix remaining non-index exports for TS when moduleResolution = node
+
+- Updated dependencies []:
+  - @irys/upload-core@0.0.2
+
 ## 0.0.2
 
 ### Patch Changes
