@@ -1,4 +1,4 @@
-import Uploader from "@irys/upload-core/upload";
+import {Uploader} from "@irys/upload-core"
 import type { CreateAndUploadOptions, Manifest, UploadOptions, UploadResponse } from "@irys/upload-core";
 import type { DataItem, JWKInterface, Tag } from "@irys/bundles";
 import { ArweaveSigner } from "@irys/bundles";

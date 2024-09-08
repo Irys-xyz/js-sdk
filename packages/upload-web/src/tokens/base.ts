@@ -3,7 +3,7 @@ import type BigNumber from "bignumber.js";
 import type { Tx, TokenConfig } from "@irys/upload-core";
 import axios from "axios";
 import type { WebToken } from "../types";
-import utils from "@irys/upload-core/utils";
+import {Utils} from "@irys/upload-core";
 import type { BaseWebIrys } from "../base";
 
 export abstract class BaseWebToken implements WebToken {
@@ -56,6 +56,6 @@ export default BaseWebToken
 
 export async function getRedstonePrice(token: string): Promise<number> {
   const res = await axios.get(`https://api.redstone.finance/prices?symbol=${token}&provider=redstone&limit=1`);
-  await utils.checkAndThrow(res, "Getting price data");
+  await Utils.checkAndThrow(res, "Getting price data");
   return res.data[0].value;
 }

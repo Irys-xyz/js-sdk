@@ -73,12 +73,16 @@ export class UploadBuilder {
         return this
     }
 
-    public testnet() {
+    public mainnet() {
         this.config.network = "testnet"
         return this
 
     }
-
+    public devnet() {
+        this.config.network = "devnet"
+        return this
+    }
+    
     public withRpc(rpcUrl: string) {
         this.config.config.providerUrl = rpcUrl
         return this
@@ -89,8 +93,8 @@ export class UploadBuilder {
         return this
     }
 
-    public bundlerUrl(url: URL) {
-        this.config.url = url.toString()
+    public bundlerUrl(url: URL | string) {
+        this.config.url = new URL(url).toString()
         return this
     }
 
