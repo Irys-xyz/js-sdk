@@ -53,7 +53,7 @@ export type TokenConfig<Wallet = string | object, Opts = any> = {
   opts?: Opts;
 };
 
-export type Network = "testnet" | string;
+export type Network = "testnet" | "devnet" | string;
 
 export type IrysConfig = {
   timeout?: number;

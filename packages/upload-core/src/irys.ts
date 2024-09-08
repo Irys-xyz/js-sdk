@@ -47,9 +47,13 @@ export abstract class Irys {
       case "testnet":
         url ??= "https://testnet-upload.irys.xyz";
         break;
+      case "devnet":
+       url ??= "https://devnet.irys.xyz"
+       break;
     }
     if (!url) throw new Error(`Missing required Irys constructor parameter: URL or valid Network`);
     const parsed = new URL(url);
+    // if(parsed.host.startsWith("node1") || parsed.host.includes("arweave")) throw new Error("")
 
     this.url = parsed;
     this.bundles = bundles;
