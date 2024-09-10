@@ -269,8 +269,7 @@ async function init(opts: any, operation: string): Promise<BaseNodeIrys> {
       debug: opts.debug,
     }
      irys = new BaseNodeIrys({
-        url: opts.host,
-        network: opts.network,
+        url: opts.host ?? opts.network,
         config,
         getTokenConfig: async (irys) => {
           return new token({irys, wallet, providerUrl: config.providerUrl})

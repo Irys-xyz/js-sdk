@@ -1,4 +1,4 @@
-import { IrysConfig, Network} from "@irys/upload-core";
+import { IrysConfig} from "@irys/upload-core";
 import { WebIrysConfig, WebToken } from "./types";
 import {BaseWebIrys} from "./base";
 import { Irys } from "@irys/upload-core";
@@ -52,7 +52,7 @@ export class UploadBuilder {
     public postAdapters: (PostAdapter | BiphaseAdapter)[]
     public token: ConstructableWebToken
     protected provider: any
-    protected config: WebIrysConfig & { config: IrysConfig, network: Network}
+    protected config: WebIrysConfig & { config: IrysConfig}
     public constructed?: WebToken
 
     constructor(tokenClass: ConstructableWebToken) {
@@ -61,9 +61,8 @@ export class UploadBuilder {
 
         this.token = tokenClass;
         this.config = {
-            url: "https://uploader.irys.xyz",
+            url: "testnet",
             config: {},
-            network: "testnet",
             provider: undefined
         }
     }
@@ -74,12 +73,12 @@ export class UploadBuilder {
     }
 
     public mainnet() {
-        this.config.network = "testnet"
+        this.config.url = "testnet"
         return this
 
     }
     public devnet() {
-        this.config.network = "devnet"
+        this.config.url = "devnet"
         return this
     }
     
@@ -110,7 +109,6 @@ export class UploadBuilder {
     public async build() {
         const irys = new BaseWebIrys({
             url: this.config.url,
-            network: this.config.network,
             config: this.config.config,
             getTokenConfig: async (irys) => {
                 for (const preAdapter of this.preAdapters) {

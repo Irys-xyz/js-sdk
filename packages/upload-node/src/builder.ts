@@ -1,4 +1,4 @@
-import {  IrysConfig, Network
+import {  IrysConfig
  } from "@irys/upload-core";
 import { NodeIrysConfig, NodeToken } from "./types";
 import {BaseNodeIrys} from "./base";
@@ -53,7 +53,7 @@ export class UploadBuilder {
     public postAdapters: (PostAdapter | BiphaseAdapter)[]
     public token: ConstructableNodeToken
     protected wallet: any
-    protected config: NodeIrysConfig & { config: IrysConfig, network: Network}
+    protected config: NodeIrysConfig & { config: IrysConfig}
     public constructed?: NodeToken
 
     constructor(tokenClass: ConstructableNodeToken) {
@@ -62,10 +62,9 @@ export class UploadBuilder {
 
         this.token = tokenClass;
         this.config = {
-            url: "https://uploader.irys.xyz",
+            url: "testnet",
             key: undefined,
             config: {},
-            network: "testnet"
         }
     }
 
@@ -76,12 +75,12 @@ export class UploadBuilder {
     }
 
     public mainnet() {
-        this.config.network = "testnet"
+        this.config.url = "testnet"
         return this
 
     }
     public devnet() {
-        this.config.network = "devnet"
+        this.config.url = "devnet"
         return this
     }
 
@@ -108,7 +107,6 @@ export class UploadBuilder {
 
         const irys = new BaseNodeIrys({
             url: this.config.url,
-            network: this.config.network,
             config: this.config.config,
             getTokenConfig: async (irys) => {
                 for (const preAdapter of this.preAdapters) {
