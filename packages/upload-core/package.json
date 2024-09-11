@@ -1,6 +1,6 @@
 {
   "name": "@irys/upload-core",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Core multiplatform Irys network bundler client library",
   "license": "MIT",
   "sideEffects": false,

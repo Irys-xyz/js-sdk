@@ -1,5 +1,11 @@
 # @irys/upload-core
 
+## 0.0.3
+
+### Patch Changes
+
+- Streamline Network and URL logic
+
 ## 0.0.2
 
 ### Patch Changes

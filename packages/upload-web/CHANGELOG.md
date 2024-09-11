@@ -1,5 +1,14 @@
 # @irys/web-upload
 
+## 0.0.4
+
+### Patch Changes
+
+- Streamline Network and URL logic
+
+- Updated dependencies []:
+  - @irys/upload-core@0.0.3
+
 ## 0.0.3
 
 ### Patch Changes
