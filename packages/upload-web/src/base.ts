@@ -41,19 +41,17 @@ export class BaseWebIrys extends Irys {
 
   constructor({
     url,
-    network,
     wallet,
     config,
     getTokenConfig,
   }: {
-    network?: Network;
-    url?: string;
+    url?: string | Network;
     wallet?: { rpcUrl?: string; name?: string; provider: object };
     config?: IrysConfig;
     getTokenConfig: (irys: BaseWebIrys) => Resolvable<WebToken>;
   }) {
     // @ts-expect-error types
-    super({ url, network, bundles });
+    super({ url, bundles });
 
     this.debug = config?.debug ?? false;
 

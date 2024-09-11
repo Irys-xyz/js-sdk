@@ -42,13 +42,13 @@ export abstract class Irys {
   static VERSION = "REPLACEMEIRYSVERSION";
   public debug = false;
 
-  constructor({ url, network, bundles }: { url?: string; network?: Network; bundles: bundles }) {
-    switch (network) {
+  constructor({ url, bundles }: { url?: string | Network; bundles: bundles }) {
+    switch (url) {
       case "testnet":
-        url ??= "https://testnet-upload.irys.xyz";
+        url = "https://testnet-upload.irys.xyz";
         break;
       case "devnet":
-       url ??= "https://devnet.irys.xyz"
+       url = "https://devnet.irys.xyz"
        break;
     }
     if (!url) throw new Error(`Missing required Irys constructor parameter: URL or valid Network`);

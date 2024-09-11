@@ -16,16 +16,14 @@ export class BaseNodeIrys extends Irys {
    */
   constructor({
     url,
-    network,
     config,
     getTokenConfig,
   }: {
-    url?: string;
-    network?: Network;
+    url?: string | Network;
     config?: IrysConfig;
     getTokenConfig: (irys: BaseNodeIrys) => Resolvable<NodeToken>;
   }) {
-    super({ url, network, bundles });
+    super({ url, bundles });
     this.debug = config?.debug ?? false;
 
     this.api = new Api({
