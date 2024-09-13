@@ -1,6 +1,6 @@
 import Aptos from "@irys/upload-aptos";
 import Ethereum, { Arbitrum, Avalanche, BaseEth, Bera, BNB, Chainlink, Iotex, LineaEth, Matic, ScrollEth, USDCEth, USDCPolygon } from "@irys/upload-ethereum";
-import Solana from "@irys/upload-solana";
+import Solana, { USDCSolana } from "@irys/upload-solana";
 import { Constructable, TokenConfigTrimmed } from "@irys/upload/builder";
 import { BaseNodeToken } from "@irys/upload/tokens/base";
 
@@ -21,6 +21,7 @@ export  function getToken(token: string): Constructable<[TokenConfigTrimmed], Ba
     case "scroll-eth": return ScrollEth
     case "linea-eth": return LineaEth
     case "iotex": return Iotex
+    case "usdc-solana": return USDCSolana
     default:
         throw new Error(`Unknown/Unsupported token ${token}`)
     }

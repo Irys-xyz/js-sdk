@@ -259,8 +259,8 @@ public async createBundle(
   const throwawayKeyAddress = base64url(
     Buffer.from(await this.bundles.getCryptoDriver().hash(base64url.toBuffer(base64url(ephemeralSigner.publicKey)))),
   );
+  await tx.sign(this.tokenConfig.getSigner());
   return {tx, throwawayKey, throwawayKeyAddress, txs}
-  // await tx.sign(this.tokenConfig.getSigner());
 }
 
 }

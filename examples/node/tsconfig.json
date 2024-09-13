@@ -1,14 +1,16 @@
 {
-  "compilerOptions": {
-    "target": "ES6",
-    "module": "CommonJS",
-    "rootDir": "./",  // Set to the root of your project
-    "outDir": "dist",
-    "strict": true,
-    "esModuleInterop": true,
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true
-  },
-  "include": ["./**/*"],  // Include all files in the project directory
-  "exclude": ["node_modules", "dist"]
+    "extends": "../esm.tsconfig.json",
+    "include": [
+        "./**/*",
+    ],
+    "exclude": [
+        "node_modules"
+    ],
+    "compilerOptions": {
+        "noEmit": true,
+        "moduleResolution": "NodeNext",
+        "outDir": "dist/esm",
+        "declarationDir": "dist/types",
+        "rootDir": "./src"
+    }
 }
