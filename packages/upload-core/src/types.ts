@@ -2,6 +2,8 @@ import type BigNumber from "bignumber.js";
 import type { DataItem, Signer, createData, deepHash, getCryptoDriver, stringToBuffer, DataItemCreateOptions, bundleAndSignData } from "@irys/bundles";
 import type Irys from "./irys";
 
+export type {DataItem, Signer, DataItemCreateOptions} from "@irys/bundles"
+
 // common types shared between web and node versions
 export type CreateTxData = {
   amount: BigNumber.Value;
@@ -207,3 +209,4 @@ export type StringifiedNumber<_NumberType extends number> = string;
 
 export type Tag = {name: string, value: string}
 export type Tags = Tag[]
+
