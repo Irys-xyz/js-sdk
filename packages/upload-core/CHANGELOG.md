@@ -1,5 +1,11 @@
 # @irys/upload-core
 
+## 0.0.5
+
+### Patch Changes
+
+- Fix uploadBundle and CLI default network
+
 ## 0.0.4
 
 ### Patch Changes

@@ -1,5 +1,18 @@
 # @irys/upload-cli
 
+## 0.0.6
+
+### Patch Changes
+
+- Fix uploadBundle and CLI default network
+
+- Updated dependencies []:
+  - @irys/upload-core@0.0.5
+  - @irys/upload-aptos@0.0.6
+  - @irys/upload-ethereum@0.0.6
+  - @irys/upload-solana@0.0.6
+  - @irys/upload@0.0.6
+
 ## 0.0.5
 
 ### Patch Changes

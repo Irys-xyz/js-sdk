@@ -1,6 +1,6 @@
 {
   "name": "@irys/web-upload",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Web token-agnostic library for Irys network bundler clients",
   "license": "MIT",
   "sideEffects": false,

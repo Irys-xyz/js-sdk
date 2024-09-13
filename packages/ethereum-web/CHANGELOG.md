@@ -1,5 +1,13 @@
 # @irys/web-upload-ethereum
 
+## 0.0.6
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @irys/upload-core@0.0.5
+  - @irys/web-upload@0.0.6
+
 ## 0.0.5
 
 ### Patch Changes
