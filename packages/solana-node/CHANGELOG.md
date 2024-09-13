@@ -1,5 +1,15 @@
 # @irys/upload-solana
 
+## 0.0.5
+
+### Patch Changes
+
+- Add support for SPL tokens
+
+- Updated dependencies []:
+  - @irys/upload-core@0.0.4
+  - @irys/upload@0.0.5
+
 ## 0.0.4
 
 ### Patch Changes

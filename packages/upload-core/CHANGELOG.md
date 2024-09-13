@@ -1,5 +1,11 @@
 # @irys/upload-core
 
+## 0.0.4
+
+### Patch Changes
+
+- Add support for SPL tokens
+
 ## 0.0.3
 
 ### Patch Changes
