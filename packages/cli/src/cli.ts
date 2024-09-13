@@ -17,7 +17,7 @@ let balpad = false, walpad = false; // padding state variables
 // Define the CLI flags for the program
 program
   .option("-h, --host <string>", "Irys node hostname/URL (eg http://node1.irys.xyz)")
-  .option("-n, --network <string>", "The network to use", "mainnet")
+  .option("-n, --network <string>", "The network to use", "testnet")
   .option("-w, --wallet <string>", "Path to keyfile or the private key itself", "default")
   .option("-t, --token <string>", "The token to use")
   .option("-c --currency <string>", "DEPRECATED: the currency to use (same as token)")
