@@ -1,6 +1,6 @@
 {
   "name": "@irys/upload-solana",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Solana NodeJS token client for Irys network bundlers",
   "license": "MIT",
   "sideEffects": false,
@@ -47,19 +47,20 @@
     "test": "ava"
   },
   "dependencies": {
-    "@irys/upload-core": "workspace:^",
-    "@irys/upload": "workspace:^",
     "@irys/bundles": "^0.0.1",
+    "@irys/upload": "workspace:^",
+    "@irys/upload-core": "workspace:^",
+    "@solana/spl-token": "^0.4.8",
+    "@solana/web3.js": "^1.95.3",
+    "async-retry": "^1.3.3",
     "bignumber.js": "^9.1.2",
     "bs58": "5.0.0",
-    "tweetnacl": "^1.0.3",
-    "async-retry": "^1.3.3",
-    "@solana/web3.js": "^1.95.3"
+    "tweetnacl": "^1.0.3"
   },
   "devDependencies": {
+    "@ava/typescript": "^5.0.0",
     "@types/async-retry": "^1.4.8",
     "@types/bn.js": "^5.1.5",
-    "@ava/typescript": "^5.0.0",
     "ava": "^6.1.3"
   },
   "publishConfig": {

@@ -17,6 +17,7 @@ import {
   type CreateAndUploadOptions,
   type Manifest,
   type IrysTransaction,
+  type DataItemCreateOptions,
   UploadHeaders,
 } from "./types";
 import type Utils from "./utils";
@@ -216,43 +217,52 @@ export class Uploader {
    * The throwaway key, address, and all bundled (provided + throwaway signed + generated) transactions are returned by this method.
    *
    * @param transactions List of transactions (DataItems/Raw data buffers) to bundle
-   * @param opts Standard upload options, plus the `throwawayKey` parameter, for passing your own throwaway JWK
+   * @param opts Standard upload options, plus the `throwawayKey` parameter, for passing your own throwaway JWK, and `bundleOpts` for passing through additional options for the tx containing the bundle.
    * @returns Standard upload response from the bundler node, plus the throwaway key & address, and the list of bundled transactions
    */
   uploadBundle(
     transactions: (DataItem | Buffer | string)[],
-    opts: UploadOptions & { getReceiptSignature: true; throwawayKey?: JWKInterface },
+    opts: UploadOptions & { getReceiptSignature: true; throwawayKey?: JWKInterface, bundleOpts?: DataItemCreateOptions },
   ): Promise<AxiosResponse<UploadReceipt> & { throwawayKey: JWKInterface; throwawayKeyAddress: string; txs: DataItem[] }>;
   uploadBundle(
     transactions: (DataItem | Buffer)[],
-    opts?: UploadOptions & { throwawayKey?: JWKInterface },
+    opts?: UploadOptions & { throwawayKey?: JWKInterface, bundleOpts?: DataItemCreateOptions },
   ): Promise<AxiosResponse<UploadResponse> & { throwawayKey: JWKInterface; throwawayKeyAddress: string; txs: DataItem[] }>;
 
   public async uploadBundle(
     transactions: (IrysTransaction | DataItem | Buffer)[],
-    opts?: UploadOptions & { throwawayKey?: JWKInterface },
+    opts?: UploadOptions & { throwawayKey?: JWKInterface, bundleOpts?: DataItemCreateOptions } ,
   ): Promise<AxiosResponse<UploadResponse> & { throwawayKey: JWKInterface; throwawayKeyAddress: string; txs: DataItem[] }> {
-    const throwawayKey = opts?.throwawayKey ?? (await this.bundles.getCryptoDriver().generateJWK());
-    const ephemeralSigner = new ArweaveSigner(throwawayKey);
-    const txs = transactions.map((tx) => (this.bundles.DataItem.isDataItem(tx) ? tx : this.bundles.createData(tx, ephemeralSigner)));
-    const bundle = await this.bundles.bundleAndSignData(txs, ephemeralSigner);
-
-    // upload bundle with bundle specific tags, use actual signer for this.
-    const tx = this.bundles.createData(bundle.getRaw(), this.tokenConfig.getSigner(), {
-      tags: [
-        { name: "Bundle-Format", value: "binary" },
-        { name: "Bundle-Version", value: "2.0.0" },
-      ],
-    });
-    await tx.sign(this.tokenConfig.getSigner());
-
+    const {tx, txs, throwawayKey, throwawayKeyAddress} = await this.createBundle(transactions, opts);
     const res = await this.uploadTransaction(tx, opts);
-    const throwawayKeyAddress = base64url(
-      Buffer.from(await this.bundles.getCryptoDriver().hash(base64url.toBuffer(base64url(ephemeralSigner.publicKey)))),
-    );
-
     return { ...res, txs, throwawayKey, throwawayKeyAddress };
   }
+
+public async createBundle(
+  transactions: (IrysTransaction | DataItem | Buffer)[],
+  opts?: UploadOptions & { throwawayKey?: JWKInterface, bundleOpts?: DataItemCreateOptions }
+): Promise<{ throwawayKey: JWKInterface; throwawayKeyAddress: string; tx: DataItem, txs: DataItem[] }> {
+  const throwawayKey = opts?.throwawayKey ?? (await this.bundles.getCryptoDriver().generateJWK());
+  const ephemeralSigner = new ArweaveSigner(throwawayKey);
+  const txs = transactions.map((tx) => (this.bundles.DataItem.isDataItem(tx) ? tx : this.bundles.createData(tx, ephemeralSigner)));
+  const bundle = await this.bundles.bundleAndSignData(txs, ephemeralSigner);
+
+  // upload bundle with bundle specific tags, use actual signer for this.
+  const tx = this.bundles.createData(bundle.getRaw(), this.tokenConfig.getSigner(), {
+    ...opts?.bundleOpts,
+    tags: [
+      { name: "Bundle-Format", value: "binary" },
+      { name: "Bundle-Version", value: "2.0.0" },
+      ...(opts?.bundleOpts?.tags ?? [])
+    ],
+  });
+  const throwawayKeyAddress = base64url(
+    Buffer.from(await this.bundles.getCryptoDriver().hash(base64url.toBuffer(base64url(ephemeralSigner.publicKey)))),
+  );
+  return {tx, throwawayKey, throwawayKeyAddress, txs}
+  // await tx.sign(this.tokenConfig.getSigner());
+}
+
 }
 
 export default Uploader;

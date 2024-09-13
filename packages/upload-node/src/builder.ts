@@ -112,7 +112,7 @@ export class UploadBuilder {
                 for (const preAdapter of this.preAdapters) {
                     await preAdapter.adaptTokenPre(this, this.token)
                 }
-                this.constructed = new this.token({irys, wallet: this.wallet, providerUrl: this.config.config.providerUrl})
+                this.constructed = new this.token({irys, wallet: this.wallet, providerUrl: this.config.config.providerUrl, opts: this.config.config.tokenOpts})
                 for (const postAdapter of this.postAdapters) {
                     await postAdapter.adaptTokenPost(this, this.constructed)
                 }

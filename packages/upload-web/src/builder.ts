@@ -115,7 +115,7 @@ export class UploadBuilder {
                     await preAdapter.adaptTokenPre(this, this.token)
                 }
                 if(!this.provider) throw new Error("Missing required provider");
-                this.constructed = new this.token({irys, wallet: this.provider, providerUrl: this.config.config.providerUrl})
+                this.constructed = new this.token({irys, wallet: this.provider, providerUrl: this.config.config.providerUrl, opts: this.config.config.tokenOpts})
                 for (const postAdapter of this.postAdapters) {
                     await postAdapter.adaptTokenPost(this, this.constructed)
                 }

@@ -9,7 +9,7 @@ import retry from "async-retry";
 import type { Finality } from "@solana/web3.js";
 import { ComputeBudgetProgram, Connection, Keypair, PublicKey, sendAndConfirmTransaction, SystemProgram, Transaction } from "@solana/web3.js";
 
-export type GetFeeResult = {
+type GetFeeResult = {
   computeBudget: BigNumber;
   computeUnitPrice: BigNumber;
 };
@@ -28,7 +28,7 @@ export default class SolanaConfig extends BaseNodeToken {
     this.finality = this?.opts?.finality ?? "finalized";
   }
 
-  private async getProvider(): Promise<Connection> {
+  async getProvider(): Promise<Connection> {
     if (!this.providerInstance) {
       this.providerInstance = new Connection(this.providerUrl, {
         confirmTransactionInitialTimeout: 60_000,
@@ -38,7 +38,7 @@ export default class SolanaConfig extends BaseNodeToken {
     return this.providerInstance;
   }
 
-  private getKeyPair(): Keypair {
+  protected getKeyPair(): Keypair {
     let key = this.wallet;
     if (typeof key !== "string") {
       key = bs58.encode(Buffer.from(key));
