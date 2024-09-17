@@ -19,7 +19,7 @@ Migrating from our old SDK? We've got a handy guide for you.
 
 https://migrate-to.irys.xyz
 
-## What is a Bundler?	
+## What is a Bundler?
 
 Bundlers enable any number of data transactions to be uploaded at once. To upload data to Irys, start by connecting to a bundler and then use one of its  upload functions.
 
