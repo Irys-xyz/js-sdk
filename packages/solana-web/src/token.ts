@@ -14,7 +14,11 @@ export type GetFeeResult = {
   computeBudget: BigNumber;
   computeUnitPrice: BigNumber;
 };
-export type Config = TokenConfig<MessageSignerWalletAdapter, { finality?: Finality; disablePriorityFees?: boolean }>;
+export type Config = TokenConfig<MessageSignerWalletAdapter, {
+  finality?: Finality;
+  disablePriorityFees?: boolean;
+  feeOverride?: GetFeeResult;
+}>;
 
 export default class SolanaConfig extends BaseWebToken {
   private signer!: HexInjectedSolanaSigner;
@@ -97,6 +101,10 @@ export default class SolanaConfig extends BaseWebToken {
   }
 
   async getFee(amount: BigNumber.Value, to?: string, multiplier?: BigNumber.Value): Promise<GetFeeResult> {
+    if (this.config.opts?.feeOverride) {
+      return this.config.opts.feeOverride;
+    }
+
     const connection = await this.getProvider();
     const unsignedTx = await this._createTxUnsigned(amount, to ?? "DHyDV2ZjN3rB6qNGXS48dP5onfbZd3fAEz6C5HJwSqRD");
     const computeBudget = new BigNumber((await unsignedTx.getEstimatedFee(connection)) ?? 5000);

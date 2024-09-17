@@ -12,6 +12,17 @@ import BaseSPLToken  from "./spl";
     }
 }
 
+export class USDCSolana extends BaseSPLToken {
+    constructor(config: TokenConfigTrimmed) {
+        super({
+            ...config,
+            name: "usdc-solana",    
+            ticker: "USDC",
+            providerUrl: config.providerUrl ?? "https://api.mainnet-beta.solana.com/",
+            contractAddress: config?.opts?.contractAddress ?? "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v"
+         })
+    }
+}
 
 function getBoundSolana({name, ticker, providerUrl}: {name: string, ticker: string, providerUrl: string}) {
     return class SolanaToken extends BaseSolanaToken {
@@ -39,19 +50,3 @@ export const Solana: Constructable<[TokenConfigTrimmed], BaseNodeToken> = Solana
 export default Solana
 
 export const Eclipse: Constructable<[TokenConfigTrimmed], BaseNodeToken> = getBoundSolana({name: "eclipse", ticker: "ETH", providerUrl:  "https://mainnetbeta-rpc.eclipse.xyz"})
-
-
-
-function getBoundSPL({name, ticker, providerUrl, contractAddress}: {name: string, ticker: string, providerUrl: string, contractAddress: string}) {
-    return class USDCSolana extends BaseSPLToken {
-        constructor(config: TokenConfigTrimmed) {
-            super({name, ticker, 
-               ...config,
-               providerUrl: config.providerUrl ?? providerUrl,
-               contractAddress: config?.opts?.contractAddress ?? contractAddress
-             })
-        }
-    }
-}
-
-export const USDCSolana: Constructable<[TokenConfigTrimmed], BaseNodeToken> = getBoundSPL({name: "usdc-solana", ticker: "USDC", providerUrl: "https://api.mainnet-beta.solana.com/", contractAddress: "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v" })
