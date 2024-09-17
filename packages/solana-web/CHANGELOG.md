@@ -1,5 +1,14 @@
 # @irys/web-upload-solana
 
+## 0.0.7
+
+### Patch Changes
+
+- Add SPL support to web-solana + misc fixes
+
+- Updated dependencies []:
+  - @irys/web-upload@0.0.7
+
 ## 0.0.6
 
 ### Patch Changes
