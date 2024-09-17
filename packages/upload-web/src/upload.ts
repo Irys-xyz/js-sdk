@@ -80,7 +80,7 @@ export class WebUploader extends Uploader {
       {
         tags: [
           { name: "Type", value: "manifest" },
-          { name: "Content-Type", value: "application/x.arweave-manifest+json" },
+          { name: "Content-Type", value: "application/x.irys-manifest+json" },
           ...(opts?.manifestTags ?? []),
         ],
       },

@@ -29,7 +29,7 @@ export default class SolanaConfig extends BaseWebToken {
     this.finality = this?.opts?.finality ?? "finalized";
   }
 
-  private async getProvider(): Promise<Connection> {
+  protected async getProvider(): Promise<Connection> {
     if (!this.providerInstance) {
       this.providerInstance = new Connection(this.providerUrl, {
         confirmTransactionInitialTimeout: 60_000,

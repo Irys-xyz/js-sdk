@@ -1,5 +1,12 @@
 # @irys/upload-aptos
 
+## 0.0.7
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @irys/upload@0.0.7
+
 ## 0.0.6
 
 ### Patch Changes

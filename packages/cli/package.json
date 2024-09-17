@@ -1,6 +1,6 @@
 {
   "name": "@irys/cli",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "NodeJS multi-token CLI for the Irys network",
   "license": "MIT",
   "sideEffects": false,
