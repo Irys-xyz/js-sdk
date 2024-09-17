@@ -12,11 +12,7 @@ export type GetFeeResult = {
   computeUnitPrice: BigNumber;
 };
 
-export type SPLTokenConfig = TokenConfig<any, { 
-  finality?: Finality; 
-  disablePriorityFees?: boolean, 
-  feeOverride?: GetFeeResult;
-}> & { contractAddress: string; };
+export type SPLTokenConfig = TokenConfig<any, { finality?: Finality; disablePriorityFees?: boolean, }> & { contractAddress: string; };
 
 export class SPLConfig extends SolanaConfig {
   protected contractAddress!: string;

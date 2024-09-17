@@ -50,3 +50,14 @@ export const Solana: Constructable<[TokenConfigTrimmed], BaseNodeToken> = Solana
 export default Solana
 
 export const Eclipse: Constructable<[TokenConfigTrimmed], BaseNodeToken> = getBoundSolana({name: "eclipse", ticker: "ETH", providerUrl:  "https://mainnetbeta-rpc.eclipse.xyz"})
+
+function getBoundSPL({name, ticker, providerUrl, contractAddress}: {name: string, ticker: string, providerUrl: string, contractAddress: string}) {
+    return class SPLToken extends BaseSPLToken {
+        constructor(config: TokenConfigTrimmed) {
+            super({
+                ...config,
+                name, ticker, providerUrl, contractAddress
+            })
+        }
+    }
+}
