@@ -122,7 +122,7 @@ export class SPLConfig extends SolanaConfig {
 
 
   async ready() {
-    // await super.ready()
+    await super.ready()
     await this.getSPLMetadata();
   }
 
