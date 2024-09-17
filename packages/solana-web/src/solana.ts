@@ -51,8 +51,10 @@ export const WebSolana: ConstructableWebToken = SolanaToken
 export default WebSolana;
 export const WebEclipse: ConstructableWebToken = getBoundSolana({name: "eclipse", ticker: "ETH", providerUrl:  "https://mainnetbeta-rpc.eclipse.xyz"})
 
+
+
 function getBoundSPL({name, ticker, providerUrl, contractAddress}: {name: string, ticker: string, providerUrl: string, contractAddress: string}) {
-    return class USDCSolana extends BaseSPLToken {
+    return class SPLToken extends BaseSPLToken {
         constructor(config: TokenConfigTrimmed) {
             super({name, ticker, 
                ...config,
