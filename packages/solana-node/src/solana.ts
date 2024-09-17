@@ -1,7 +1,7 @@
 import BaseSolanaToken from "./token";
-import {Constructable, type TokenConfigTrimmed} from "@irys/upload/builder"
+import {Constructable, type TokenConfigTrimmed} from "@irys/upload"
 import { BaseNodeToken } from "@irys/upload/tokens/base";
-import BaseSPLToken, { SPLTokenConfig } from "./spl";
+import BaseSPLToken  from "./spl";
 
  export class SolanaToken extends BaseSolanaToken {
     constructor(config: TokenConfigTrimmed) {
@@ -38,7 +38,7 @@ function getBoundSolana({name, ticker, providerUrl}: {name: string, ticker: stri
 export const Solana: Constructable<[TokenConfigTrimmed], BaseNodeToken> = SolanaToken
 export default Solana
 
-export const Eclipse: Constructable<[SPLTokenConfig], BaseNodeToken> = getBoundSolana({name: "eclipse", ticker: "ETH", providerUrl:  "https://mainnetbeta-rpc.eclipse.xyz"})
+export const Eclipse: Constructable<[TokenConfigTrimmed], BaseNodeToken> = getBoundSolana({name: "eclipse", ticker: "ETH", providerUrl:  "https://mainnetbeta-rpc.eclipse.xyz"})
 
 
 

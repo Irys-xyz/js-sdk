@@ -37,7 +37,7 @@ export type Resolvable<T> = T | Promise<T>
 export type Constructable<A extends any[], T> = {
     new (...args: A): T
 };
-export type ConstructableWebToken = Constructable<[TokenConfigTrimmed],WebToken>
+export type ConstructableWebToken<T extends any[] =[TokenConfigTrimmed]>  = Constructable<T,WebToken>
 
 export type TokenConfigTrimmed<Wallet = string | object, Opts = any> = {
     irys: Irys;

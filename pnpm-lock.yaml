@@ -599,6 +599,9 @@ importers:
       '@irys/web-upload':
         specifier: workspace:^
         version: link:../upload-web
+      '@solana/spl-token':
+        specifier: ^0.4.8
+        version: 0.4.8(@solana/web3.js@1.95.3(bufferutil@4.0.8)(utf-8-validate@5.0.10))(bufferutil@4.0.8)(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.5.4)(utf-8-validate@5.0.10)
       '@solana/web3.js':
         specifier: ^1.95.3
         version: 1.95.3(bufferutil@4.0.8)(utf-8-validate@5.0.10)
