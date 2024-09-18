@@ -56,11 +56,11 @@ export const Eclipse: Constructable<[TokenConfigTrimmed], BaseNodeToken> = getBo
 function getBoundSPL({name, ticker, providerUrl, contractAddress}: {name: string, ticker: string, providerUrl: string, contractAddress: string}) {
     return class SPLToken extends BaseSPLToken {
         constructor(config: TokenConfigTrimmed) {
-            super({name, ticker,
-                ...config,
-                providerUrl: config.providerUrl ?? providerUrl,
-                contractAddress: config?.opts?.contractAddress ?? contractAddress
-            })
+            super({name, ticker, 
+               ...config,
+               providerUrl: config.providerUrl ?? providerUrl,
+               contractAddress: config?.opts?.contractAddress ?? contractAddress
+             })
         }
     }
 }
