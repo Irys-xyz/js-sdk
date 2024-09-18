@@ -54,4 +54,4 @@ function getBoundSPL({name, ticker, providerUrl, contractAddress}: {name: string
     }
 }
 
-export const USDCSolana: ConstructableWebToken = getBoundSPL({name: "usdc-solana", ticker: "USDC", providerUrl: "https://api.mainnet-beta.solana.com/", contractAddress: "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v" })
+export const WebUSDCSolana: ConstructableWebToken = getBoundSPL({name: "usdc-solana", ticker: "USDC", providerUrl: "https://api.mainnet-beta.solana.com/", contractAddress: "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v" })
