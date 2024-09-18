@@ -20,6 +20,7 @@ export class SPLConfig extends SolanaConfig {
 
   constructor(config: SPLTokenConfig) {
     super(config);
+    this.contractAddress = config.contractAddress;
   }
 
   async getSPLMetadata() {
