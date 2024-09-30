@@ -38,7 +38,7 @@ function getBoundSolana({name, ticker, providerUrl}: {name: string, ticker: stri
 export const Solana: Constructable<[TokenConfigTrimmed], BaseNodeToken> = SolanaToken
 export default Solana
 
-export const Eclipse: Constructable<[TokenConfigTrimmed], BaseNodeToken> = getBoundSolana({name: "eclipse", ticker: "ETH", providerUrl:  "https://mainnetbeta-rpc.eclipse.xyz"})
+export const EclipseEth: Constructable<[TokenConfigTrimmed], BaseNodeToken> = getBoundSolana({name: "eclipse-eth", ticker: "ETH", providerUrl:  "https://mainnetbeta-rpc.eclipse.xyz"})
 
 
 

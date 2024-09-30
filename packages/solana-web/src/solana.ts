@@ -37,7 +37,7 @@ function getBoundSolana({name, ticker, providerUrl}: {name: string, ticker: stri
 
 export const WebSolana: ConstructableWebToken = SolanaToken
 export default WebSolana;
-export const WebEclipse: ConstructableWebToken = getBoundSolana({name: "eclipse", ticker: "ETH", providerUrl:  "https://mainnetbeta-rpc.eclipse.xyz"})
+export const WebEclipseEth: ConstructableWebToken = getBoundSolana({name: "eclipse-eth", ticker: "ETH", providerUrl:  "https://mainnetbeta-rpc.eclipse.xyz"})
 
 
 
