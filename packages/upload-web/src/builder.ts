@@ -1,4 +1,4 @@
-import { IrysConfig} from "@irys/upload-core";
+import { IrysConfig, Network} from "@irys/upload-core";
 import { WebIrysConfig, WebToken } from "./types";
 import {BaseWebIrys} from "./base";
 import { Irys } from "@irys/upload-core";
@@ -94,6 +94,11 @@ export class UploadBuilder {
 
     public bundlerUrl(url: URL | string) {
         this.config.url = new URL(url).toString()
+        return this
+    }
+
+    public network(network: Network) {
+        this.config.url = network
         return this
     }
 

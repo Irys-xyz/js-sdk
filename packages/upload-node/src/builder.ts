@@ -1,4 +1,4 @@
-import {  IrysConfig
+import {  IrysConfig, Network
  } from "@irys/upload-core";
 import { NodeIrysConfig, NodeToken } from "./types";
 import {BaseNodeIrys} from "./base";
@@ -94,6 +94,11 @@ export class UploadBuilder {
         return this
     }
 
+    public network(network: Network) {
+        this.config.url = network
+        return this
+    }
+    
     public withAdapter(adapter: Adapter) {
         // this.adapters.push(adapter)
         if(adapter.phase != "post") this.preAdapters.push(adapter)
