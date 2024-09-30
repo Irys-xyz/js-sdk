@@ -1,5 +1,11 @@
 # @irys/web-upload-solana
 
+## 0.1.0
+
+### Minor Changes
+
+- Rename eclipse to eclipse-eth
+
 ## 0.0.8
 
 ### Patch Changes
