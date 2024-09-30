@@ -3,7 +3,7 @@ import { canUploadArbitrum } from "./tokens/arbitrum";
 import { canUploadAvalanche } from "./tokens/avalanche";
 import { canUploadBera } from "./tokens/bera";
 import { canUploadBnb } from "./tokens/bnb";
-import { canUploadEclipse } from "./tokens/eclipse";
+import { canUploadEclipseEth } from "./tokens/eclipse-ethereum";
 import { canUploadEthereum } from "./tokens/ethereum";
 import { canUploadBaseEthereum } from "./tokens/base-ethereum";
 import { canUploadLineaEthereum } from "./tokens/linea-ethereum";
@@ -47,10 +47,10 @@ const runTests = async () => {
   if (chainlinkResult) console.log("Chainlink upload test passed.");
   else console.log("Chainlink upload test failed.");
 
-  // Eclipse
-  const eclipseResult = await canUploadEclipse();
-  if (eclipseResult) console.log("Eclipse upload test passed.");
-  else console.log("Eclipse upload test failed.");
+  // Eclipse-eth
+  const eclipseEthResult = await canUploadEclipseEth();
+  if (eclipseEthResult) console.log("Eclipse-eth upload test passed.");
+  else console.log("Eclipse-eth upload test failed.");
 
   // Ethereum
   const ethereumResult = await canUploadEthereum();
