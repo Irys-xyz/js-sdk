@@ -18,6 +18,7 @@ import type {
   UploadResponse,
   WithdrawalResponse,
   Network,
+  Tags,
 } from "./types";
 import type Uploader from "./upload";
 import Utils from "./utils";
@@ -117,8 +118,8 @@ export abstract class Irys {
    * @param bytes
    * @returns
    */
-  public async getPrice(bytes: number): Promise<BigNumber> {
-    return this.utils.getPrice(this.token, bytes);
+  public async getPrice(bytes: number, opts?: {tags?: Tags, address?: string}): Promise<BigNumber> {
+    return this.utils.getPrice(this.token, bytes, opts);
   }
 
   public async verifyReceipt(receipt: UploadReceiptData): Promise<boolean> {

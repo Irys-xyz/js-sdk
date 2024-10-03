@@ -1,5 +1,13 @@
 # @irys/web-upload-solana
 
+## 0.1.3
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @irys/upload-core@0.0.6
+  - @irys/web-upload@0.0.10
+
 ## 0.1.2
 
 ### Patch Changes

@@ -1,5 +1,12 @@
 # @irys/upload
 
+## 0.0.10
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @irys/upload-core@0.0.6
+
 ## 0.0.9
 
 ### Patch Changes
