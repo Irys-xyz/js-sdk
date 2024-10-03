@@ -2,7 +2,7 @@ import type { AxiosResponse } from "axios";
 import base64url from "base64url";
 import BigNumber from "bignumber.js";
 import type Api from "./api";
-import type {bundles, Token, UploadReceipt, UploadReceiptData } from "./types";
+import type {bundles, Tags, Token, UploadReceipt, UploadReceiptData } from "./types";
 import AsyncRetry from "async-retry";
 BigNumber.set({ DECIMAL_PLACES: 50 });
 
@@ -75,8 +75,15 @@ export class Utils {
    * @param bytes
    * @returns
    */
-  public async getPrice(token: string, bytes: number): Promise<BigNumber> {
-    const res = await this.api.get(`/price/${token}/${bytes}`);
+  public async getPrice(token: string, bytes: number, opts?: {tags?: Tags, address?: string}): Promise<BigNumber> {
+    let path = `/price/${token}/${bytes}`
+    if(opts?.tags) {
+      const address = opts.address ?? this.tokenConfig.address
+      path =opts.tags.reduce((b, t) => b + `&tags=${t.name}|${t.value}`, path + `?address=${address}`)
+    }else if (opts?.address) {
+      path = path + `?address=${opts?.address}`
+    } 
+    const res = await this.api.get(path);
     Utils.checkAndThrow(res, "Getting storage cost");
     return new BigNumber(res.data);
   }

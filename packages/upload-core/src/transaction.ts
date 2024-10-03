@@ -67,7 +67,7 @@ export default function buildIrysTransaction(irys: Pick<Irys, "uploader" | "toke
     // }
 
     async getPrice(): Promise<BigNumber> {
-      return this.Irys.utils.getPrice(this.Irys.tokenConfig.name, this.size);
+      return this.Irys.utils.getPrice(this.Irys.tokenConfig.name, this.size, {tags: this.tags});
     }
 
     async isValid(): Promise<boolean> {
