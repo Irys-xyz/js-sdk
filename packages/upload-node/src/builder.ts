@@ -135,8 +135,20 @@ export class UploadBuilder {
         this.config.irysConfig.tokenOpts = opts
         return this
     }
+
     public withIrysConfig(config: IrysConfig) {
-        this.config.irysConfig = {...this.config.irysConfig, ...config}
+        this.config.irysConfig = {...this.config.irysConfig, ...config};
+        return this
+    }
+    
+    /**
+     * Set the HTTP request timeout - useful if you have a slower connection
+     * @param timeout - timeout in milliseconds
+     * @returns this (builder)
+     */
+    public timeout(timeout: number) {
+        this.config.irysConfig.timeout = timeout
+        return this
     }
 
     // Promise contract functions, so users can `await` a builder instance to resolve the builder, instead of having to call build().

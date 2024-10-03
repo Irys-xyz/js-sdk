@@ -1,5 +1,11 @@
 # @irys/web-upload
 
+## 0.0.9
+
+### Patch Changes
+
+- Fix withIrysConfig, add explicit timeout builder arg
+
 ## 0.0.8
 
 ### Patch Changes

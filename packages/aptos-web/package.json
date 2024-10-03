@@ -1,6 +1,6 @@
 {
   "name": "@irys/web-upload-aptos",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "Aptos web token client for Irys network bundlers",
   "license": "MIT",
   "sideEffects": false,

@@ -104,6 +104,17 @@ export class UploadBuilder {
 
     public withIrysConfig(config: IrysConfig) {
         this.config.irysConfig = {...this.config.irysConfig, ...config}
+        return this
+    }
+    
+    /**
+     * Set the HTTP request timeout - useful if you have a slower connection
+     * @param timeout - timeout in milliseconds
+     * @returns this (builder)
+     */
+    public timeout(timeout: number) {
+        this.config.irysConfig.timeout = timeout
+        return this
     }
 
     public withAdapter(adapter: Adapter) {
