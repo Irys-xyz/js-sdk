@@ -52,7 +52,7 @@ export class UploadBuilder {
     public postAdapters: (PostAdapter | BiphaseAdapter)[]
     public token: ConstructableWebToken
     protected provider: any
-    protected config: WebIrysConfig & { config: IrysConfig}
+    public config: WebIrysConfig & { irysConfig: IrysConfig}
     public constructed?: WebToken
 
     constructor(tokenClass: ConstructableWebToken) {
@@ -62,7 +62,7 @@ export class UploadBuilder {
         this.token = tokenClass;
         this.config = {
             url: "testnet",
-            config: {},
+            irysConfig: {},
             provider: undefined
         }
     }
@@ -83,12 +83,12 @@ export class UploadBuilder {
     }
     
     public withRpc(rpcUrl: string) {
-        this.config.config.providerUrl = rpcUrl
+        this.config.irysConfig.providerUrl = rpcUrl
         return this
     }
 
     public withTokenOptions(opts: any) {
-        this.config.config.tokenOpts = opts
+        this.config.irysConfig.tokenOpts = opts
         return this
     }
 
@@ -100,6 +100,10 @@ export class UploadBuilder {
     public network(network: Network) {
         this.config.url = network
         return this
+    }
+
+    public withIrysConfig(config: IrysConfig) {
+        this.config.irysConfig = {...this.config.irysConfig, ...config}
     }
 
     public withAdapter(adapter: Adapter) {
@@ -114,13 +118,13 @@ export class UploadBuilder {
     public async build() {
         const irys = new BaseWebIrys({
             url: this.config.url,
-            config: this.config.config,
+            config: this.config.irysConfig,
             getTokenConfig: async (irys) => {
                 for (const preAdapter of this.preAdapters) {
                     await preAdapter.adaptTokenPre(this, this.token)
                 }
                 if(!this.provider) throw new Error("Missing required provider");
-                this.constructed = new this.token({irys, wallet: this.provider, providerUrl: this.config.config.providerUrl, opts: this.config.config.tokenOpts})
+                this.constructed = new this.token({irys, wallet: this.provider, providerUrl: this.config.irysConfig.providerUrl, opts: this.config.irysConfig.tokenOpts})
                 for (const postAdapter of this.postAdapters) {
                     await postAdapter.adaptTokenPost(this, this.constructed)
                 }
@@ -128,7 +132,7 @@ export class UploadBuilder {
             }
         })
         // TODO: fix this - this is required due to the async callback fn
-        await irys.build({wallet: this.provider, config: this.config.config})
+        await irys.build({wallet: this.provider, config: this.config.irysConfig})
         await irys.ready();
         return irys
     }

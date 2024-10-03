@@ -1,5 +1,11 @@
 # @irys/web-upload
 
+## 0.0.8
+
+### Patch Changes
+
+- Add withIrysConfig builder arg
+
 ## 0.0.7
 
 ### Patch Changes

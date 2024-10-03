@@ -53,7 +53,7 @@ export class UploadBuilder {
     public postAdapters: (PostAdapter | BiphaseAdapter)[]
     public token: ConstructableNodeToken
     protected wallet: any
-    protected config: NodeIrysConfig & { config: IrysConfig}
+    public config: NodeIrysConfig & { irysConfig: IrysConfig}
     public constructed?: NodeToken
 
     constructor(tokenClass: ConstructableNodeToken) {
@@ -64,7 +64,7 @@ export class UploadBuilder {
         this.config = {
             url: "testnet",
             key: undefined,
-            config: {},
+            irysConfig: {},
         }
     }
 
@@ -85,7 +85,7 @@ export class UploadBuilder {
     }
 
     public withRpc(rpcUrl: string) {
-        this.config.config.providerUrl = rpcUrl
+        this.config.irysConfig.providerUrl = rpcUrl
         return this
     }
     
@@ -112,12 +112,12 @@ export class UploadBuilder {
 
         const irys = new BaseNodeIrys({
             url: this.config.url,
-            config: this.config.config,
+            config: this.config.irysConfig,
             getTokenConfig: async (irys) => {
                 for (const preAdapter of this.preAdapters) {
                     await preAdapter.adaptTokenPre(this, this.token)
                 }
-                this.constructed = new this.token({irys, wallet: this.wallet, providerUrl: this.config.config.providerUrl, opts: this.config.config.tokenOpts})
+                this.constructed = new this.token({irys, wallet: this.wallet, providerUrl: this.config.irysConfig.providerUrl, opts: this.config.irysConfig.tokenOpts})
                 for (const postAdapter of this.postAdapters) {
                     await postAdapter.adaptTokenPost(this, this.constructed)
                 }
@@ -125,15 +125,18 @@ export class UploadBuilder {
         
             }
         })
-        await irys.build({wallet: this.wallet, config: this.config.config})
+        await irys.build({wallet: this.wallet, config: this.config.irysConfig})
         await irys.ready();
         return irys
     }
 
     // todo: add generics
     public withTokenOptions(opts: any) {
-        this.config.config.tokenOpts = opts
+        this.config.irysConfig.tokenOpts = opts
         return this
+    }
+    public withIrysConfig(config: IrysConfig) {
+        this.config.irysConfig = {...this.config.irysConfig, ...config}
     }
 
     // Promise contract functions, so users can `await` a builder instance to resolve the builder, instead of having to call build().
