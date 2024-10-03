@@ -1,5 +1,16 @@
 # @irys/upload-cli
 
+## 0.0.12
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @irys/upload-core@0.0.6
+  - @irys/upload-aptos@0.0.10
+  - @irys/upload-ethereum@0.0.10
+  - @irys/upload-solana@0.1.3
+  - @irys/upload@0.0.10
+
 ## 0.0.11
 
 ### Patch Changes
