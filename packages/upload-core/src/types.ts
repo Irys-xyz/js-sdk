@@ -24,10 +24,11 @@ export type bundles = {
 export type IrysTransaction = {
   sign: () => Promise<Buffer>;
   size: number;
-  uploadWithReceipt: (opts?: UploadOptions) => Promise<UploadReceipt>;
+  // uploadWithReceipt: (opts?: UploadOptions) => Promise<UploadReceipt>;
   upload(opts: UploadOptions & { getReceiptSignature: true }): Promise<UploadReceipt>;
   upload(opts?: UploadOptions): Promise<UploadResponse>;
   isValid(): Promise<boolean>;
+  getPrice(): Promise<BigNumber>
   // fromRaw(rawTransaction: Buffer, IrysInstance: Irys): IrysTransaction;
 } & DataItem;
 export type IrysTransactonCtor = new (

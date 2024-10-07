@@ -1,5 +1,11 @@
 # @irys/upload-core
 
+## 0.0.8
+
+### Patch Changes
+
+- Expose IrysTransaction.getPrice
+
 ## 0.0.7
 
 ### Patch Changes

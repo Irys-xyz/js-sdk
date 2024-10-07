@@ -1,6 +1,6 @@
 {
   "name": "@irys/upload",
-  "version": "0.0.11",
+  "version": "0.0.12",
   "description": "NodeJS token-agnostic library for Irys network bundler clients",
   "license": "MIT",
   "sideEffects": false,
