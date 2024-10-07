@@ -1,5 +1,14 @@
 # @irys/upload
 
+## 0.0.11
+
+### Patch Changes
+
+- Update SDK methods
+
+- Updated dependencies []:
+  - @irys/upload-core@0.0.7
+
 ## 0.0.10
 
 ### Patch Changes

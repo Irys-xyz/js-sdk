@@ -45,8 +45,8 @@ export abstract class Irys {
 
   constructor({ url, bundles }: { url?: string | Network; bundles: bundles }) {
     switch (url) {
-      case "testnet":
-        url = "https://testnet-upload.irys.xyz";
+      case "mainnet":
+        url = "https://uploader.irys.xyz";
         break;
       case "devnet":
        url = "https://devnet.irys.xyz"

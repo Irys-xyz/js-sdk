@@ -1,6 +1,6 @@
 {
   "name": "@irys/web-upload-ethereum-ethers-v6",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "description": "Provider adapter library for adapting ethersv6 providers for use with the web Ethereum Irys bundler token client",
   "license": "MIT",
   "sideEffects": false,

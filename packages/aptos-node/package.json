@@ -1,6 +1,6 @@
 {
   "name": "@irys/upload-aptos",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "description": "Aptos NodeJS token client for Irys network bundlers",
   "license": "MIT",
   "sideEffects": false,

@@ -59,10 +59,10 @@ export class Utils {
    * Queries the bundler to get it's address for a specific token
    * @returns the bundler's address
    */
-  public async getBundlerAddress(token: string): Promise<string> {
+  public async getBundlerAddress(token?: string): Promise<string> {
     const res = await this.api.get("/info");
     Utils.checkAndThrow(res, "Getting Bundler address");
-    const address = res.data.addresses[token];
+    const address = res.data.addresses[token ?? this.token];
     if (!address) {
       throw new Error(`Specified bundler does not support token ${token}`);
     }

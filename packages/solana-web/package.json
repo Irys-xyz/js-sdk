@@ -1,6 +1,6 @@
 {
   "name": "@irys/web-upload-solana",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "Solana web token client for Irys network bundlers",
   "license": "MIT",
   "sideEffects": false,

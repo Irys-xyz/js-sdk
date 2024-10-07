@@ -61,7 +61,7 @@ export class UploadBuilder {
 
         this.token = tokenClass;
         this.config = {
-            url: "testnet",
+            url: "mainnet",
             irysConfig: {},
             provider: undefined
         }
@@ -73,7 +73,7 @@ export class UploadBuilder {
     }
 
     public mainnet() {
-        this.config.url = "testnet"
+        this.config.url = "mainnet"
         return this
 
     }
