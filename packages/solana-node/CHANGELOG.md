@@ -1,5 +1,12 @@
 # @irys/upload-solana
 
+## 0.1.6
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @irys/upload@0.0.13
+
 ## 0.1.5
 
 ### Patch Changes

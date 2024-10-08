@@ -41,7 +41,7 @@ export class BaseNodeIrys extends Irys {
     this.tokenConfig = await this.getTokenConfig(this);
 
     if (this.url.host.includes("devnet.irys.xyz") && !config?.providerUrl)
-      throw new Error(`Using ${this.url.host} requires a dev/testnet RPC to be configured! see https://docs.irys.xyz/developer-docs/using-devnet`);
+      throw new Error(`Using ${this.url.host} requires a dev/testnet RPC to be configured! see https://docs.irys.xyz/build/d/networks#connecting-to-devnet`);
 
     this.token = this.tokenConfig.name;
     this.address = this.tokenConfig.address!;

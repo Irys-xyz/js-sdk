@@ -1,5 +1,11 @@
 # @irys/upload
 
+## 0.0.13
+
+### Patch Changes
+
+- Correct the documentation link in the error message shown for using devnet without a defined RPC
+
 ## 0.0.12
 
 ### Patch Changes
