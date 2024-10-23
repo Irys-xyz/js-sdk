@@ -1,5 +1,15 @@
 # @irys/upload-ethereum
 
+## 0.0.14
+
+### Patch Changes
+
+- Improve transaction polling logic
+
+- Updated dependencies []:
+  - @irys/upload-core@0.0.9
+  - @irys/upload@0.0.14
+
 ## 0.0.13
 
 ### Patch Changes

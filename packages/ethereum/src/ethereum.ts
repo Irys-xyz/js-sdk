@@ -38,10 +38,8 @@ export default class BaseEthereumToken extends BaseNodeToken {
 
     const response = await provider.getTransaction(txId);
 
-    if (!response) throw new Error("Tx doesn't exist");
+    if (!response) throw new Error(`Unable to fetch Tx ${txId}`);
     if (!response.to) throw new Error(`Unable to determine transaction ${txId} recipient`);
-
-    // console.log(response.confirmations);
 
     return {
       from: response.from,

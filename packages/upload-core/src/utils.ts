@@ -148,12 +148,17 @@ export class Utils {
     if (seconds < 0) seconds = 0;
     let lastError;
     let timedout = false;
+    let timedOutConfirmedButPending = false
 
     const internalPoll = async (): Promise<boolean> => {
       while (!timedout) {
         const getRes = await this.tokenConfig
           .getTx(txid)
-          .then((v) => v?.confirmed)
+          .then((v) => {
+            if (v?.confirmed && !v?.pending) return true
+            if (v?.confirmed && v?.pending) timedOutConfirmedButPending = true 
+            return false
+          })
           .catch((err) => {
             lastError = err;
             return false;
@@ -171,7 +176,10 @@ export class Utils {
     };
 
     const r = await Promise.race([racer(), internalPoll()]);
-    if (r === "RACE") {
+    
+    if (r === "RACE" ) {  
+      // for now we failsafe
+      if(timedOutConfirmedButPending) return true 
       console.warn(`Tx ${txid} didn't finalize after ${seconds} seconds ${lastError ? ` - ${lastError}` : ""}`);
       return lastError;
     }

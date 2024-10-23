@@ -1,5 +1,11 @@
 # @irys/upload-core
 
+## 0.0.9
+
+### Patch Changes
+
+- Improve transaction polling logic
+
 ## 0.0.8
 
 ### Patch Changes
