@@ -51,7 +51,7 @@ export default class BaseEthereumToken extends BaseNodeToken {
     };
   }
 
-  ownerToAddress(owner: any): string {
+ async ownerToAddress(owner: any): Promise<string> {
     return "0x" + keccak256(owner.slice(1)).slice(-20).toString("hex");
   }
 
