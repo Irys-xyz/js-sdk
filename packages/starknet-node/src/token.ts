@@ -1,10 +1,11 @@
-import { BaseNodeToken } from '@irys/upload/tokens/base';
-import type { TokenConfig, Tx } from '@irys/upload-core';
-import { Contract, RpcProvider, Provider } from 'starknet';
+import type {TokenConfig, Tx} from "@irys/upload-core";
+import {BaseNodeToken} from "@irys/upload/tokens/base"
+import { Contract, RpcProvider, Provider, Result } from 'starknet';
 import { StarknetSigner, Signer } from '@irys/bundles';
 import BigNumber from 'bignumber.js';
 import { num, Account, uint256 } from 'starknet';
-
+import strkerc20token from "../src/abi/erc20.abi.json"
+import { walletConfigs } from './supportedWallets/abi/walletConfig';
 const starknetSigner = StarknetSigner;
 
 export interface STRKTokenConfig extends TokenConfig {
@@ -93,22 +94,74 @@ export default class BaseSTRK20Token extends BaseNodeToken {
     }
   }
   
-  ownerToAddress(owner: any): string {
-    return this.signer.address;
+
+  async ownerToAddress(_owner: any): Promise<string> {
+    // Public key and address lengths
+    const publicKeyLength = 33;
+    const addressLength = 32;
+  
+    // Get the returned public key and convert to a buffer
+    const returnedPubKey = await this.getAccountPublicKey();
+    const returnedPubKeyBuffer = Buffer.from(returnedPubKey.toString());
+  
+    // Get the injected public key from the signer
+    const InjectedPublicKey = this.signer.publicKey;
+  
+    // Extracting the public key and address from the InjectedPublicKey
+    const extractedPublicKeyBuffer = InjectedPublicKey.slice.call(0, publicKeyLength);
+    const extractedAddressBuffer = InjectedPublicKey.slice.call(publicKeyLength, publicKeyLength + addressLength);
+  
+    // Convert extracted buffers to hex
+    const extractedAddressHex = extractedAddressBuffer.toString('hex');
+  
+    // Check if the returned public key matches the extracted public key
+    if (returnedPubKeyBuffer.equals(extractedPublicKeyBuffer)) {
+      return extractedAddressHex; 
+    } else {
+      return ""; 
+    }
   }
+  
+
+
+  async getAccountPublicKey(): Promise<Result> {
+    if (!this._address) {
+      throw new Error('Address is not defined');
+    }
+  
+    for (const config of walletConfigs) {
+      try {
+        const contractInstance = new Contract(config.abi, this._address, this.providerInstance);
+        const publicKey = await contractInstance.call(config.selector);
+        if (publicKey) {
+          return publicKey;
+        }
+      } catch (error) {
+        console.log(`${config.name} method failed.`);
+      }
+    }
+  
+    throw new Error(`Unable to retrieve the public key for address ${this._address}`);
+  }
+  
+
   async sign(data: Uint8Array): Promise<Uint8Array> {
     return this.signer.sign(data);
   }
+
   getSigner(): Signer {
     return this.signer;
   }
+
   verify(pub: any, data: Uint8Array, signature: Uint8Array): Promise<boolean> {
     return starknetSigner.verify(pub, data, signature);
   }
+
   async getCurrentHeight(): Promise<BigNumber> {
     const response = await this.providerInstance.getBlockNumber();
     return new BigNumber(response, 16);
   }
+
   async getFee(
     amount: BigNumber.Value,
     to?: string,
@@ -209,343 +262,3 @@ interface Transaction {
   };
 }
 
-const strkerc20token = [
-  {
-    members: [
-      {
-        name: 'low',
-        offset: 0,
-        type: 'felt',
-      },
-      {
-        name: 'high',
-        offset: 1,
-        type: 'felt',
-      },
-    ],
-    name: 'Uint256',
-    size: 2,
-    type: 'struct',
-  },
-  {
-    data: [
-      {
-        name: 'from_',
-        type: 'felt',
-      },
-      {
-        name: 'to',
-        type: 'felt',
-      },
-      {
-        name: 'value',
-        type: 'Uint256',
-      },
-    ],
-    keys: [],
-    name: 'Transfer',
-    type: 'event',
-  },
-  {
-    data: [
-      {
-        name: 'owner',
-        type: 'felt',
-      },
-      {
-        name: 'spender',
-        type: 'felt',
-      },
-      {
-        name: 'value',
-        type: 'Uint256',
-      },
-    ],
-    keys: [],
-    name: 'Approval',
-    type: 'event',
-  },
-  {
-    inputs: [],
-    name: 'name',
-    outputs: [
-      {
-        name: 'name',
-        type: 'felt',
-      },
-    ],
-    stateMutability: 'view',
-    type: 'function',
-  },
-  {
-    inputs: [],
-    name: 'symbol',
-    outputs: [
-      {
-        name: 'symbol',
-        type: 'felt',
-      },
-    ],
-    stateMutability: 'view',
-    type: 'function',
-  },
-  {
-    inputs: [],
-    name: 'totalSupply',
-    outputs: [
-      {
-        name: 'totalSupply',
-        type: 'Uint256',
-      },
-    ],
-    stateMutability: 'view',
-    type: 'function',
-  },
-  {
-    inputs: [],
-    name: 'decimals',
-    outputs: [
-      {
-        name: 'decimals',
-        type: 'felt',
-      },
-    ],
-    stateMutability: 'view',
-    type: 'function',
-  },
-  {
-    inputs: [
-      {
-        name: 'account',
-        type: 'felt',
-      },
-    ],
-    name: 'balanceOf',
-    outputs: [
-      {
-        name: 'balance',
-        type: 'Uint256',
-      },
-    ],
-    stateMutability: 'view',
-    type: 'function',
-  },
-  {
-    inputs: [
-      {
-        name: 'owner',
-        type: 'felt',
-      },
-      {
-        name: 'spender',
-        type: 'felt',
-      },
-    ],
-    name: 'allowance',
-    outputs: [
-      {
-        name: 'remaining',
-        type: 'Uint256',
-      },
-    ],
-    stateMutability: 'view',
-    type: 'function',
-  },
-  {
-    inputs: [],
-    name: 'permittedMinter',
-    outputs: [
-      {
-        name: 'minter',
-        type: 'felt',
-      },
-    ],
-    stateMutability: 'view',
-    type: 'function',
-  },
-  {
-    inputs: [],
-    name: 'initialized',
-    outputs: [
-      {
-        name: 'res',
-        type: 'felt',
-      },
-    ],
-    stateMutability: 'view',
-    type: 'function',
-  },
-  {
-    inputs: [],
-    name: 'get_version',
-    outputs: [
-      {
-        name: 'version',
-        type: 'felt',
-      },
-    ],
-    stateMutability: 'view',
-    type: 'function',
-  },
-  {
-    inputs: [],
-    name: 'get_identity',
-    outputs: [
-      {
-        name: 'identity',
-        type: 'felt',
-      },
-    ],
-    stateMutability: 'view',
-    type: 'function',
-  },
-  {
-    inputs: [
-      {
-        name: 'init_vector_len',
-        type: 'felt',
-      },
-      {
-        name: 'init_vector',
-        type: 'felt*',
-      },
-    ],
-    name: 'initialize',
-    outputs: [],
-    type: 'function',
-  },
-  {
-    inputs: [
-      {
-        name: 'recipient',
-        type: 'felt',
-      },
-      {
-        name: 'amount',
-        type: 'Uint256',
-      },
-    ],
-    name: 'transfer',
-    outputs: [
-      {
-        name: 'success',
-        type: 'felt',
-      },
-    ],
-    type: 'function',
-  },
-  {
-    inputs: [
-      {
-        name: 'sender',
-        type: 'felt',
-      },
-      {
-        name: 'recipient',
-        type: 'felt',
-      },
-      {
-        name: 'amount',
-        type: 'Uint256',
-      },
-    ],
-    name: 'transferFrom',
-    outputs: [
-      {
-        name: 'success',
-        type: 'felt',
-      },
-    ],
-    type: 'function',
-  },
-  {
-    inputs: [
-      {
-        name: 'spender',
-        type: 'felt',
-      },
-      {
-        name: 'amount',
-        type: 'Uint256',
-      },
-    ],
-    name: 'approve',
-    outputs: [
-      {
-        name: 'success',
-        type: 'felt',
-      },
-    ],
-    type: 'function',
-  },
-  {
-    inputs: [
-      {
-        name: 'spender',
-        type: 'felt',
-      },
-      {
-        name: 'added_value',
-        type: 'Uint256',
-      },
-    ],
-    name: 'increaseAllowance',
-    outputs: [
-      {
-        name: 'success',
-        type: 'felt',
-      },
-    ],
-    type: 'function',
-  },
-  {
-    inputs: [
-      {
-        name: 'spender',
-        type: 'felt',
-      },
-      {
-        name: 'subtracted_value',
-        type: 'Uint256',
-      },
-    ],
-    name: 'decreaseAllowance',
-    outputs: [
-      {
-        name: 'success',
-        type: 'felt',
-      },
-    ],
-    type: 'function',
-  },
-  {
-    inputs: [
-      {
-        name: 'recipient',
-        type: 'felt',
-      },
-      {
-        name: 'amount',
-        type: 'Uint256',
-      },
-    ],
-    name: 'permissionedMint',
-    outputs: [],
-    type: 'function',
-  },
-  {
-    inputs: [
-      {
-        name: 'account',
-        type: 'felt',
-      },
-      {
-        name: 'amount',
-        type: 'Uint256',
-      },
-    ],
-    name: 'permissionedBurn',
-    outputs: [],
-    type: 'function',
-  },
-];
