@@ -108,8 +108,8 @@ export default class BaseSTRK20Token extends BaseNodeToken {
     const InjectedPublicKey = this.signer.publicKey;
   
     // Extracting the public key and address from the InjectedPublicKey
-    const extractedPublicKeyBuffer = InjectedPublicKey.slice.call(0, publicKeyLength);
-    const extractedAddressBuffer = InjectedPublicKey.slice.call(publicKeyLength, publicKeyLength + addressLength);
+    const extractedPublicKeyBuffer = InjectedPublicKey.subarray(0, publicKeyLength);
+    const extractedAddressBuffer = InjectedPublicKey.subarray(publicKeyLength, publicKeyLength + addressLength);
   
     // Convert extracted buffers to hex
     const extractedAddressHex = extractedAddressBuffer.toString('hex');
