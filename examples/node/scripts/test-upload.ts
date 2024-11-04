@@ -14,6 +14,7 @@ import { canUploadUsdcEth } from "./tokens/usdcEth";
 import { canUploadUsdcPolygon } from "./tokens/usdcPolygon";
 import { canUploadChainlink } from "./tokens/chainlink";
 import { canUploadSolana } from "./tokens/solana";
+import {canUploadStarknet} from "./tokens/starknet"
 
 const runTests = async () => {
 
@@ -96,8 +97,16 @@ const runTests = async () => {
   const usdcPolygonResult = await canUploadUsdcPolygon();
   if (usdcPolygonResult) console.log("USDC on Polygon upload test passed.");
   else console.log("USDC on Polygon upload test failed.");
- 
+
+  const uploadStarknet = await canUploadStarknet()
+  if(uploadStarknet)console.log("STRK on Starknet upload test passed.");
+  else console.log("STRK on Starknet upload test failed.");
+
  
 };
 
 runTests().catch((err) => console.error("Unexpected error during testing:", err));
+
+
+
+

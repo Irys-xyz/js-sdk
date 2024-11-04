@@ -5,7 +5,7 @@ import { StarknetSigner, Signer } from '@irys/bundles';
 import BigNumber from 'bignumber.js';
 import { num, Account, uint256 } from 'starknet';
 import strkerc20token from "../src/abi/erc20.abi.json"
-import { walletConfigs } from './supportedWallets/abi/walletConfig';
+import { walletConfigs } from './supportedWallets/walletConfig';
 const starknetSigner = StarknetSigner;
 
 export interface STRKTokenConfig extends TokenConfig {

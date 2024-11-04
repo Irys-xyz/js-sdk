@@ -1,5 +1,5 @@
-import argentAbi from "../../abi/argent.abi.json";
-import braavosAbi from "../../abi/braavos.abi.json";
+import argentAbi from "../abi/argent.abi.json";
+import braavosAbi from "../abi/braavos.abi.json";
 
 export const walletConfigs = [
     {
