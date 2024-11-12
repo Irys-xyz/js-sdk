@@ -7,7 +7,7 @@ import "dotenv/config";
  * 
  * @returns {Promise<boolean>} Returns true if upload is successful, otherwise false.
  */
-export const canUploadStarknet = async (): Promise<boolean> => {
+export const canUploadStarknet = async (): Promise<boolean> => {3
   try {
     // Initialize the Irys Uploader with the Ethereum wallet
     const irysUploader = await Uploader(Starknet).withWallet("0x005d5c250b5c181684ae6d8ebfa0faeac3ad0c6f31a6c2f102a2fffddba00a05");

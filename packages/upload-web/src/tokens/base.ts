@@ -33,15 +33,20 @@ export abstract class BaseWebToken implements WebToken {
     return this._address;
   }
 
+
   public async ready(): Promise<void> {
-    this._address = this.wallet ? this.ownerToAddress(await this.getPublicKey()) : undefined;
-  }
+    if (this.wallet) {
+        this._address = await this.ownerToAddress(await this.getPublicKey());
+    } else {
+        this._address = undefined;
+    }
+}
 
   async price(): Promise<number> {
     return getRedstonePrice(this.ticker);
   }
   abstract getTx(_txId: string): Promise<Tx>;
-  abstract ownerToAddress(_owner: any): string;
+  abstract ownerToAddress(_owner: any): Promise<string>;
   abstract sign(_data: Uint8Array): Promise<Uint8Array>;
   abstract getSigner(): Signer;
   abstract verify(_pub: any, _data: Uint8Array, _signature: Uint8Array): Promise<boolean>;

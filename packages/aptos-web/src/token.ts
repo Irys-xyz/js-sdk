@@ -102,11 +102,11 @@ export default class AptosConfig extends BaseWebToken {
     };
   }
 
-  ownerToAddress(owner: any): string {
+ async ownerToAddress(owner: any): Promise<string> {
     const hash = sha3.sha3_256.create();
     hash.update(Buffer.from(owner));
     hash.update("\x00");
-    return `0x${hash.hex()}`;
+    return await `0x${hash.hex()}`;
   }
 
   async sign(data: Uint8Array): Promise<Uint8Array> {
@@ -249,7 +249,7 @@ export default class AptosConfig extends BaseWebToken {
     // this.providerUrl is a Network enum type represents the current configured network
     this.aptosConfig = new AptosSDKConfig({ network: this.providerUrl, ...this.config?.opts?.aptosSdkConfig });
     this._publicKey = (await this.getPublicKey()) as Buffer;
-    this._address = this.ownerToAddress(this._publicKey);
+    this._address = await this.ownerToAddress(this._publicKey);
 
     const client = await this.getProvider();
 
