@@ -40,6 +40,10 @@ export default class BaseSTRK20Token extends BaseNodeToken {
     }
   }
 
+// Set the base token for gas payments based on the token address provided in the setup.
+// Starknet supports two tokens for gas payments: ETH and STRK, both implemented as ERC20 tokens.
+// Since these tokens have the same contract address on both mainnet and testnet, 
+// we use the provided address directly to determine the base token for gas.
   async getContract(): Promise<Contract> {
     if (!this.contractInstance) {
       this.contractInstance = new Contract(
