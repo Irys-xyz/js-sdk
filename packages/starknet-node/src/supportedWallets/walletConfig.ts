@@ -1,7 +1,7 @@
 import argentAbi from '../abi/argent.abi.json';
 import braavosAbi from '../abi/braavos.abi.json';
 
-export const walletConfigs = [
+export const ID = [
   {
     id: 1,
     name: 'Argent',
