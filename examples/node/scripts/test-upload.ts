@@ -14,8 +14,6 @@ import { canUploadUsdcEth } from "./tokens/usdcEth";
 import { canUploadUsdcPolygon } from "./tokens/usdcPolygon";
 import { canUploadChainlink } from "./tokens/chainlink";
 import { canUploadSolana } from "./tokens/solana";
-import {canUploadStarknet} from "./tokens/starknet"
-
 const runTests = async () => {
 
   // Aptos
