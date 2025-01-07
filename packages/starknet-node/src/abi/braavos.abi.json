@@ -1,0 +1,17 @@
+[    {
+  "name": "braavos_account::signers::interface::ISignerManagement",
+  "type": "interface",
+  "items": [
+    {
+      "name": "get_public_key",
+      "type": "function",
+      "inputs": [],
+      "outputs": [
+        {
+          "type": "core::felt252"
+        }
+      ],
+      "state_mutability": "view"
+    }
+  ]
+}]

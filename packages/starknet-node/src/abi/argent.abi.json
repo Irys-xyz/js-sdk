@@ -1,0 +1,19 @@
+[
+  {
+    "name": "argent::account::interface::IArgentUserAccount",
+    "type": "interface",
+    "items": [
+      {
+        "name": "get_owner",
+        "type": "function",
+        "inputs": [],
+        "outputs": [
+          {
+            "type": "core::felt252"
+          }
+        ],
+        "state_mutability": "view"
+      }
+    ]
+  }
+]

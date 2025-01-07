@@ -68,7 +68,7 @@ export default class SolanaConfig extends BaseNodeToken {
     return tx;
   }
 
-  ownerToAddress(owner: any): string {
+  async ownerToAddress(owner: any): Promise<string> {
     return bs58.encode(owner);
   }
 

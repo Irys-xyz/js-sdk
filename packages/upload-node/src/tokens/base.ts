@@ -22,7 +22,8 @@ export abstract class BaseNodeToken implements NodeToken {
 
   constructor(config: TokenConfig) {
     Object.assign(this, config);
-    this._address = this.wallet ? this.ownerToAddress(this.getPublicKey()) : undefined;
+    this.initializeAddress()
+    // this._address = this.wallet ? this.ownerToAddress(this.getPublicKey()) : undefined;
   }
 
   // common methods
@@ -31,11 +32,17 @@ export abstract class BaseNodeToken implements NodeToken {
     return this._address;
   }
 
+  private async initializeAddress() {
+    if (this.wallet) {
+      this._address = await this.ownerToAddress(this.getPublicKey());
+    }
+  }
+
   async price(): Promise<number> {
     return getRedstonePrice(this.ticker);
   }
   abstract getTx(_txId: string): Promise<Tx>;
-  abstract ownerToAddress(_owner: any): string;
+  abstract ownerToAddress(_owner: any): Promise<string>;
   abstract sign(_data: Uint8Array): Promise<Uint8Array>;
   abstract getSigner(): Signer;
   abstract verify(_pub: any, _data: Uint8Array, _signature: Uint8Array): Promise<boolean>;

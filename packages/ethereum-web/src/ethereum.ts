@@ -42,7 +42,7 @@ export  class EthereumConfig extends BaseWebToken {
     };
   }
 
-  ownerToAddress(owner: any): string {
+  ownerToAddress(owner: any): Promise<string> {
     // return (
     //   "0x" +
     //   keccak256(Buffer.from(owner.slice(1)))
