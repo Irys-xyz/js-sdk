@@ -1,6 +1,6 @@
 import test from 'ava';
-import { StarknetToken } from '../src/client';
+import { Starknet } from '../src/client';
 
 test('example test', async (t) => {
-  t.is(typeof StarknetToken, 'function');
+  t.is(typeof Starknet, 'function');
 });

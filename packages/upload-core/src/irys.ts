@@ -84,7 +84,8 @@ export abstract class Irys {
   }
 
   /**
-   * @deprecated use getBalance with no addres instead
+   * @deprecated Use getBalance with no address instead.
+   * 
    * Gets the balance for the loaded wallet
    * @returns balance (in winston)
    */

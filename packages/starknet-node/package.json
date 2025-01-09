@@ -51,7 +51,7 @@
     "@irys/upload": "workspace:^",
     "@irys/upload-core": "workspace:^",
     "bignumber.js": "^9.1.2",
-    "starknet": "^6.17.0"
+    "starknet": "^6.21.0"
   },
   "devDependencies": {
     "@ava/typescript": "^5.0.0",

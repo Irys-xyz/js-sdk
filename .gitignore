@@ -28,3 +28,5 @@ typedoc
 stats.html
 .vercel
 .turbo
+
+examples/node/test

@@ -6,6 +6,7 @@ import type { IrysConfig } from "@irys/upload-core";
 type TokenOptions = {
     privateKey?: string;
     address?: string;
+    tokenBase: [string, number | undefined]
   };
   
   // Update the NodeIrysConfig type to include TokenOptions for tokenOpts
@@ -28,9 +29,9 @@ export default class StarknetIrys extends BaseNodeIrys {
           providerUrl: config?.providerUrl ?? "",
           wallet: key,
           opts: config?.tokenOpts,
-          privateKey: tokenOpts?.privateKey ?? "",
           address: tokenOpts?.address ?? "",
-          contractAddress: config?.contractAddress ?? ""
+          contractAddress: config?.contractAddress ?? "",
+          contractBase: tokenOpts.tokenBase
         }),
     });
   }
