@@ -1,5 +1,11 @@
 # @irys/upload-ethereum
 
+## 0.0.15
+
+### Patch Changes
+
+- Update the bera RPC to mainnet
+
 ## 0.0.14
 
 ### Patch Changes

@@ -1,5 +1,12 @@
 # @irys/upload-cli
 
+## 0.0.17
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @irys/upload-ethereum@0.0.15
+
 ## 0.0.16
 
 ### Patch Changes

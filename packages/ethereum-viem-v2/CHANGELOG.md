@@ -1,5 +1,12 @@
 # @irys/web-upload-ethereum-viem-v2
 
+## 0.0.16
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @irys/web-upload-ethereum@0.0.15
+
 ## 0.0.15
 
 ### Patch Changes
