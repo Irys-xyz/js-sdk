@@ -35,8 +35,8 @@ function getBoundERC20(name: string, ticker: string, contractAddress: string, co
 
 
 
-// config to use starknetETH
-export const StarknetEth = getBoundERC20("eth", "ETH", KNOWN_CONTRACTS.ETH.address, KNOWN_CONTRACTS.ETH.base);
+// // config to use starknetETH
+// export const StarknetEth = getBoundERC20("starknet-eth", "ETH", KNOWN_CONTRACTS.ETH.address, KNOWN_CONTRACTS.ETH.base);
 
 export const Starknet = (address: string):  Constructable<[TokenConfigTrimmed], BaseNodeToken> => {
     return class StarknetToken extends BaseSTRK20Token {

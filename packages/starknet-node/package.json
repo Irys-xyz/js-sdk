@@ -47,7 +47,7 @@
     "test": "ava"
   },
   "dependencies": {
-    "@irys/bundles": "^0.0.2",
+    "@irys/bundles": "^0.0.3",
     "@irys/upload": "workspace:^",
     "@irys/upload-core": "workspace:^",
     "bignumber.js": "^9.1.2",

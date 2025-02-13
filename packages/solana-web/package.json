@@ -49,7 +49,7 @@
   "dependencies": {
     "@irys/upload-core": "workspace:^",
     "@irys/web-upload": "workspace:^",
-    "@irys/bundles": "^0.0.1",
+    "@irys/bundles": "^0.0.3",
     "bignumber.js": "^9.1.2",
     "@solana/spl-token": "^0.4.8",
     "bs58": "5.0.0",

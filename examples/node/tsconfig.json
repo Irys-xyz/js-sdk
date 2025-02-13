@@ -1,5 +1,5 @@
 {
-    "extends": "../esm.tsconfig.json",
+    "extends": "../../esm.tsconfig.json",
     "include": [
         "./**/*",
     ],

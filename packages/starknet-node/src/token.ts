@@ -4,8 +4,9 @@ import { Contract, RpcProvider, Provider } from 'starknet';
 import { StarknetSigner, Signer, byteArrayToLong } from '@irys/bundles';
 import BigNumber from 'bignumber.js';
 import { num, Account, uint256 } from 'starknet';
-import strkerc20token from './abi/erc20.abi.json';
-import { KnownAccountContracts } from './supportedWallets/walletConfig';
+import strkerc20token from './erc20.abi.json';
+import { KnownAccountContracts } from './walletConfig';
+
 const starknetSigner = StarknetSigner;
 
 export interface STRKTokenConfig extends TokenConfig {
@@ -65,13 +66,14 @@ export default class BaseSTRK20Token extends BaseNodeToken {
     this.account = new Account(
       this.providerInstance,
       this._address,
-      this.wallet
+      this.wallet,
+      undefined, "0x3" // use version 3 so the gas token is $STRK
     );
 
   }
 
   async ready(): Promise<void> {
-
+    await this.getContract();
     const { publicKey, id } = await this.getAccountCompactPublicKey(this._address!!);
 
     this.signer = new StarknetSigner(
@@ -85,7 +87,7 @@ export default class BaseSTRK20Token extends BaseNodeToken {
     // this is a good early catch for if the wrong address has been provided
     if (!validateStarkFullPubKey(this.signer.publicKey.subarray(0, 33), publicKey)) throw new Error("Account contract and private key derived public keys do not match! check you private key/address?");
     const address = await this.ownerToAddress(this.signer.publicKey);
-    if (address !== this._address!!) throw new Error("uh oh");
+    if (address !== this._address!!) throw new Error("Failed address self check, check your private key/address?");
   }
 
   // Set the base token for gas payments based on the token address provided in the setup.
@@ -171,7 +173,7 @@ export default class BaseSTRK20Token extends BaseNodeToken {
           address,
           this.providerInstance
         );
-        const publicKey = await contractInstance.call(config.selector, undefined, { parseResponse: false });
+        const publicKey = await contractInstance.call(config.selector, undefined, { parseResponse: false }).catch(_ => false)
         if (publicKey) {
           return { publicKey: config.postProcessor(publicKey), id: contractId };
         }
@@ -179,20 +181,15 @@ export default class BaseSTRK20Token extends BaseNodeToken {
     }
     // fallthrough to check every known contract
     for (const [id, config] of KnownAccountContracts.entries()) {
-      try {
         const contractInstance = new Contract(
           config.abi,
           address,
           this.providerInstance
         );
-        const publicKey = await contractInstance.call(config.selector, undefined, { parseResponse: false });
-
+        const publicKey = await contractInstance.call(config.selector, undefined, { parseResponse: false }) .catch(_ => false)
         if (publicKey) {
           return { publicKey: config.postProcessor(publicKey), id };
         }
-      } catch (error) {
-        throw error;
-      }
     }
 
     throw new Error(
@@ -223,38 +220,30 @@ export default class BaseSTRK20Token extends BaseNodeToken {
     to?: string,
     _multiplier?: BigNumber.Value | undefined
   ): Promise<BigNumber> {
-    try {
       const amountBigNumber = new BigNumber(amount);
       const _amount = uint256.bnToUint256(amountBigNumber.toString());
 
-      const suggestedMaxFee = await this.account.estimateInvokeFee({
+      const maxFeeEstimate = await this.account.estimateFee({
         contractAddress: this.contractAddress,
         entrypoint: 'transfer',
-        calldata: [to || '', _amount.high, _amount.low],
+        calldata: [to || '',_amount.low, _amount.high],
       });
 
-      const result = suggestedMaxFee.suggestedMaxFee;
+      const result = maxFeeEstimate.suggestedMaxFee;
       const result_to_hex = num.toHex(result);
       return new BigNumber(result_to_hex);
-    } catch (error) {
-      throw error;
-    }
   }
+
 
   async createTx(
     amount: BigNumber.Value,
     to: string,
-    _fee?: string | object | undefined
+    fee?: string | object | undefined
   ): Promise<{ txId: string | undefined; tx: any; }> {
     const amountBigNumber = new BigNumber(amount);
     const _amount = uint256.bnToUint256(amountBigNumber.toString());
 
     const calldata = [to, _amount.low, _amount.high];
-    const maxFeeEstimate = await this.account.estimateFee({
-      contractAddress: this.contractAddress,
-      entrypoint: 'transfer',
-      calldata,
-    });
 
     return {
       txId: undefined, tx: {
@@ -263,7 +252,7 @@ export default class BaseSTRK20Token extends BaseNodeToken {
           entrypoint: 'transfer',
           calldata,
         },
-        args: { maxFee: maxFeeEstimate.suggestedMaxFee }
+        args: { maxFee: fee}
       }
     };
 

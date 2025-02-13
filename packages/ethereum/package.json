@@ -47,7 +47,7 @@
     "@ethersproject/wallet": "^5.7.0",
     "@irys/upload-core": "workspace:^",
     "@irys/upload": "workspace:^",
-    "@irys/bundles": "^0.0.1",
+    "@irys/bundles": "^0.0.3",
     "bignumber.js": "^9.1.2"
   },
   "devDependencies": {
