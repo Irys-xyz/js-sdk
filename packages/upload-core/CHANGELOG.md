@@ -1,5 +1,11 @@
 # @irys/upload-core
 
+## 0.0.10
+
+### Patch Changes
+
+- [#24](https://github.com/Irys-xyz/js-sdk/pull/24) [`2410aef`](https://github.com/Irys-xyz/js-sdk/commit/2410aefea6d2d508b4279f2ab1b66bd12cf3ad04) Thanks [@JesseTheRobot](https://github.com/JesseTheRobot)! - Update bundles, release starknet integration
+
 ## 0.0.9
 
 ### Patch Changes
