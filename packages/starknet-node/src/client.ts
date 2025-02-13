@@ -1,6 +1,6 @@
 import { BaseNodeToken } from "@irys/upload/tokens/base";
 import { Constructable, type TokenConfigTrimmed } from "@irys/upload/builder";
-import BaseSTRK20Token, { STRKTokenConfig } from "./token";
+import BaseSTRK20Token from "./token";
 
 
 const STARKNET_PROVIDER_URL = "https://starknet-mainnet.public.blastapi.io";
@@ -13,25 +13,25 @@ const KNOWN_CONTRACTS: {[key: string] :{address: string, base: [string, number]}
 // set stark token as default
 
 
-function getBoundERC20(name: string, ticker: string, contractAddress: string, contractBase: STRKTokenConfig["contractBase"]) {
-    // address is a required parameter, as we can't derive it from the private key
-    const a = (address: string): Constructable<[TokenConfigTrimmed], BaseSTRK20Token> => {
-        return class extends BaseSTRK20Token {
-            constructor(config: TokenConfigTrimmed) {
-                super({
-                    name,
-                    ticker,
-                    ...config,
-                    providerUrl: config.providerUrl ?? STARKNET_PROVIDER_URL,
-                    contractAddress: config.opts?.contractAddress ?? contractAddress,
-                    address,
-                    contractBase
-                });
-            }
-        };
-    }
-    return a
-}
+// function getBoundERC20(name: string, ticker: string, contractAddress: string, contractBase: STRKTokenConfig["contractBase"]) {
+//     // address is a required parameter, as we can't derive it from the private key
+//     const a = (address: string): Constructable<[TokenConfigTrimmed], BaseSTRK20Token> => {
+//         return class extends BaseSTRK20Token {
+//             constructor(config: TokenConfigTrimmed) {
+//                 super({
+//                     name,
+//                     ticker,
+//                     ...config,
+//                     providerUrl: config.providerUrl ?? STARKNET_PROVIDER_URL,
+//                     contractAddress: config.opts?.contractAddress ?? contractAddress,
+//                     address,
+//                     contractBase
+//                 });
+//             }
+//         };
+//     }
+//     return a
+// }
 
 
 

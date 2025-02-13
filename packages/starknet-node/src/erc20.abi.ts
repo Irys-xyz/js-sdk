@@ -1,4 +1,4 @@
-[
+export const ABI = [
     {
       "name": "LockingContract",
       "type": "impl",
@@ -1120,3 +1120,4 @@
       ]
     }
   ]
+  export default ABI

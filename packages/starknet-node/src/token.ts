@@ -4,7 +4,7 @@ import { Contract, RpcProvider, Provider } from 'starknet';
 import { StarknetSigner, Signer, byteArrayToLong } from '@irys/bundles';
 import BigNumber from 'bignumber.js';
 import { num, Account, uint256 } from 'starknet';
-import strkerc20token from './erc20.abi.json';
+import strkerc20token from './erc20.abi'
 import { KnownAccountContracts } from './walletConfig';
 
 const starknetSigner = StarknetSigner;
