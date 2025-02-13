@@ -1,6 +1,6 @@
 {
   "name": "@irys/web-upload-ethereum",
-  "version": "0.0.14",
+  "version": "0.0.15",
   "description": "Ethereum web token client for Irys network bundlers",
   "license": "MIT",
   "sideEffects": false,

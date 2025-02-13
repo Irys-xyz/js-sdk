@@ -81,7 +81,7 @@ export const WebUSDCPolygon: Constructable<[TokenConfigTrimmed], BaseERC20Token>
 // export function BeraBundlerWebIrys(opts?: EthereumTokenOpts) {
 //     return new Builder(getBoundEth({name: "bera", ticker: "BERA", providerUrl:"https://bartio.rpc.berachain.com/" })).withTokenOptions(opts)
 // }
-export const WebBera: Constructable<[TokenConfigTrimmed], BaseWebToken> = getBoundEth({name: "bera", ticker: "BERA", providerUrl:"https://bartio.rpc.berachain.com/" })
+export const WebBera: Constructable<[TokenConfigTrimmed], BaseWebToken> = getBoundEth({name: "bera", ticker: "BERA", providerUrl: "https://rpc.berachain.com/" })
 
 // export function ScrollEthBundlerWebIrys(opts?: EthereumTokenOpts) {
 //     return new Builder(getBoundEth({name: "scroll-eth", ticker: "ETH", providerUrl:"https://rpc.scroll.io" })).withTokenOptions(opts)
