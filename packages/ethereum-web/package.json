@@ -46,7 +46,7 @@
     "@ethersproject/providers": "^5.7.2",
     "@irys/upload-core": "workspace:^",
     "@irys/web-upload": "workspace:^",
-    "@irys/bundles": "^0.0.1",
+    "@irys/bundles": "^0.0.3",
     "bignumber.js": "^9.1.2"
   },
   "devDependencies": {

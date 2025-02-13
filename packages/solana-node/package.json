@@ -47,7 +47,7 @@
     "test": "ava"
   },
   "dependencies": {
-    "@irys/bundles": "^0.0.1",
+    "@irys/bundles": "^0.0.3",
     "@irys/upload": "workspace:^",
     "@irys/upload-core": "workspace:^",
     "@solana/spl-token": "^0.4.8",

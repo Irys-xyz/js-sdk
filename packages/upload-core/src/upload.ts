@@ -1,5 +1,5 @@
 /* eslint-disable no-case-declarations */
-import { PromisePool } from "@supercharge/promise-pool";
+import { PromisePool, type Stoppable, type UsesConcurrency } from "@supercharge/promise-pool";
 import type { DataItem, JWKInterface } from "@irys/bundles/node";
 import { ArweaveSigner } from "@irys/bundles";
 import type { AxiosResponse } from "axios";
@@ -111,7 +111,7 @@ export class Uploader {
     data: (DataItem | Buffer | Readable)[],
     opts?: {
       concurrency?: number;
-      resultProcessor?: (res: any) => Promise<any>;
+      resultProcessor?: (res: any, pool: Stoppable & UsesConcurrency) => Promise<any>;
       logFunction?: (log: string) => Promise<any>;
       itemOptions?: CreateAndUploadOptions;
     },
@@ -132,7 +132,7 @@ export class Uploader {
           throw error;
         }
       })
-      .process(async (item, i) => {
+      .process(async (item, i, pool) => {
         await retry(
           async (bail) => {
             try {
@@ -141,7 +141,7 @@ export class Uploader {
                 await logFn(`Processed ${i} Items`);
               }
               if (opts?.resultProcessor) {
-                return await opts.resultProcessor({ item, res, i });
+                return await opts.resultProcessor({ item, res, i }, pool);
               } else {
                 return { item, res, i };
               }

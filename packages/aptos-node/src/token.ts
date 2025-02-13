@@ -88,7 +88,7 @@ export  class AptosConfig extends BaseNodeToken {
     };
   }
 
-  ownerToAddress(owner: any): string {
+ async ownerToAddress(owner: any): Promise<string> {
     const hash = sha3.sha3_256.create();
     hash.update(Buffer.from(owner));
     hash.update("\x00");

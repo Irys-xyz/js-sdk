@@ -83,7 +83,7 @@ export type Token = {
 
   getTx(txId: string): Promise<Tx>;
 
-  ownerToAddress(owner: any): string;
+  ownerToAddress(owner: any): Promise<string>;
 
   price(): Promise<number>;
 

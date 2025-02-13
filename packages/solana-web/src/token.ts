@@ -61,7 +61,7 @@ export default class SolanaConfig extends BaseWebToken {
     return tx;
   }
 
-  ownerToAddress(owner: any): string {
+  async ownerToAddress(owner: any): Promise<string> {
     if (typeof owner === "string") {
       owner = Buffer.from(owner);
     }

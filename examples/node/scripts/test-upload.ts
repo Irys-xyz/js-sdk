@@ -96,8 +96,16 @@ const runTests = async () => {
   const usdcPolygonResult = await canUploadUsdcPolygon();
   if (usdcPolygonResult) console.log("USDC on Polygon upload test passed.");
   else console.log("USDC on Polygon upload test failed.");
- 
+
+  const uploadStarknet = await canUploadStarknet()
+  if(uploadStarknet)console.log("STRK on Starknet upload test passed.");
+  else console.log("STRK on Starknet upload test failed.");
+
  
 };
 
 runTests().catch((err) => console.error("Unexpected error during testing:", err));
+
+
+
+

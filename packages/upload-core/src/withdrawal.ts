@@ -43,7 +43,7 @@ export async function withdrawBalance(utils: Utils, api: Api, amount: BigNumber.
   const dh2 = await deepHash([stringToBuffer(data.currency), stringToBuffer(data.amount.toString()), stringToBuffer(data.nonce.toString())]);
 
   const isValid2 = await c.verify(cpk, dh2, csig);
-  const isValid3 = c.ownerToAddress(c.name == "arweave" ? base64url.decode(data.publicKey) : base64url.toBuffer(data.publicKey)) === c.address;
+  const isValid3 = await c.ownerToAddress(c.name == "arweave" ? base64url.decode(data.publicKey) : base64url.toBuffer(data.publicKey)) === c.address;
 
   if (!(isValid || isValid2 || isValid3)) {
     throw new Error(`Internal withdrawal validation failed - please report this!\nDebug Info:${JSON.stringify(data)}`);

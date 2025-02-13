@@ -9,7 +9,8 @@
         "@irys/web-upload": "workspace:^",
         "@irys/web-upload-ethereum": "workspace:^",
         "@irys/web-upload-ethereum-ethers-v6": "workspace:^",
-        "@irys/web-upload-ethereum-viem-v2": "workspace:^"
+        "@irys/web-upload-ethereum-viem-v2": "workspace:^",
+        "@irys/upload-starknet-node":"workspace:^"
     },
     "version": "1.0.2",
     "scripts": {},
