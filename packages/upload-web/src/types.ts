@@ -1,4 +1,4 @@
-import type { IrysConfig, Network, Token } from "@irys/upload-core";
+import type { IrysConfig, Network, Token } from '@irys/upload-core';
 
 export interface WebToken extends Token {
   getPublicKey(): Promise<string | Buffer>;
@@ -9,5 +9,5 @@ export interface WebToken extends Token {
 export type WebIrysConfig<Provider = any> = {
   url: Network | string;
   provider: Provider;
-  config?: IrysConfig 
+  config?: IrysConfig;
 };

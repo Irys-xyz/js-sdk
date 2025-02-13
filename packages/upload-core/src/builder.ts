@@ -3,7 +3,6 @@
 // export class IrysBuilder<TReturn extends Irys = Irys> {
 //     protected irysClass: TReturn;
 
-
 //     public async build(): Promise<TReturn> {
 //         return new this.irysClass()
 //     }

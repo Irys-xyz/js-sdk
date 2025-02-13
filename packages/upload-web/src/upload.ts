@@ -1,8 +1,13 @@
-import {Uploader} from "@irys/upload-core"
-import type { CreateAndUploadOptions, Manifest, UploadOptions, UploadResponse } from "@irys/upload-core";
-import type { DataItem, JWKInterface, Tag } from "@irys/bundles";
-import { ArweaveSigner } from "@irys/bundles";
-import BaseWebIrys from "./base";
+import { Uploader } from '@irys/upload-core';
+import type {
+  CreateAndUploadOptions,
+  Manifest,
+  UploadOptions,
+  UploadResponse,
+} from '@irys/upload-core';
+import type { DataItem, JWKInterface, Tag } from '@irys/bundles';
+import { ArweaveSigner } from '@irys/bundles';
+import BaseWebIrys from './base';
 
 export type TaggedFile = File & {
   tags?: Tag[];
@@ -11,7 +16,13 @@ export type TaggedFile = File & {
 export class WebUploader extends Uploader {
   protected irys: BaseWebIrys;
   constructor(irys: BaseWebIrys) {
-    super(irys.api, irys.utils, irys.token, irys.tokenConfig, irys.IrysTransaction);
+    super(
+      irys.api,
+      irys.utils,
+      irys.token,
+      irys.tokenConfig,
+      irys.IrysTransaction
+    );
     this.irys = irys;
   }
 
@@ -21,10 +32,20 @@ export class WebUploader extends Uploader {
    * @param opts - optional options for the upload / data item creation
    * @returns
    */
-  public async uploadFile(file: File, opts?: CreateAndUploadOptions): Promise<UploadResponse> {
-    const hasContentType = opts?.tags ? opts.tags.some(({ name }) => name.toLowerCase() === "content-type") : false;
-    const tags = hasContentType ? opts?.tags : [...(opts?.tags ?? []), { name: "Content-Type", value: file.type }];
-    return this.uploadData(Buffer.from(await file.arrayBuffer()), { tags, ...opts });
+  public async uploadFile(
+    file: File,
+    opts?: CreateAndUploadOptions
+  ): Promise<UploadResponse> {
+    const hasContentType = opts?.tags
+      ? opts.tags.some(({ name }) => name.toLowerCase() === 'content-type')
+      : false;
+    const tags = hasContentType
+      ? opts?.tags
+      : [...(opts?.tags ?? []), { name: 'Content-Type', value: file.type }];
+    return this.uploadData(Buffer.from(await file.arrayBuffer()), {
+      tags,
+      ...opts,
+    });
   }
 
   /**
@@ -45,7 +66,7 @@ export class WebUploader extends Uploader {
       manifestTags?: Tag[];
       throwawayKey?: JWKInterface;
       separateManifestTx?: boolean;
-    },
+    }
   ): Promise<
     UploadResponse & {
       throwawayKey: JWKInterface;
@@ -57,33 +78,48 @@ export class WebUploader extends Uploader {
   > {
     const txs: DataItem[] = [];
     const txMap = new Map();
-    const throwawayKey = opts?.throwawayKey ?? (await this.irys.bundles.getCryptoDriver().generateJWK());
+    const throwawayKey =
+      opts?.throwawayKey ??
+      (await this.irys.bundles.getCryptoDriver().generateJWK());
     const ephemeralSigner = new ArweaveSigner(throwawayKey);
     for (const file of files) {
       const path = file.name ?? file.webkitRelativePath;
-      const hasContentType = file.tags ? file.tags.some(({ name }) => name.toLowerCase() === "content-type") : false;
+      const hasContentType = file.tags
+        ? file.tags.some(({ name }) => name.toLowerCase() === 'content-type')
+        : false;
 
-      const tags = hasContentType ? file.tags : [...(file.tags ?? []), { name: "Content-Type", value: file.type }];
+      const tags = hasContentType
+        ? file.tags
+        : [...(file.tags ?? []), { name: 'Content-Type', value: file.type }];
 
-      const tx = this.irys.bundles.createData(Buffer.from(await file.arrayBuffer()), ephemeralSigner, {
-        tags,
-      });
+      const tx = this.irys.bundles.createData(
+        Buffer.from(await file.arrayBuffer()),
+        ephemeralSigner,
+        {
+          tags,
+        }
+      );
       await tx.sign(ephemeralSigner);
       txs.push(tx);
       txMap.set(path, tx.id);
     }
     // generate manifest, add to bundle
-    const manifest = await this.generateFolder({ items: txMap, indexFile: opts?.indexFileRelPath });
+    const manifest = await this.generateFolder({
+      items: txMap,
+      indexFile: opts?.indexFileRelPath,
+    });
     const manifestTx = this.irys.bundles.createData(
       JSON.stringify(manifest),
-      opts?.separateManifestTx ? this.irys.tokenConfig.getSigner() : ephemeralSigner,
+      opts?.separateManifestTx
+        ? this.irys.tokenConfig.getSigner()
+        : ephemeralSigner,
       {
         tags: [
-          { name: "Type", value: "manifest" },
-          { name: "Content-Type", value: "application/x.irys-manifest+json" },
+          { name: 'Type', value: 'manifest' },
+          { name: 'Content-Type', value: 'application/x.irys-manifest+json' },
           ...(opts?.manifestTags ?? []),
         ],
-      },
+      }
     );
     if (opts?.separateManifestTx === true) {
       await manifestTx.sign(this.irys.tokenConfig.getSigner());

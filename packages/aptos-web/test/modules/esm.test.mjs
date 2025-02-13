@@ -7,4 +7,3 @@ test('it successfully exports esm exports', (t) => {
   const exportedKeys = Object.keys(exported);
   t.true(exportedKeys.length > 0);
 });
-

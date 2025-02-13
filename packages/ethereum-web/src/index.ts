@@ -1,3 +1,3 @@
-import {WebEthereum} from "./clients"
-export default WebEthereum
-export * from "./clients"
+import { WebEthereum } from './clients';
+export default WebEthereum;
+export * from './clients';

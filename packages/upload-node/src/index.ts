@@ -1,7 +1,7 @@
 // export { default } from "./irys";
 // export { default as NodeIrys } from "./irys";
-import {Builder} from "./builder";
-export default Builder
-export { Builder as Uploader}
+import { Builder } from './builder';
+export default Builder;
+export { Builder as Uploader };
 
-export type * from "./builder"
+export type * from './builder';

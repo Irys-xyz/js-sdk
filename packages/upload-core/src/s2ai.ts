@@ -1,9 +1,9 @@
-import type { Readable } from "stream";
+import type { Readable } from 'stream';
 
-const NOT_READABLE: unique symbol = Symbol("not readable");
-const READABLE: unique symbol = Symbol("readable");
-const ENDED: unique symbol = Symbol("ended");
-const ERRORED: unique symbol = Symbol("errored");
+const NOT_READABLE: unique symbol = Symbol('not readable');
+const READABLE: unique symbol = Symbol('readable');
+const ENDED: unique symbol = Symbol('ended');
+const ERRORED: unique symbol = Symbol('errored');
 export const STATES = {
   notReadable: NOT_READABLE,
   readable: READABLE,
@@ -33,7 +33,9 @@ export interface StreamToAsyncIteratorOptions {
  * iteration. A size can be supplied to set an explicit call to `stream.read([size])` in
  * the options for each iteration.
  */
-export default class StreamToAsyncIterator<T = unknown> implements AsyncIterableIterator<T> {
+export default class StreamToAsyncIterator<T = unknown>
+  implements AsyncIterableIterator<T>
+{
   /** The underlying readable stream */
   private _stream: Readable;
   /** Contains stream's error when stream has error'ed out */
@@ -51,7 +53,7 @@ export default class StreamToAsyncIterator<T = unknown> implements AsyncIterable
     this._stream = stream;
     this._size = size;
 
-    const bindMethods = ["_handleStreamEnd", "_handleStreamError"] as const;
+    const bindMethods = ['_handleStreamEnd', '_handleStreamError'] as const;
     for (const method of bindMethods) {
       Object.defineProperty(this, method, {
         configurable: true,
@@ -61,10 +63,10 @@ export default class StreamToAsyncIterator<T = unknown> implements AsyncIterable
     }
 
     // eslint-disable-next-line @typescript-eslint/unbound-method
-    stream.once("error", this._handleStreamError);
+    stream.once('error', this._handleStreamError);
     // eslint-disable-next-line @typescript-eslint/unbound-method
-    stream.once("end", this._handleStreamEnd);
-    stream.on("readable", () => {
+    stream.once('end', this._handleStreamEnd);
+    stream.on('readable', () => {
       this._state = STATES.readable;
     });
   }
@@ -108,7 +110,9 @@ export default class StreamToAsyncIterator<T = unknown> implements AsyncIterable
         // stream.read returns null if not readable or when stream has ended
         // todo: Could add a way to ensure data-type/shape of reads to make this type safe
         // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-        const data: T = this._size ? this._stream.read(this._size) : this._stream.read();
+        const data: T = this._size
+          ? this._stream.read(this._size)
+          : this._stream.read();
 
         if (data !== null) {
           return { done: false, value: data };
@@ -140,13 +144,13 @@ export default class StreamToAsyncIterator<T = unknown> implements AsyncIterable
         resolve();
       };
       if (this._state === STATES.readable) handleReadable; // race condition guard
-      this._stream.once("readable", handleReadable);
+      this._stream.once('readable', handleReadable);
       this._rejections.add(reject);
     });
 
     const cleanup = (): void => {
       if (handleReadable != null) {
-        this._stream.removeListener("readable", handleReadable);
+        this._stream.removeListener('readable', handleReadable);
       }
     };
 
@@ -167,13 +171,13 @@ export default class StreamToAsyncIterator<T = unknown> implements AsyncIterable
         resolve();
       };
 
-      this._stream.once("end", handleEnd);
+      this._stream.once('end', handleEnd);
       this._rejections.add(reject);
     });
 
     const cleanup = (): void => {
       if (handleEnd != null) {
-        this._stream.removeListener("end", handleEnd);
+        this._stream.removeListener('end', handleEnd);
       }
     };
 
@@ -197,9 +201,9 @@ export default class StreamToAsyncIterator<T = unknown> implements AsyncIterable
    */
   close(err?: Error): void {
     // eslint-disable-next-line @typescript-eslint/unbound-method
-    this._stream.removeListener("end", this._handleStreamEnd);
+    this._stream.removeListener('end', this._handleStreamEnd);
     // eslint-disable-next-line @typescript-eslint/unbound-method
-    this._stream.removeListener("error", this._handleStreamError);
+    this._stream.removeListener('error', this._handleStreamError);
 
     this._state = STATES.ended;
     this._stream.destroy(err);

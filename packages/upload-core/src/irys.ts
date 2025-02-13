@@ -1,10 +1,10 @@
-import type { DataItemCreateOptions, Signer } from "@irys/bundles";
-import type BigNumber from "bignumber.js";
-import type { Readable } from "stream";
-import type Api from "./api";
-import type Fund from "./fund";
-import buildIrysTransaction from "./transaction";
-import type { Transaction } from "./transactions";
+import type { DataItemCreateOptions, Signer } from '@irys/bundles';
+import type BigNumber from 'bignumber.js';
+import type { Readable } from 'stream';
+import type Api from './api';
+import type Fund from './fund';
+import buildIrysTransaction from './transaction';
+import type { Transaction } from './transactions';
 import type {
   bundles,
   CreateAndUploadOptions,
@@ -19,12 +19,12 @@ import type {
   WithdrawalResponse,
   Network,
   Tags,
-} from "./types";
-import type Uploader from "./upload";
-import Utils from "./utils";
-import { withdrawBalance } from "./withdrawal";
-import Query from "@irys/query";
-import type { Approval } from "./approval";
+} from './types';
+import type Uploader from './upload';
+import Utils from './utils';
+import { withdrawBalance } from './withdrawal';
+import Query from '@irys/query';
+import type { Approval } from './approval';
 
 export abstract class Irys {
   public api!: Api;
@@ -40,19 +40,22 @@ export abstract class Irys {
   public url: URL;
   public bundles: bundles;
   public IrysTransaction: IrysTransactonCtor;
-  static VERSION = "REPLACEMEIRYSVERSION";
+  static VERSION = 'REPLACEMEIRYSVERSION';
   public debug = false;
 
   constructor({ url, bundles }: { url?: string | Network; bundles: bundles }) {
     switch (url) {
-      case "mainnet":
-        url = "https://uploader.irys.xyz";
+      case 'mainnet':
+        url = 'https://uploader.irys.xyz';
         break;
-      case "devnet":
-       url = "https://devnet.irys.xyz"
-       break;
+      case 'devnet':
+        url = 'https://devnet.irys.xyz';
+        break;
     }
-    if (!url) throw new Error(`Missing required Irys constructor parameter: URL or valid Network`);
+    if (!url)
+      throw new Error(
+        `Missing required Irys constructor parameter: URL or valid Network`
+      );
     const parsed = new URL(url);
     // if(parsed.host.startsWith("node1") || parsed.host.includes("arweave")) throw new Error("")
 
@@ -62,7 +65,10 @@ export abstract class Irys {
   }
 
   get address(): string {
-    if (!this._address) throw new Error("Address is undefined, please provide a wallet or run `await irys.ready()`");
+    if (!this._address)
+      throw new Error(
+        'Address is undefined, please provide a wallet or run `await irys.ready()`'
+      );
     return this._address;
   }
 
@@ -74,34 +80,35 @@ export abstract class Irys {
     return this.tokenConfig.getSigner();
   }
 
-  
-  async withdrawBalance(amount: BigNumber.Value | "all"): Promise<WithdrawalResponse> {
+  async withdrawBalance(
+    amount: BigNumber.Value | 'all'
+  ): Promise<WithdrawalResponse> {
     return withdrawBalance(this.utils, this.api, amount);
   }
 
   async withdrawAll(): Promise<WithdrawalResponse> {
-    return withdrawBalance(this.utils, this.api, "all");
+    return withdrawBalance(this.utils, this.api, 'all');
   }
 
   /**
    * @deprecated Use getBalance with no address instead.
-   * 
+   *
    * Gets the balance for the loaded wallet
    * @returns balance (in winston)
    */
   async getLoadedBalance(): Promise<BigNumber> {
-    if (!this.address) throw new Error("address is undefined");
+    if (!this.address) throw new Error('address is undefined');
     return this.utils.getBalance(this.address);
   }
-  
+
   /**
    * Gets the balance for the specified address
    * @param address address to query for
    * @returns the balance (in winston)
    */
   async getBalance(address?: string): Promise<BigNumber> {
-    if(address) return this.utils.getBalance(address);
-    if (!this.address) throw new Error("address is undefined");
+    if (address) return this.utils.getBalance(address);
+    if (!this.address) throw new Error('address is undefined');
     return this.utils.getBalance(this.address);
   }
 
@@ -110,7 +117,10 @@ export abstract class Irys {
    * @param amount amount to send in atomic units
    * @returns details about the fund transaction
    */
-  async fund(amount: BigNumber.Value, multiplier?: number): Promise<FundResponse> {
+  async fund(
+    amount: BigNumber.Value,
+    multiplier?: number
+  ): Promise<FundResponse> {
     return this.funder.fund(amount, multiplier);
   }
 
@@ -119,7 +129,10 @@ export abstract class Irys {
    * @param bytes
    * @returns
    */
-  public async getPrice(bytes: number, opts?: {tags?: Tags, address?: string}): Promise<BigNumber> {
+  public async getPrice(
+    bytes: number,
+    opts?: { tags?: Tags; address?: string }
+  ): Promise<BigNumber> {
     return this.utils.getPrice(this.token, bytes, opts);
   }
 
@@ -133,7 +146,10 @@ export abstract class Irys {
    * @param opts - dataItemCreateOptions
    * @returns - a new IrysTransaction instance
    */
-  createTransaction(data: string | Buffer, opts?: IrysTransactionCreateOptions): IrysTransaction {
+  createTransaction(
+    data: string | Buffer,
+    opts?: IrysTransactionCreateOptions
+  ): IrysTransaction {
     return new this.IrysTransaction(data, this, opts);
   }
 
@@ -144,15 +160,23 @@ export abstract class Irys {
     return this.tokenConfig.getSigner();
   }
 
-  async upload(data: string | Buffer | Readable, opts?: CreateAndUploadOptions): Promise<UploadResponse> {
+  async upload(
+    data: string | Buffer | Readable,
+    opts?: CreateAndUploadOptions
+  ): Promise<UploadResponse> {
     return this.uploader.uploadData(data, opts);
   }
 
   /**
    * @deprecated - use upload instead
    */
-  async uploadWithReceipt(data: string | Buffer | Readable, opts?: DataItemCreateOptions): Promise<UploadReceipt> {
-    return this.uploader.uploadData(data, { ...opts }) as Promise<UploadReceipt>;
+  async uploadWithReceipt(
+    data: string | Buffer | Readable,
+    opts?: DataItemCreateOptions
+  ): Promise<UploadReceipt> {
+    return this.uploader.uploadData(data, {
+      ...opts,
+    }) as Promise<UploadReceipt>;
   }
 
   async ready(): Promise<this> {
@@ -167,22 +191,21 @@ export abstract class Irys {
     const oThis = this;
     return {
       fromRaw(rawTransaction: Uint8Array): IrysTransaction {
-        return new oThis.IrysTransaction(rawTransaction, oThis, { dataIsRawTransaction: true });
+        return new oThis.IrysTransaction(rawTransaction, oThis, {
+          dataIsRawTransaction: true,
+        });
       },
     };
   }
-  
-  get search(): InstanceType<typeof Query>["search"] {
-    const q = new Query({ url: new URL("/graphql", this.url) });
+
+  get search(): InstanceType<typeof Query>['search'] {
+    const q = new Query({ url: new URL('/graphql', this.url) });
     return q.search.bind(q);
   }
 
   public query(queryOpts?: ConstructorParameters<typeof Query>[0]): Query {
-    return new Query(queryOpts ?? { url: new URL("graphql", this.url) });
+    return new Query(queryOpts ?? { url: new URL('graphql', this.url) });
   }
-
-};
+}
 
 export default Irys;
-
-

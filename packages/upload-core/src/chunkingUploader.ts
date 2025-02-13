@@ -1,18 +1,44 @@
-import type { DataItem, DataItemCreateOptions } from "@irys/bundles";
-import type { Readable } from "stream";
-import { PassThrough } from "stream";
-import { EventEmitter } from "events";
-import type Api from "./api";
-import { UploadHeaders, type bundles, type Token, type UploadOptions, type UploadResponse } from "./types";
-import Utils from "./utils";
-import Crypto from "crypto";
-import retry from "async-retry";
-import type { AxiosResponse } from "axios";
-import StreamToAsyncIterator from "./s2ai";
+import type { DataItem, DataItemCreateOptions } from '@irys/bundles';
+import type { Readable } from 'stream';
+import { PassThrough } from 'stream';
+import { EventEmitter } from 'events';
+import type Api from './api';
+import {
+  UploadHeaders,
+  type bundles,
+  type Token,
+  type UploadOptions,
+  type UploadResponse,
+} from './types';
+import Utils from './utils';
+import Crypto from 'crypto';
+import retry from 'async-retry';
+import type { AxiosResponse } from 'axios';
+import StreamToAsyncIterator from './s2ai';
 
 type ChunkingUploaderEvents = {
-  chunkUpload: ({ id, offset, size, totalUploaded }: { id: number; offset: number; size: number; totalUploaded: number }) => void;
-  chunkError: ({ id, offset, size, res }: { id: number; offset: number; size: number; res: AxiosResponse }) => void;
+  chunkUpload: ({
+    id,
+    offset,
+    size,
+    totalUploaded,
+  }: {
+    id: number;
+    offset: number;
+    size: number;
+    totalUploaded: number;
+  }) => void;
+  chunkError: ({
+    id,
+    offset,
+    size,
+    res,
+  }: {
+    id: number;
+    offset: number;
+    size: number;
+    res: AxiosResponse;
+  }) => void;
   resume: () => void;
   pause: () => void;
   done: (finishedUpload: any) => void;
@@ -20,9 +46,15 @@ type ChunkingUploaderEvents = {
 
 // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
 export declare interface ChunkingUploader {
-  on<U extends keyof ChunkingUploaderEvents>(event: U, listener: ChunkingUploaderEvents[U]): this;
+  on<U extends keyof ChunkingUploaderEvents>(
+    event: U,
+    listener: ChunkingUploaderEvents[U]
+  ): this;
 
-  emit<U extends keyof ChunkingUploaderEvents>(event: U, ...args: Parameters<ChunkingUploaderEvents[U]>): boolean;
+  emit<U extends keyof ChunkingUploaderEvents>(
+    event: U,
+    ...args: Parameters<ChunkingUploaderEvents[U]>
+  ): boolean;
 }
 
 export class ChunkingUploader extends EventEmitter {
@@ -45,7 +77,7 @@ export class ChunkingUploader extends EventEmitter {
     this.token = this.tokenConfig.name;
     this.chunkSize = 25_000_000;
     this.batchSize = 5;
-    this.uploadID = "";
+    this.uploadID = '';
   }
 
   public setResumeData(uploadID: string | undefined): this {
@@ -66,7 +98,7 @@ export class ChunkingUploader extends EventEmitter {
 
   public setChunkSize(size: number): this {
     if (size < 1) {
-      throw new Error("Invalid chunk size (must be >=1)");
+      throw new Error('Invalid chunk size (must be >=1)');
     }
     this.chunkSize = size;
     return this;
@@ -74,23 +106,26 @@ export class ChunkingUploader extends EventEmitter {
 
   public setBatchSize(size: number): this {
     if (size < 1) {
-      throw new Error("Invalid batch size (must be >=1)");
+      throw new Error('Invalid batch size (must be >=1)');
     }
     this.batchSize = size;
     return this;
   }
 
   public pause(): void {
-    this.emit("pause");
+    this.emit('pause');
     this.paused = true;
   }
 
   public resume(): void {
     this.paused = false;
-    this.emit("resume");
+    this.emit('resume');
   }
 
-  public async uploadTransaction(data: Readable | Buffer | DataItem, opts?: UploadOptions): Promise<AxiosResponse<UploadResponse>> {
+  public async uploadTransaction(
+    data: Readable | Buffer | DataItem,
+    opts?: UploadOptions
+  ): Promise<AxiosResponse<UploadResponse>> {
     this.uploadOptions = opts;
     if (this.bundles.DataItem.isDataItem(data)) {
       return this.runUpload(data.getRaw());
@@ -101,7 +136,7 @@ export class ChunkingUploader extends EventEmitter {
 
   public async uploadData(
     dataStream: Readable | Buffer,
-    options?: DataItemCreateOptions & { upload?: UploadOptions },
+    options?: DataItemCreateOptions & { upload?: UploadOptions }
   ): Promise<AxiosResponse<UploadResponse>> {
     this.uploadOptions = options?.upload;
     return this.runUpload(dataStream, { ...options });
@@ -109,25 +144,32 @@ export class ChunkingUploader extends EventEmitter {
 
   async runUpload(
     dataStream: Readable | Buffer,
-    transactionOpts?: DataItemCreateOptions & { upload?: UploadOptions },
+    transactionOpts?: DataItemCreateOptions & { upload?: UploadOptions }
   ): Promise<AxiosResponse<UploadResponse>> {
     let id = this.uploadID;
 
     const isTransaction = transactionOpts === undefined;
 
-    const headers = { "x-chunking-version": "2" };
+    const headers = { 'x-chunking-version': '2' };
 
     let getres;
     if (!id) {
       getres = await this.api.get(`/chunks/${this.token}/-1/-1`, { headers });
-      Utils.checkAndThrow(getres, "Getting upload token");
+      Utils.checkAndThrow(getres, 'Getting upload token');
       this.uploadID = id = getres.data.id;
     } else {
-      getres = await this.api.get(`/chunks/${this.token}/${id}/-1`, { headers });
-      if (getres.status === 404) throw new Error(`Upload ID not found - your upload has probably expired.`);
-      Utils.checkAndThrow(getres, "Getting upload info");
+      getres = await this.api.get(`/chunks/${this.token}/${id}/-1`, {
+        headers,
+      });
+      if (getres.status === 404)
+        throw new Error(
+          `Upload ID not found - your upload has probably expired.`
+        );
+      Utils.checkAndThrow(getres, 'Getting upload info');
       if (this.chunkSize != +getres.data.size) {
-        throw new Error(`Chunk size not equal to that of a previous upload (${+getres.data.size}).`);
+        throw new Error(
+          `Chunk size not equal to that of a previous upload (${+getres.data.size}).`
+        );
       }
     }
 
@@ -137,27 +179,45 @@ export class ChunkingUploader extends EventEmitter {
     }
 
     let totalUploaded = 0;
-    const promiseFactory = (d: Buffer, o: number, c: number): Promise<{ o: number; d: AxiosResponse<UploadResponse> }> => {
+    const promiseFactory = (
+      d: Buffer,
+      o: number,
+      c: number
+    ): Promise<{ o: number; d: AxiosResponse<UploadResponse> }> => {
       return new Promise((r) => {
         retry(async (bail) => {
           await this.api
             .post(`/chunks/${this.token}/${id}/${o}`, d, {
-              headers: { "Content-Type": "application/octet-stream", ...headers },
+              headers: {
+                'Content-Type': 'application/octet-stream',
+                ...headers,
+              },
               maxBodyLength: Infinity,
               maxContentLength: Infinity,
             })
             .then((re) => {
               if (re?.status >= 300) {
                 const e = { res: re, id: c, offset: o, size: d.length };
-                this.emit("chunkError", e);
+                this.emit('chunkError', e);
                 if (re?.status === 402) {
-                  const retryAfterHeader = finishUpload?.headers?.["retry-after"];
-                  const errorMsg = "402 error: " + finishUpload.data + (retryAfterHeader ? ` - retry after ${retryAfterHeader}s` : "");
+                  const retryAfterHeader =
+                    finishUpload?.headers?.['retry-after'];
+                  const errorMsg =
+                    '402 error: ' +
+                    finishUpload.data +
+                    (retryAfterHeader
+                      ? ` - retry after ${retryAfterHeader}s`
+                      : '');
                   bail(new Error(errorMsg));
                 }
                 throw e;
               }
-              this.emit("chunkUpload", { id: c, offset: o, size: d.length, totalUploaded: (totalUploaded += d.length) });
+              this.emit('chunkUpload', {
+                id: c,
+                offset: o,
+                size: d.length,
+                totalUploaded: (totalUploaded += d.length),
+              });
               r({ o, d: re });
             });
         }),
@@ -171,8 +231,8 @@ export class ChunkingUploader extends EventEmitter {
     let cache = Buffer.alloc(0);
     let ended = false;
     let hasData = true;
-    stream.on("end", () => (ended = true));
-    stream.on("error", (e) => {
+    stream.on('end', () => (ended = true));
+    stream.on('error', (e) => {
       throw new Error(`Error processing readable: ${e}`);
     });
 
@@ -208,9 +268,11 @@ export class ChunkingUploader extends EventEmitter {
     let txHeaderLength!: number;
     // doesn't matter if we randomise ID (anchor) between resumes, as the tx header/signing info is always uploaded last.
     if (!isTransaction) {
-      tx = this.bundles.createData("", this.tokenConfig.getSigner(), {
+      tx = this.bundles.createData('', this.tokenConfig.getSigner(), {
         ...transactionOpts,
-        anchor: transactionOpts?.anchor ?? Crypto.randomBytes(32).toString("base64").slice(0, 32),
+        anchor:
+          transactionOpts?.anchor ??
+          Crypto.randomBytes(32).toString('base64').slice(0, 32),
       });
       const raw = tx.getRaw();
       txHeaderLength = raw.length;
@@ -221,10 +283,12 @@ export class ChunkingUploader extends EventEmitter {
     if (Buffer.isBuffer(dataStream)) {
       stream.write(dataStream);
       stream.end();
-    } else if ("pipe" in dataStream) {
+    } else if ('pipe' in dataStream) {
       dataStream.pipe(stream);
     } else {
-      throw new Error("Input data is not a buffer or a compatible stream (no .pipe method)");
+      throw new Error(
+        'Input data is not a buffer or a compatible stream (no .pipe method)'
+      );
     }
 
     let offset = 0;
@@ -239,14 +303,16 @@ export class ChunkingUploader extends EventEmitter {
 
       const txLength = tx.getRaw().length;
       if (this.chunkSize < txHeaderLength)
-        throw new Error(`Configured chunk size is too small for transaction header! (${this.chunkSize} < ${txHeaderLength})`);
+        throw new Error(
+          `Configured chunk size is too small for transaction header! (${this.chunkSize} < ${txHeaderLength})`
+        );
       heldChunk = await readBytes(this.chunkSize);
       chunkID++;
       offset += heldChunk.length;
       teeStream.write(heldChunk.slice(txLength));
       const sigComponents = [
-        this.bundles.stringToBuffer("dataitem"),
-        this.bundles.stringToBuffer("1"),
+        this.bundles.stringToBuffer('dataitem'),
+        this.bundles.stringToBuffer('1'),
         this.bundles.stringToBuffer(tx.signatureType.toString()),
         tx.rawOwner,
         tx.rawTarget,
@@ -263,7 +329,7 @@ export class ChunkingUploader extends EventEmitter {
     // Consume data while there's data to read.
     while (hasData) {
       if (this.paused) {
-        await new Promise((r) => this.on("resume", () => r(undefined)));
+        await new Promise((r) => this.on('resume', () => r(undefined)));
       }
       // do not upload data that's already present
       if (nextPresent) {
@@ -291,7 +357,11 @@ export class ChunkingUploader extends EventEmitter {
       }
 
       // @ts-expect-error self-referencing promise
-      const promise = (async (): Promise<any> => await promiseFactory(chunk, offset, ++chunkID))().then((value) => [promise, value]);
+      const promise = (async (): Promise<any> =>
+        await promiseFactory(chunk, offset, ++chunkID))().then((value) => [
+        promise,
+        value,
+      ]);
       processing.add(promise);
 
       offset += chunk.length;
@@ -303,39 +373,56 @@ export class ChunkingUploader extends EventEmitter {
 
     if (!isTransaction) {
       const hash = await deephash;
-      const sigBytes = Buffer.from(await this.tokenConfig.getSigner().sign(hash));
+      const sigBytes = Buffer.from(
+        await this.tokenConfig.getSigner().sign(hash)
+      );
 
       heldChunk.set(sigBytes, 2); // tx will be the first part of the held chunk.
 
       await promiseFactory(heldChunk, 0, 0);
     }
-    const finalHeaders: Record<string, string> = { "Content-Type": "application/octet-stream", ...headers };
-    if (transactionOpts?.upload?.paidBy) finalHeaders[UploadHeaders.PAID_BY] = transactionOpts.upload.paidBy;
+    const finalHeaders: Record<string, string> = {
+      'Content-Type': 'application/octet-stream',
+      ...headers,
+    };
+    if (transactionOpts?.upload?.paidBy)
+      finalHeaders[UploadHeaders.PAID_BY] = transactionOpts.upload.paidBy;
     // potential improvement: write chunks into a file at offsets, instead of individual chunks + doing a concatenating copy
-    const finishUpload = await this.api.post(`/chunks/${this.token}/${id}/-1`, null, {
-      headers: finalHeaders,
-      timeout: this.api.config?.timeout ?? 40_000 * 10, // server side reconstruction can take a while
-    });
+    const finishUpload = await this.api.post(
+      `/chunks/${this.token}/${id}/-1`,
+      null,
+      {
+        headers: finalHeaders,
+        timeout: this.api.config?.timeout ?? 40_000 * 10, // server side reconstruction can take a while
+      }
+    );
 
     if (finishUpload.status === 402) {
-      const retryAfterHeader = finishUpload?.headers?.["retry-after"];
-      const errorMsg = "402 error: " + finishUpload.data + (retryAfterHeader ? ` - retry after ${retryAfterHeader}s` : "");
+      const retryAfterHeader = finishUpload?.headers?.['retry-after'];
+      const errorMsg =
+        '402 error: ' +
+        finishUpload.data +
+        (retryAfterHeader ? ` - retry after ${retryAfterHeader}s` : '');
       throw new Error(errorMsg);
     }
     // this will throw if the dataItem reconstruction fails
-    Utils.checkAndThrow(finishUpload, "Finalising upload", [201]);
+    Utils.checkAndThrow(finishUpload, 'Finalising upload', [201]);
     // Recover ID
     if (finishUpload.status === 201) {
       throw new Error(finishUpload.data as any as string);
     }
 
-    finishUpload.data.verify = Utils.verifyReceipt.bind({}, this.bundles, finishUpload.data.data);
+    finishUpload.data.verify = Utils.verifyReceipt.bind(
+      {},
+      this.bundles,
+      finishUpload.data.data
+    );
 
-    this.emit("done", finishUpload);
+    this.emit('done', finishUpload);
     return finishUpload;
   }
 
   get completionPromise(): Promise<AxiosResponse<UploadResponse>> {
-    return new Promise((r) => this.on("done", r));
+    return new Promise((r) => this.on('done', r));
   }
 }

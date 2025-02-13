@@ -8,4 +8,3 @@ test('it successfully exports commonjs named exports', (t) => {
 
   t.true(exportedKeys.includes('sleep'));
 });
-

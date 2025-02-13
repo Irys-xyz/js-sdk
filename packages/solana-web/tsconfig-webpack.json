@@ -24,9 +24,7 @@
     "isolatedModules": true,
     "resolveJsonModule": true,
     "esModuleInterop": true,
-    "removeComments": false,
+    "removeComments": false
   },
-  "include": [
-    "src/**/*",
-  ],
+  "include": ["src/**/*"]
 }

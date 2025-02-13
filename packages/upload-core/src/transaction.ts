@@ -1,7 +1,7 @@
-import type { Signer } from "@irys/bundles";
-import type BigNumber from "bignumber.js";
-import Crypto from "crypto";
-import type Irys from "./irys";
+import type { Signer } from '@irys/bundles';
+import type BigNumber from 'bignumber.js';
+import Crypto from 'crypto';
+import type Irys from './irys';
 import type {
   IrysTransaction as IIrysTransaction,
   IrysTransactionCreateOptions,
@@ -9,22 +9,27 @@ import type {
   UploadOptions,
   UploadReceipt,
   UploadResponse,
-} from "./types";
+} from './types';
 
 /**
  * Extended DataItem that allows for seamless Irys operations, such as signing and uploading.
  * Takes the same parameters as a regular DataItem.
  */
 
-export default function buildIrysTransaction(irys: Pick<Irys, "uploader" | "tokenConfig" | "bundles" | "utils">): IrysTransactonCtor {
-  class IrysTransaction extends irys.bundles.DataItem implements IIrysTransaction {
-    public Irys: Pick<Irys, "uploader" | "tokenConfig" | "bundles" | "utils">;
+export default function buildIrysTransaction(
+  irys: Pick<Irys, 'uploader' | 'tokenConfig' | 'bundles' | 'utils'>
+): IrysTransactonCtor {
+  class IrysTransaction
+    extends irys.bundles.DataItem
+    implements IIrysTransaction
+  {
+    public Irys: Pick<Irys, 'uploader' | 'tokenConfig' | 'bundles' | 'utils'>;
     public signer: Signer;
 
     constructor(
       data: string | Uint8Array,
-      irys: Pick<Irys, "uploader" | "tokenConfig" | "bundles" | "utils">,
-      opts?: IrysTransactionCreateOptions,
+      irys: Pick<Irys, 'uploader' | 'tokenConfig' | 'bundles' | 'utils'>,
+      opts?: IrysTransactionCreateOptions
     ) {
       super(
         opts?.dataIsRawTransaction === true
@@ -32,9 +37,11 @@ export default function buildIrysTransaction(irys: Pick<Irys, "uploader" | "toke
           : irys.bundles
               .createData(data, irys.tokenConfig.getSigner(), {
                 ...opts,
-                anchor: opts?.anchor ?? Crypto.randomBytes(32).toString("base64").slice(0, 32),
+                anchor:
+                  opts?.anchor ??
+                  Crypto.randomBytes(32).toString('base64').slice(0, 32),
               })
-              .getRaw(),
+              .getRaw()
       );
       this.Irys = irys;
       this.signer = irys.tokenConfig.getSigner();
@@ -56,7 +63,9 @@ export default function buildIrysTransaction(irys: Pick<Irys, "uploader" | "toke
     }
 
     // parent type union not strictly required, but might be if this type gets extended
-    upload(opts: UploadOptions & { getReceiptSignature: true }): Promise<UploadReceipt>;
+    upload(
+      opts: UploadOptions & { getReceiptSignature: true }
+    ): Promise<UploadReceipt>;
     upload(opts?: UploadOptions): Promise<UploadResponse>;
     async upload(opts?: UploadOptions): Promise<UploadResponse> {
       return (await this.Irys.uploader.uploadTransaction(this, opts)).data;
@@ -67,7 +76,9 @@ export default function buildIrysTransaction(irys: Pick<Irys, "uploader" | "toke
     // }
 
     async getPrice(): Promise<BigNumber> {
-      return this.Irys.utils.getPrice(this.Irys.tokenConfig.name, this.size, {tags: this.tags});
+      return this.Irys.utils.getPrice(this.Irys.tokenConfig.name, this.size, {
+        tags: this.tags,
+      });
     }
 
     async isValid(): Promise<boolean> {

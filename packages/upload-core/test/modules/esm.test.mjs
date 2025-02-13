@@ -8,4 +8,3 @@ test('it successfully exports esm named exports', (t) => {
 
   t.true(exportedKeys.includes('sleep'));
 });
-

@@ -1,8 +1,17 @@
-import type BigNumber from "bignumber.js";
-import type { DataItem, Signer, createData, deepHash, getCryptoDriver, stringToBuffer, DataItemCreateOptions, bundleAndSignData } from "@irys/bundles";
-import type Irys from "./irys";
+import type BigNumber from 'bignumber.js';
+import type {
+  DataItem,
+  Signer,
+  createData,
+  deepHash,
+  getCryptoDriver,
+  stringToBuffer,
+  DataItemCreateOptions,
+  bundleAndSignData,
+} from '@irys/bundles';
+import type Irys from './irys';
 
-export type {DataItem, Signer, DataItemCreateOptions} from "@irys/bundles"
+export type { DataItem, Signer, DataItemCreateOptions } from '@irys/bundles';
 
 // common types shared between web and node versions
 export type CreateTxData = {
@@ -25,16 +34,18 @@ export type IrysTransaction = {
   sign: () => Promise<Buffer>;
   size: number;
   // uploadWithReceipt: (opts?: UploadOptions) => Promise<UploadReceipt>;
-  upload(opts: UploadOptions & { getReceiptSignature: true }): Promise<UploadReceipt>;
+  upload(
+    opts: UploadOptions & { getReceiptSignature: true }
+  ): Promise<UploadReceipt>;
   upload(opts?: UploadOptions): Promise<UploadResponse>;
   isValid(): Promise<boolean>;
-  getPrice(): Promise<BigNumber>
+  getPrice(): Promise<BigNumber>;
   // fromRaw(rawTransaction: Buffer, IrysInstance: Irys): IrysTransaction;
 } & DataItem;
 export type IrysTransactonCtor = new (
   data: string | Uint8Array,
-  Irys: Pick<Irys, "uploader" | "tokenConfig" | "bundles" | "utils">,
-  opts?: IrysTransactionCreateOptions,
+  Irys: Pick<Irys, 'uploader' | 'tokenConfig' | 'bundles' | 'utils'>,
+  opts?: IrysTransactionCreateOptions
 ) => IrysTransaction;
 
 export type Tx = {
@@ -56,7 +67,7 @@ export type TokenConfig<Wallet = string | object, Opts = any> = {
   opts?: Opts;
 };
 
-export type Network = "mainnet" | "devnet" | string;
+export type Network = 'mainnet' | 'devnet' | string;
 
 export type IrysConfig = {
   timeout?: number;
@@ -95,11 +106,19 @@ export type Token = {
 
   getCurrentHeight(): Promise<BigNumber>;
 
-  getFee(amount: BigNumber.Value, to?: string, multiplier?: BigNumber.Value): Promise<BigNumber | object>;
+  getFee(
+    amount: BigNumber.Value,
+    to?: string,
+    multiplier?: BigNumber.Value
+  ): Promise<BigNumber | object>;
 
   sendTx(data: any): Promise<string | undefined>;
 
-  createTx(amount: BigNumber.Value, to: string, fee?: string | object): Promise<{ txId: string | undefined; tx: any }>;
+  createTx(
+    amount: BigNumber.Value,
+    to: string,
+    fee?: string | object
+  ): Promise<{ txId: string | undefined; tx: any }>;
 
   getPublicKey(): Promise<string | Buffer> | (string | Buffer);
 
@@ -113,10 +132,10 @@ export type Token = {
 };
 
 export type Manifest = {
-  manifest: "irys/paths";
+  manifest: 'irys/paths';
   version: string;
-  paths: Record<string, Record<string, Record<"id", string>>>;
-  index?: Record<"path", string>;
+  paths: Record<string, Record<string, Record<'id', string>>>;
+  index?: Record<'path', string>;
 };
 
 export type UploadResponse = {
@@ -133,13 +152,16 @@ export type UploadResponse = {
   // The UNIX (MS precision) timestamp of when the node received the Tx.
   timestamp: number;
   // The receipt version
-  version: "1.0.0";
+  version: '1.0.0';
   // Injected verification function (same as Utils/Irys.verifyReceipt)
   verify: () => Promise<boolean>;
 };
 
 export type UploadReceipt = /* Required<UploadResponse>; */ UploadResponse;
-export type UploadReceiptData = Omit<UploadReceipt, "verify" | "validatorSignatures">;
+export type UploadReceiptData = Omit<
+  UploadReceipt,
+  'verify' | 'validatorSignatures'
+>;
 
 export type FundResponse = {
   reward: string;
@@ -154,20 +176,24 @@ export type WithdrawalResponse = {
   final: number;
 };
 
-export type CreateAndUploadOptions = DataItemCreateOptions & { upload?: UploadOptions };
+export type CreateAndUploadOptions = DataItemCreateOptions & {
+  upload?: UploadOptions;
+};
 
 export type UploadOptions = { paidBy?: string };
 
 export enum UploadHeaders {
-  PAID_BY = "x-irys-paid-by",
+  PAID_BY = 'x-irys-paid-by',
 }
 
-export type IrysTransactionCreateOptions = DataItemCreateOptions & { dataIsRawTransaction?: boolean };
+export type IrysTransactionCreateOptions = DataItemCreateOptions & {
+  dataIsRawTransaction?: boolean;
+};
 
-export type HashingAlgo = "sha256" | "sha384";
+export type HashingAlgo = 'sha256' | 'sha384';
 
 export type ProvenanceProof = {
-  dataProtocol: "Provenance-Confirmation" | string;
+  dataProtocol: 'Provenance-Confirmation' | string;
   hashingAlgo?: HashingAlgo | string;
   dataHash: string;
   uploadedFor?: string;
@@ -208,6 +234,5 @@ export type UnixEpochMs = number;
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export type StringifiedNumber<_NumberType extends number> = string;
 
-export type Tag = {name: string, value: string}
-export type Tags = Tag[]
-
+export type Tag = { name: string; value: string };
+export type Tags = Tag[];

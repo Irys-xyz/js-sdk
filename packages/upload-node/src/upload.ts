@@ -1,14 +1,21 @@
-import type { PathLike } from "fs";
-import { promises, createReadStream, createWriteStream } from "fs";
-import type { CreateAndUploadOptions, Token, IrysTransactonCtor, UploadReceipt, UploadResponse, Tags } from "@irys/upload-core";
-import {Uploader, Api, Utils} from "@irys/upload-core"
-import mime from "mime-types";
-import inquirer from "inquirer";
-import { Readable } from "stream";
-import type { DataItem } from "@irys/bundles";
-import { basename, join, relative, resolve, sep } from "path";
-import {parse} from "csv-parse";
-import {stringify} from "csv-stringify";
+import type { PathLike } from 'fs';
+import { promises, createReadStream, createWriteStream } from 'fs';
+import type {
+  CreateAndUploadOptions,
+  Token,
+  IrysTransactonCtor,
+  UploadReceipt,
+  UploadResponse,
+  Tags,
+} from '@irys/upload-core';
+import { Uploader, Api, Utils } from '@irys/upload-core';
+import mime from 'mime-types';
+import inquirer from 'inquirer';
+import { Readable } from 'stream';
+import type { DataItem } from '@irys/bundles';
+import { basename, join, relative, resolve, sep } from 'path';
+import { parse } from 'csv-parse';
+import { stringify } from 'csv-stringify';
 
 export const checkPath = async (path: PathLike): Promise<boolean> => {
   return promises
@@ -18,7 +25,13 @@ export const checkPath = async (path: PathLike): Promise<boolean> => {
 };
 
 export class NodeUploader extends Uploader {
-  constructor(api: Api, utils: Utils, token: string, tokenConfig: Token, irysTx: IrysTransactonCtor) {
+  constructor(
+    api: Api,
+    utils: Utils,
+    token: string,
+    tokenConfig: Token,
+    irysTx: IrysTransactonCtor
+  ) {
     super(api, utils, token, tokenConfig, irysTx);
   }
   /**
@@ -26,7 +39,10 @@ export class NodeUploader extends Uploader {
    * @param path to the file to be uploaded
    * @returns the response from the bundler
    */
-  public async uploadFile(path: string, opts?: CreateAndUploadOptions): Promise<UploadResponse> {
+  public async uploadFile(
+    path: string,
+    opts?: CreateAndUploadOptions
+  ): Promise<UploadResponse> {
     if (
       !(await promises
         .stat(path)
@@ -36,12 +52,23 @@ export class NodeUploader extends Uploader {
       throw new Error(`Unable to access path: ${path}`);
     }
     // don't add Content-type tag if it already exists
-    const hasContentTypeTag = opts?.tags && opts.tags.some((t) => t.name.toLowerCase() === "content-type");
-    const mimeType = mime.contentType(mime.lookup(path) || "application/octet-stream");
+    const hasContentTypeTag =
+      opts?.tags &&
+      opts.tags.some((t) => t.name.toLowerCase() === 'content-type');
+    const mimeType = mime.contentType(
+      mime.lookup(path) || 'application/octet-stream'
+    );
 
-    (opts ??= {}).tags = (hasContentTypeTag || mimeType === false)
-      ? opts.tags ?? []
-      : [{ name: "Content-Type", value: this.contentTypeOverride ?? mimeType }, ...(opts?.tags ?? [])];
+    (opts ??= {}).tags =
+      hasContentTypeTag || mimeType === false
+        ? (opts.tags ?? [])
+        : [
+            {
+              name: 'Content-Type',
+              value: this.contentTypeOverride ?? mimeType,
+            },
+            ...(opts?.tags ?? []),
+          ];
 
     const data = createReadStream(path);
 
@@ -85,8 +112,13 @@ export class NodeUploader extends Uploader {
       logFunction?: (log: string) => Promise<void>;
       manifestTags?: { name: string; value: string }[];
       itemOptions?: CreateAndUploadOptions;
-    } = { batchSize: 10, keepDeleted: true },
-  ): Promise<((UploadResponse | UploadReceipt) & { receipts?: Map<string, UploadReceipt> | undefined }) | undefined> {
+    } = { batchSize: 10, keepDeleted: true }
+  ): Promise<
+    | ((UploadResponse | UploadReceipt) & {
+        receipts?: Map<string, UploadReceipt> | undefined;
+      })
+    | undefined
+  > {
     path = resolve(path);
     const alreadyProcessed = new Map();
 
@@ -109,8 +141,11 @@ export class NodeUploader extends Uploader {
     }
 
     // manifest with folder name placed in parent directory of said folder - keeps contamination down.
-    const manifestPath = join(join(path, `${sep}..`), `${basename(path)}-manifest.csv`);
-    const csvHeader = "path,id,receipt\n";
+    const manifestPath = join(
+      join(path, `${sep}..`),
+      `${basename(path)}-manifest.csv`
+    );
+    const csvHeader = 'path,id,receipt\n';
     if (await checkPath(manifestPath)) {
       const rstrm = createReadStream(manifestPath);
       // check if empty
@@ -119,15 +154,17 @@ export class NodeUploader extends Uploader {
       }
       // validate header
       await new Promise((res) => {
-        createReadStream(manifestPath).once("data", async (d) => {
-          const fl = d.toString().split("\n")[0];
+        createReadStream(manifestPath).once('data', async (d) => {
+          const fl = d.toString().split('\n')[0];
           if (`${fl}\n` !== csvHeader) {
             await promises.writeFile(manifestPath, csvHeader);
           }
           res(d);
         });
       });
-      const csvStream = Readable.from(rstrm.pipe(parse({ delimiter: ",", columns: true })));
+      const csvStream = Readable.from(
+        rstrm.pipe(parse({ delimiter: ',', columns: true }))
+      );
 
       for await (const record of csvStream) {
         record as { path: string; id: string; receipt: string };
@@ -160,23 +197,34 @@ export class NodeUploader extends Uploader {
       alreadyProcessed.clear();
     }
     // pass as param otherwise it thinks logFunction can be undef
-    const uploadManifest = async (logFunction: (log: string) => Promise<void>): Promise<UploadResponse> => {
+    const uploadManifest = async (
+      logFunction: (log: string) => Promise<void>
+    ): Promise<UploadResponse> => {
       // generate JSON
-      await logFunction("Generating JSON manifest...");
-      const jsonManifestPath = await this.generateManifestFromCsv(path, alreadyProcessed, indexFile);
+      await logFunction('Generating JSON manifest...');
+      const jsonManifestPath = await this.generateManifestFromCsv(
+        path,
+        alreadyProcessed,
+        indexFile
+      );
       // upload the manifest
-      await logFunction("Uploading JSON manifest...");
+      await logFunction('Uploading JSON manifest...');
       const tags = [
-        { name: "Type", value: "manifest" },
-        { name: "Content-Type", value: "application/x.irys-manifest+json" },
+        { name: 'Type', value: 'manifest' },
+        { name: 'Content-Type', value: 'application/x.irys-manifest+json' },
         ...(manifestTags ?? []),
       ];
-      const mres = await this.uploadData(createReadStream(jsonManifestPath), { tags }).catch((e) => {
+      const mres = await this.uploadData(createReadStream(jsonManifestPath), {
+        tags,
+      }).catch((e) => {
         throw new Error(`Failed to upload manifest: ${e.message}`);
       });
-      await logFunction("Done!");
+      await logFunction('Done!');
       if (mres?.id) {
-        await promises.writeFile(join(join(path, `${sep}..`), `${basename(path)}-id.txt`), JSON.stringify(mres));
+        await promises.writeFile(
+          join(join(path, `${sep}..`), `${basename(path)}-id.txt`),
+          JSON.stringify(mres)
+        );
       } else {
         throw new Error(`Unable to get upload ID! ${JSON.stringify(mres)}`);
       }
@@ -185,11 +233,13 @@ export class NodeUploader extends Uploader {
 
     // TODO: add logic to detect changes (MD5/other hash)
     if (files.length == 0 && alreadyProcessed.size === 0) {
-      logFunction("No items to process");
+      logFunction('No items to process');
       // return the txID of the upload
       const idpath = join(join(path, `${sep}..`), `${basename(path)}-id.txt`);
       if (await checkPath(idpath)) {
-        return JSON.parse(await promises.readFile(idpath, "utf-8")) as UploadResponse;
+        return JSON.parse(
+          await promises.readFile(idpath, 'utf-8')
+        ) as UploadResponse;
       }
       // assume manifest wasn't uploaded
       return await uploadManifest(logFunction);
@@ -199,29 +249,32 @@ export class NodeUploader extends Uploader {
 
     // const price = (await this.utils.getPrice(this.currency, total)).plus(zprice).toFixed(0);
 
-    const price = await this.utils.estimateFolderPrice({ fileCount: files.length, totalBytes: total });
+    const price = await this.utils.estimateFolderPrice({
+      fileCount: files.length,
+      totalBytes: total,
+    });
 
     if (interactivePreflight) {
       if (
         !(await confirmation(
           `Authorize upload?\nTotal amount of data: ${total} bytes over ${files.length} files - cost: ${price} ${
             this.tokenConfig.base[0]
-          } (${this.utils.fromAtomic(price).toFixed()} ${this.token})\n Y / N`,
+          } (${this.utils.fromAtomic(price).toFixed()} ${this.token})\n Y / N`
         ))
       ) {
-        throw new Error("Confirmation failed");
+        throw new Error('Confirmation failed');
       }
     }
 
     const stringifier = stringify({
       header: false,
       columns: {
-        path: "path",
-        id: "id",
-        receipt: "receipt",
+        path: 'path',
+        id: 'id',
+        receipt: 'receipt',
       },
     });
-    const wstrm = createWriteStream(manifestPath, { flags: "a+" });
+    const wstrm = createWriteStream(manifestPath, { flags: 'a+' });
     stringifier.pipe(wstrm);
 
     const processor = async (data: any): Promise<void> => {
@@ -239,7 +292,11 @@ export class NodeUploader extends Uploader {
             }
           : {};
         receiptTxs.set(relative(path, data.item), receipt);
-        stringifier.write([relative(path, data.item), data.res.id, JSON.stringify(receipt)]);
+        stringifier.write([
+          relative(path, data.item),
+          data.res.id,
+          JSON.stringify(receipt),
+        ]);
       }
     };
 
@@ -251,12 +308,21 @@ export class NodeUploader extends Uploader {
     });
 
     if (processingResults.errors.length > 0) {
-      await logFunction(`${processingResults.errors.length} Errors detected, skipping manifest upload...`);
-      const ewstrm = createWriteStream(join(join(path, `${sep}..`), `${basename(path)}-errors.txt`), { flags: "a+" });
+      await logFunction(
+        `${processingResults.errors.length} Errors detected, skipping manifest upload...`
+      );
+      const ewstrm = createWriteStream(
+        join(join(path, `${sep}..`), `${basename(path)}-errors.txt`),
+        { flags: 'a+' }
+      );
       ewstrm.write(`Errors from upload at ${new Date().toString()}:\n`);
-      processingResults.errors.forEach((e) => ewstrm.write(`${e?.stack ?? JSON.stringify(e)}\n`));
+      processingResults.errors.forEach((e) =>
+        ewstrm.write(`${e?.stack ?? JSON.stringify(e)}\n`)
+      );
       await new Promise((res) => ewstrm.close(res));
-      throw new Error(`${processingResults.errors.length} Errors detected - check ${basename(path)}-errors.txt for more information.`);
+      throw new Error(
+        `${processingResults.errors.length} Errors detected - check ${basename(path)}-errors.txt for more information.`
+      );
     }
     await logFunction(`Finished processing ${files.length} Items`);
 
@@ -270,26 +336,40 @@ export class NodeUploader extends Uploader {
    * @param item can be a string value, a path to a file, a Buffer of data or a DataItem
    * @returns A dataItem
    */
-  protected async processItem(item: string | Buffer | Readable | DataItem, opts?: CreateAndUploadOptions): Promise<any> {
+  protected async processItem(
+    item: string | Buffer | Readable | DataItem,
+    opts?: CreateAndUploadOptions
+  ): Promise<any> {
     if (this.bundles.DataItem.isDataItem(item)) {
       return this.uploadTransaction(item, { ...opts?.upload });
     }
 
-    let tags: Tags = []
-    if (typeof item === "string") {
+    let tags: Tags = [];
+    if (typeof item === 'string') {
       if (await checkPath(item)) {
-        const mimeType = mime.contentType(mime.lookup(item) || "application/octet-stream");
-        if(mimeType) tags = [{ name: "Content-Type", value: this.contentTypeOverride ?? mimeType }];
+        const mimeType = mime.contentType(
+          mime.lookup(item) || 'application/octet-stream'
+        );
+        if (mimeType)
+          tags = [
+            {
+              name: 'Content-Type',
+              value: this.contentTypeOverride ?? mimeType,
+            },
+          ];
         // returnVal = item;
         item = createReadStream(item);
       } else {
         item = Buffer.from(item);
         if (this.contentTypeOverride) {
-          tags = [{ name: "Content-Type", value: this.contentTypeOverride }];
+          tags = [{ name: 'Content-Type', value: this.contentTypeOverride }];
         }
       }
     }
-    return this.uploadData(item, { ...opts, tags: [...tags, ...(opts?.tags ?? [])] });
+    return this.uploadData(item, {
+      ...opts,
+      tags: [...tags, ...(opts?.tags ?? [])],
+    });
   }
 
   /**
@@ -298,15 +378,27 @@ export class NodeUploader extends Uploader {
    * @param indexFile optional path to an index file
    * @returns the path to the generated manifest
    */
-  public async generateManifestFromCsv(path: string, nowRemoved?: Map<string, true>, indexFile?: string): Promise<string> {
-    const csvstrm = parse({ delimiter: ",", columns: true });
-    const csvPath = join(join(path, `${sep}..`), `${basename(path)}-manifest.csv`);
-    const manifestPath = join(join(path, `${sep}..`), `${basename(path)}-manifest.json`);
-    const wstrm = createWriteStream(manifestPath, { flags: "w+" });
+  public async generateManifestFromCsv(
+    path: string,
+    nowRemoved?: Map<string, true>,
+    indexFile?: string
+  ): Promise<string> {
+    const csvstrm = parse({ delimiter: ',', columns: true });
+    const csvPath = join(
+      join(path, `${sep}..`),
+      `${basename(path)}-manifest.csv`
+    );
+    const manifestPath = join(
+      join(path, `${sep}..`),
+      `${basename(path)}-manifest.json`
+    );
+    const wstrm = createWriteStream(manifestPath, { flags: 'w+' });
     createReadStream(csvPath).pipe(csvstrm); // pipe csv
     /* eslint-disable quotes */
     // "header"
-    wstrm.write(`{\n"manifest": "irys/paths",\n"version": "0.1.0",\n"paths": {\n`);
+    wstrm.write(
+      `{\n"manifest": "irys/paths",\n"version": "0.1.0",\n"paths": {\n`
+    );
     const csvs = Readable.from(csvstrm);
     let firstValue = true;
 
@@ -315,15 +407,17 @@ export class NodeUploader extends Uploader {
         nowRemoved.delete(d.path);
         continue;
       }
-      const prefix = firstValue ? "" : ",\n";
-      wstrm.write(`${prefix}"${d.path.replaceAll("\\", "/")}":{"id":"${d.id}"}`);
+      const prefix = firstValue ? '' : ',\n';
+      wstrm.write(
+        `${prefix}"${d.path.replaceAll('\\', '/')}":{"id":"${d.id}"}`
+      );
       firstValue = false;
     }
     // "trailer"
     wstrm.write(`\n}`);
     // add index
     if (indexFile) {
-      wstrm.write(`,\n"index":{"path":"${indexFile.replaceAll("\\", "/")}"}`);
+      wstrm.write(`,\n"index":{"path":"${indexFile.replaceAll('\\', '/')}"}`);
     }
 
     wstrm.write(`\n}`);
@@ -333,8 +427,10 @@ export class NodeUploader extends Uploader {
 }
 
 async function confirmation(message: string): Promise<boolean> {
-  const answers = await inquirer.prompt([{ type: "input", name: "confirmation", message }]);
-  return answers.confirmation.toLowerCase() == "y";
+  const answers = await inquirer.prompt([
+    { type: 'input', name: 'confirmation', message },
+  ]);
+  return answers.confirmation.toLowerCase() == 'y';
 }
 
 export default NodeUploader;

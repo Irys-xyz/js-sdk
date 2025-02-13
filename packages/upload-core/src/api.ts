@@ -1,7 +1,12 @@
-import type { AxiosResponse, AxiosRequestConfig, AxiosInstance, InternalAxiosRequestConfig } from "axios";
-import Axios from "axios";
-import type AsyncRetry from "async-retry";
-import Irys from "./irys";
+import type {
+  AxiosResponse,
+  AxiosRequestConfig,
+  AxiosInstance,
+  InternalAxiosRequestConfig,
+} from 'axios';
+import Axios from 'axios';
+import type AsyncRetry from 'async-retry';
+import Irys from './irys';
 
 export type ApiConfig = {
   url: URL;
@@ -36,14 +41,18 @@ export class Api {
     return this.config;
   }
 
-  private async requestInterceptor(request: InternalAxiosRequestConfig): Promise<InternalAxiosRequestConfig> {
-    const cookies = this.cookieMap.get(new URL(request.baseURL ?? "").hostname);
+  private async requestInterceptor(
+    request: InternalAxiosRequestConfig
+  ): Promise<InternalAxiosRequestConfig> {
+    const cookies = this.cookieMap.get(new URL(request.baseURL ?? '').hostname);
     if (cookies) request.headers!.cookie = cookies;
     return request;
   }
 
-  private async responseInterceptor(response: AxiosResponse): Promise<AxiosResponse> {
-    const setCookie = response.headers?.["set-cookie"];
+  private async responseInterceptor(
+    response: AxiosResponse
+  ): Promise<AxiosResponse> {
+    const setCookie = response.headers?.['set-cookie'];
     if (setCookie) this.cookieMap.set(response.request.host, setCookie);
     return response;
   }
@@ -54,24 +63,35 @@ export class Api {
       timeout: config.timeout ?? 20000,
       logging: config.logging ?? false,
       logger: config.logger ?? console.log,
-      headers: { ...config.headers, "x-irys-js-sdk-version": Irys.VERSION },
+      headers: { ...config.headers, 'x-irys-js-sdk-version': Irys.VERSION },
       withCredentials: config.withCredentials ?? false,
       retry: { retries: 3, maxTimeout: 5_000 },
     };
   }
 
-  public async get<T = any>(path: string, config?: ApiRequestConfig): Promise<AxiosResponse<T>> {
+  public async get<T = any>(
+    path: string,
+    config?: ApiRequestConfig
+  ): Promise<AxiosResponse<T>> {
     try {
-      return await this.request(path, { ...config, method: "GET" });
+      return await this.request(path, { ...config, method: 'GET' });
     } catch (error: any) {
       if (error.response?.status) return error.response;
       throw error;
     }
   }
 
-  public async post<T = any>(path: string, body: Buffer | string | object | null, config?: ApiRequestConfig): Promise<AxiosResponse<T>> {
+  public async post<T = any>(
+    path: string,
+    body: Buffer | string | object | null,
+    config?: ApiRequestConfig
+  ): Promise<AxiosResponse<T>> {
     try {
-      return await this.request(path, { data: body, ...config, method: "POST" });
+      return await this.request(path, {
+        data: body,
+        ...config,
+        method: 'POST',
+      });
     } catch (error: any) {
       if (error.response?.status) return error.response;
       throw error;
@@ -101,7 +121,9 @@ export class Api {
       });
 
       instance.interceptors.response.use((response) => {
-        this.config.logger!(`Response: ${response.config.url} - ${response.status}`);
+        this.config.logger!(
+          `Response: ${response.config.url} - ${response.status}`
+        );
         return response;
       });
     }
@@ -109,7 +131,10 @@ export class Api {
     return (this._instance = instance);
   }
 
-  public async request<T = any>(path: string, config?: ApiRequestConfig): Promise<AxiosResponse<T>> {
+  public async request<T = any>(
+    path: string,
+    config?: ApiRequestConfig
+  ): Promise<AxiosResponse<T>> {
     const instance = this.instance;
     const url = config?.url ?? new URL(path, this.config.url).toString();
     // return AsyncRetry((_) => instance({ ...config, url }), {

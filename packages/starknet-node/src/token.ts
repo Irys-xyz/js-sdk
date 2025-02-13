@@ -4,7 +4,7 @@ import { Contract, RpcProvider, Provider } from 'starknet';
 import { StarknetSigner, Signer, byteArrayToLong } from '@irys/bundles';
 import BigNumber from 'bignumber.js';
 import { num, Account, uint256 } from 'starknet';
-import strkerc20token from './erc20.abi'
+import strkerc20token from './erc20.abi';
 import { KnownAccountContracts } from './walletConfig';
 
 const starknetSigner = StarknetSigner;
@@ -16,7 +16,7 @@ export interface STRKTokenConfig extends TokenConfig {
 }
 
 export function extractX(bytes: Buffer): string {
-  const hex = bytes.subarray(1).toString("hex");
+  const hex = bytes.subarray(1).toString('hex');
   const stripped = hex.replace(/^0+/gm, ''); // strip leading 0s
   return `0x${stripped}`;
 }
@@ -25,20 +25,25 @@ export function decomposePubkey(pubkey: Buffer): [Buffer, Buffer, Buffer] {
   return [pubkey.subarray(0, 33), pubkey.subarray(33, -2), pubkey.subarray(-2)];
 }
 
-export const felt2hex = (felt: any) => "0x" + BigInt(felt).toString(16).padStart(64, '0');
+export const felt2hex = (felt: any) =>
+  '0x' + BigInt(felt).toString(16).padStart(64, '0');
 
-const TRANSFER_KEY = "0x99cd8bde557814842a3121e8ddfd433a539b8c9f14bf31ebf108d12e6196e9"
-
+const TRANSFER_KEY =
+  '0x99cd8bde557814842a3121e8ddfd433a539b8c9f14bf31ebf108d12e6196e9';
 
 // "stark" public keys truncate some bytes... (but these truncated pubkeys can't be used for signature validation..)
 // so we need to perform this truncation in order to validate if two public keys are "equivalent"
-function validateStarkFullPubKey(fullPubKey: Buffer, starkPubKey: Buffer): boolean {
+function validateStarkFullPubKey(
+  fullPubKey: Buffer,
+  starkPubKey: Buffer
+): boolean {
   try {
     const trimmedFullPubKey = extractX(fullPubKey);
-    const trimmedFullPubKeyBin = Buffer.from(trimmedFullPubKey.slice(2), "hex");
+    const trimmedFullPubKeyBin = Buffer.from(trimmedFullPubKey.slice(2), 'hex');
     return Buffer.compare(trimmedFullPubKeyBin, starkPubKey) == 0;
+  } catch (_) {
+    return false;
   }
-  catch (_) { return false; }
 }
 
 export default class BaseSTRK20Token extends BaseNodeToken {
@@ -67,14 +72,16 @@ export default class BaseSTRK20Token extends BaseNodeToken {
       this.providerInstance,
       this._address,
       this.wallet,
-      undefined, "0x3" // use version 3 so the gas token is $STRK
+      undefined,
+      '0x3' // use version 3 so the gas token is $STRK
     );
-
   }
 
   async ready(): Promise<void> {
     await this.getContract();
-    const { publicKey, id } = await this.getAccountCompactPublicKey(this._address!!);
+    const { publicKey, id } = await this.getAccountCompactPublicKey(
+      this._address!!
+    );
 
     this.signer = new StarknetSigner(
       this.providerInstance,
@@ -85,9 +92,17 @@ export default class BaseSTRK20Token extends BaseNodeToken {
 
     await this.signer.init();
     // this is a good early catch for if the wrong address has been provided
-    if (!validateStarkFullPubKey(this.signer.publicKey.subarray(0, 33), publicKey)) throw new Error("Account contract and private key derived public keys do not match! check you private key/address?");
+    if (
+      !validateStarkFullPubKey(this.signer.publicKey.subarray(0, 33), publicKey)
+    )
+      throw new Error(
+        'Account contract and private key derived public keys do not match! check you private key/address?'
+      );
     const address = await this.ownerToAddress(this.signer.publicKey);
-    if (address !== this._address!!) throw new Error("Failed address self check, check your private key/address?");
+    if (address !== this._address!!)
+      throw new Error(
+        'Failed address self check, check your private key/address?'
+      );
   }
 
   // Set the base token for gas payments based on the token address provided in the setup.
@@ -105,8 +120,13 @@ export default class BaseSTRK20Token extends BaseNodeToken {
         this.providerInstance
       );
       const configBase = this.config.contractBase;
-      this.base = typeof configBase[1] === "number" ? configBase as [string, number] : [configBase[0], Math.pow(10, await this.contractInstance.decimals())];
-
+      this.base =
+        typeof configBase[1] === 'number'
+          ? (configBase as [string, number])
+          : [
+              configBase[0],
+              Math.pow(10, await this.contractInstance.decimals()),
+            ];
     }
     return this.contractInstance;
   }
@@ -118,53 +138,71 @@ export default class BaseSTRK20Token extends BaseNodeToken {
   }
 
   async getTx(txId: string): Promise<Tx> {
-      const receipt = await this.providerInstance.getTransactionReceipt(txId);
-      const traces = await this.providerInstance.getTransactionTrace(txId);
+    const receipt = await this.providerInstance.getTransactionReceipt(txId);
+    const traces = await this.providerInstance.getTransactionTrace(txId);
 
-      if (!receipt || !traces) {
-        throw new Error('Transaction does not exist or is still pending.');
-      }
+    if (!receipt || !traces) {
+      throw new Error('Transaction does not exist or is still pending.');
+    }
 
-      const receiptResponse = (receipt as unknown as Transaction).value;
-      const tracesResponse = (traces as FeeTransferInvocation)
-        .fee_transfer_invocation;
+    const receiptResponse = (receipt as unknown as Transaction).value;
+    const tracesResponse = (traces as FeeTransferInvocation)
+      .fee_transfer_invocation;
 
-      if(receiptResponse?.execution_status !== "SUCCEEDED") throw new Error("Transaction failed")
+    if (receiptResponse?.execution_status !== 'SUCCEEDED')
+      throw new Error('Transaction failed');
 
-      const transferEvent = receiptResponse.events.find(event => 
-        event.keys.includes(TRANSFER_KEY) && felt2hex(event.from_address) == this.contractAddress
+    const transferEvent = receiptResponse.events.find(
+      (event) =>
+        event.keys.includes(TRANSFER_KEY) &&
+        felt2hex(event.from_address) == this.contractAddress
+    );
+
+    if (!transferEvent)
+      throw new Error(
+        `No transfer event found for contract ${this.contractAddress}`
       );
 
-      if(!transferEvent) throw new Error(`No transfer event found for contract ${this.contractAddress}`)
-      
-      const to = felt2hex(transferEvent.data[1]);
-      const amount = BigInt(transferEvent.data[2]);;
-      const from = felt2hex(tracesResponse?.caller_address)
-      
-      return {
-        from: from,
-        to: to,
-        blockHeight:  (receiptResponse?.block_number) ? new BigNumber(receiptResponse?.block_number) : undefined,
-        amount: new BigNumber(amount.toString()),
-        pending: !receiptResponse?.block_number,
-        confirmed: !!(['ACCEPTED_ON_L1', 'ACCEPTED_ON_L2'].includes(receiptResponse?.finality_status as string) ),
-      };
+    const to = felt2hex(transferEvent.data[1]);
+    const amount = BigInt(transferEvent.data[2]);
+    const from = felt2hex(tracesResponse?.caller_address);
+
+    return {
+      from: from,
+      to: to,
+      blockHeight: receiptResponse?.block_number
+        ? new BigNumber(receiptResponse?.block_number)
+        : undefined,
+      amount: new BigNumber(amount.toString()),
+      pending: !receiptResponse?.block_number,
+      confirmed: !!['ACCEPTED_ON_L1', 'ACCEPTED_ON_L2'].includes(
+        receiptResponse?.finality_status as string
+      ),
+    };
   }
 
   async ownerToAddress(owner: any): Promise<string> {
-
     // extract elements
-    const [pubKey, addressBuf, contractIdBuf] = decomposePubkey(owner as Buffer);
+    const [pubKey, addressBuf, contractIdBuf] = decomposePubkey(
+      owner as Buffer
+    );
     const contractId = byteArrayToLong(contractIdBuf);
-    const address = "0x" + addressBuf.toString("hex");
+    const address = '0x' + addressBuf.toString('hex');
     // check the public key we can get from the contract
-    const { publicKey: starkPubKey } = await this.getAccountCompactPublicKey(address, contractId);
-    if (!validateStarkFullPubKey(pubKey, starkPubKey)) throw new Error(`Incorrect public key ${pubKey} for address ${address}`);
+    const { publicKey: starkPubKey } = await this.getAccountCompactPublicKey(
+      address,
+      contractId
+    );
+    if (!validateStarkFullPubKey(pubKey, starkPubKey))
+      throw new Error(`Incorrect public key ${pubKey} for address ${address}`);
 
     return address;
   }
 
-  public async getAccountCompactPublicKey(address: string, contractId?: number): Promise<{ publicKey: Buffer, id: number; }> {
+  public async getAccountCompactPublicKey(
+    address: string,
+    contractId?: number
+  ): Promise<{ publicKey: Buffer; id: number }> {
     if (contractId) {
       const config = KnownAccountContracts.get(contractId);
       if (config) {
@@ -173,7 +211,9 @@ export default class BaseSTRK20Token extends BaseNodeToken {
           address,
           this.providerInstance
         );
-        const publicKey = await contractInstance.call(config.selector, undefined, { parseResponse: false }).catch(_ => false)
+        const publicKey = await contractInstance
+          .call(config.selector, undefined, { parseResponse: false })
+          .catch((_) => false);
         if (publicKey) {
           return { publicKey: config.postProcessor(publicKey), id: contractId };
         }
@@ -181,15 +221,17 @@ export default class BaseSTRK20Token extends BaseNodeToken {
     }
     // fallthrough to check every known contract
     for (const [id, config] of KnownAccountContracts.entries()) {
-        const contractInstance = new Contract(
-          config.abi,
-          address,
-          this.providerInstance
-        );
-        const publicKey = await contractInstance.call(config.selector, undefined, { parseResponse: false }) .catch(_ => false)
-        if (publicKey) {
-          return { publicKey: config.postProcessor(publicKey), id };
-        }
+      const contractInstance = new Contract(
+        config.abi,
+        address,
+        this.providerInstance
+      );
+      const publicKey = await contractInstance
+        .call(config.selector, undefined, { parseResponse: false })
+        .catch((_) => false);
+      if (publicKey) {
+        return { publicKey: config.postProcessor(publicKey), id };
+      }
     }
 
     throw new Error(
@@ -202,7 +244,10 @@ export default class BaseSTRK20Token extends BaseNodeToken {
   }
 
   getSigner(): Signer {
-    if (!this.signer) throw new Error("Token has not been fully initialized - please run .ready()");
+    if (!this.signer)
+      throw new Error(
+        'Token has not been fully initialized - please run .ready()'
+      );
     return this.signer;
   }
 
@@ -220,42 +265,41 @@ export default class BaseSTRK20Token extends BaseNodeToken {
     to?: string,
     _multiplier?: BigNumber.Value | undefined
   ): Promise<BigNumber> {
-      const amountBigNumber = new BigNumber(amount);
-      const _amount = uint256.bnToUint256(amountBigNumber.toString());
+    const amountBigNumber = new BigNumber(amount);
+    const _amount = uint256.bnToUint256(amountBigNumber.toString());
 
-      const maxFeeEstimate = await this.account.estimateFee({
-        contractAddress: this.contractAddress,
-        entrypoint: 'transfer',
-        calldata: [to || '',_amount.low, _amount.high],
-      });
+    const maxFeeEstimate = await this.account.estimateFee({
+      contractAddress: this.contractAddress,
+      entrypoint: 'transfer',
+      calldata: [to || '', _amount.low, _amount.high],
+    });
 
-      const result = maxFeeEstimate.suggestedMaxFee;
-      const result_to_hex = num.toHex(result);
-      return new BigNumber(result_to_hex);
+    const result = maxFeeEstimate.suggestedMaxFee;
+    const result_to_hex = num.toHex(result);
+    return new BigNumber(result_to_hex);
   }
-
 
   async createTx(
     amount: BigNumber.Value,
     to: string,
     fee?: string | object | undefined
-  ): Promise<{ txId: string | undefined; tx: any; }> {
+  ): Promise<{ txId: string | undefined; tx: any }> {
     const amountBigNumber = new BigNumber(amount);
     const _amount = uint256.bnToUint256(amountBigNumber.toString());
 
     const calldata = [to, _amount.low, _amount.high];
 
     return {
-      txId: undefined, tx: {
+      txId: undefined,
+      tx: {
         call: {
           contractAddress: this.contractAddress,
           entrypoint: 'transfer',
           calldata,
         },
-        args: { maxFee: fee}
-      }
+        args: { maxFee: fee },
+      },
     };
-
   }
 
   async sendTx(data: any): Promise<string | undefined> {
@@ -291,6 +335,6 @@ interface Transaction {
     block_number: number;
     execution_status: 'SUCCEEDED' | 'FAILED';
     finality_status: 'ACCEPTED_ON_L1' | 'ACCEPTED_ON_L2' | 'REJECTED';
-    events: any[]
+    events: any[];
   };
 }

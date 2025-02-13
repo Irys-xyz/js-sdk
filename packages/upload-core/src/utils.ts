@@ -1,14 +1,22 @@
-import type { AxiosResponse } from "axios";
-import base64url from "base64url";
-import BigNumber from "bignumber.js";
-import type Api from "./api";
-import type {bundles, Tags, Token, UploadReceipt, UploadReceiptData } from "./types";
-import AsyncRetry from "async-retry";
+import type { AxiosResponse } from 'axios';
+import base64url from 'base64url';
+import BigNumber from 'bignumber.js';
+import type Api from './api';
+import type {
+  bundles,
+  Tags,
+  Token,
+  UploadReceipt,
+  UploadReceiptData,
+} from './types';
+import AsyncRetry from 'async-retry';
 BigNumber.set({ DECIMAL_PLACES: 50 });
 
-export const sleep = (ms: number): Promise<void> => new Promise((resolve) => setTimeout(resolve, ms));
+export const sleep = (ms: number): Promise<void> =>
+  new Promise((resolve) => setTimeout(resolve, ms));
 
-export const httpErrData = (res: AxiosResponse): string => (typeof res.data !== "string" ? res.statusText : res.data);
+export const httpErrData = (res: AxiosResponse): string =>
+  typeof res.data !== 'string' ? res.statusText : res.data;
 
 export class Utils {
   public api: Api;
@@ -27,9 +35,19 @@ export class Utils {
    * @param res an axios response
    * @returns nothing if the status code is 200
    */
-  public static checkAndThrow(res: AxiosResponse, context?: string, exceptions?: number[]): void {
-    if (res?.status && !(exceptions ?? []).includes(res.status) && res.status != 200) {
-      throw new Error(`HTTP Error: ${context}: ${res.status} ${typeof res.data !== "string" ? res.statusText : res.data}`);
+  public static checkAndThrow(
+    res: AxiosResponse,
+    context?: string,
+    exceptions?: number[]
+  ): void {
+    if (
+      res?.status &&
+      !(exceptions ?? []).includes(res.status) &&
+      res.status != 200
+    ) {
+      throw new Error(
+        `HTTP Error: ${context}: ${res.status} ${typeof res.data !== 'string' ? res.statusText : res.data}`
+      );
     }
     return;
   }
@@ -39,8 +57,10 @@ export class Utils {
    * @returns nonce for the current user
    */
   public async getNonce(): Promise<number> {
-    const res = await this.api.get(`/account/withdrawals/${this.tokenConfig.name}?address=${this.tokenConfig.address}`);
-    Utils.checkAndThrow(res, "Getting withdrawal nonce");
+    const res = await this.api.get(
+      `/account/withdrawals/${this.tokenConfig.name}?address=${this.tokenConfig.address}`
+    );
+    Utils.checkAndThrow(res, 'Getting withdrawal nonce');
     return res.data;
   }
 
@@ -50,8 +70,10 @@ export class Utils {
    * @returns the balance in winston
    */
   public async getBalance(address: string): Promise<BigNumber> {
-    const res = await this.api.get(`/account/balance/${this.tokenConfig.name}?address=${address}`);
-    Utils.checkAndThrow(res, "Getting balance");
+    const res = await this.api.get(
+      `/account/balance/${this.tokenConfig.name}?address=${address}`
+    );
+    Utils.checkAndThrow(res, 'Getting balance');
     return new BigNumber(res.data.balance);
   }
 
@@ -60,8 +82,8 @@ export class Utils {
    * @returns the bundler's address
    */
   public async getBundlerAddress(token?: string): Promise<string> {
-    const res = await this.api.get("/info");
-    Utils.checkAndThrow(res, "Getting Bundler address");
+    const res = await this.api.get('/info');
+    Utils.checkAndThrow(res, 'Getting Bundler address');
     const address = res.data.addresses[token ?? this.token];
     if (!address) {
       throw new Error(`Specified bundler does not support token ${token}`);
@@ -75,16 +97,23 @@ export class Utils {
    * @param bytes
    * @returns
    */
-  public async getPrice(token: string, bytes: number, opts?: {tags?: Tags, address?: string}): Promise<BigNumber> {
-    let path = `/price/${token}/${bytes}`
-    if(opts?.tags) {
-      const address = opts.address ?? this.tokenConfig.address
-      path =opts.tags.reduce((b, t) => b + `&tags=${t.name}|${t.value}`, path + `?address=${address}`)
-    }else if (opts?.address) {
-      path = path + `?address=${opts?.address}`
-    } 
+  public async getPrice(
+    token: string,
+    bytes: number,
+    opts?: { tags?: Tags; address?: string }
+  ): Promise<BigNumber> {
+    let path = `/price/${token}/${bytes}`;
+    if (opts?.tags) {
+      const address = opts.address ?? this.tokenConfig.address;
+      path = opts.tags.reduce(
+        (b, t) => b + `&tags=${t.name}|${t.value}`,
+        path + `?address=${address}`
+      );
+    } else if (opts?.address) {
+      path = path + `?address=${opts?.address}`;
+    }
     const res = await this.api.get(path);
-    Utils.checkAndThrow(res, "Getting storage cost");
+    Utils.checkAndThrow(res, 'Getting storage cost');
     return new BigNumber(res.data);
   }
 
@@ -94,7 +123,11 @@ export class Utils {
    * @param folderInfo either an array of file sizes in bytes, or an object containing the total number of files and the sum total size of the files in bytes
    * note: for a more precise estimate, you can create an empty (dataless) transaction (make sure you still set tags and other metadata!) and then pass `tx.size` as `headerSizeAvg`
    */
-  public async estimateFolderPrice(folderInfo: number[] | { fileCount: number; totalBytes: number; headerSizeAvg?: number }): Promise<BigNumber> {
+  public async estimateFolderPrice(
+    folderInfo:
+      | number[]
+      | { fileCount: number; totalBytes: number; headerSizeAvg?: number }
+  ): Promise<BigNumber> {
     if (Array.isArray(folderInfo)) {
       folderInfo = {
         fileCount: folderInfo.length,
@@ -102,10 +135,19 @@ export class Utils {
       };
     }
     // create a 0 data byte tx to estimate the per tx header overhead
-    const headerSizeAvg = folderInfo.headerSizeAvg ?? this.bundles.createData("", this.tokenConfig.getSigner()).getRaw().length;
-    const pricePerTxBase = await this.getPrice(this.tokenConfig.name, headerSizeAvg);
+    const headerSizeAvg =
+      folderInfo.headerSizeAvg ??
+      this.bundles.createData('', this.tokenConfig.getSigner()).getRaw().length;
+    const pricePerTxBase = await this.getPrice(
+      this.tokenConfig.name,
+      headerSizeAvg
+    );
     const basePriceForTxs = pricePerTxBase.multipliedBy(folderInfo.fileCount);
-    const priceForData = (await this.getPrice(this.tokenConfig.name, folderInfo.totalBytes)).plus(basePriceForTxs).decimalPlaces(0);
+    const priceForData = (
+      await this.getPrice(this.tokenConfig.name, folderInfo.totalBytes)
+    )
+      .plus(basePriceForTxs)
+      .decimalPlaces(0);
     return priceForData;
   }
 
@@ -148,16 +190,16 @@ export class Utils {
     if (seconds < 0) seconds = 0;
     let lastError;
     let timedout = false;
-    let timedOutConfirmedButPending = false
+    let timedOutConfirmedButPending = false;
 
     const internalPoll = async (): Promise<boolean> => {
       while (!timedout) {
         const getRes = await this.tokenConfig
           .getTx(txid)
           .then((v) => {
-            if (v?.confirmed && !v?.pending) return true
-            if (v?.confirmed && v?.pending) timedOutConfirmedButPending = true 
-            return false
+            if (v?.confirmed && !v?.pending) return true;
+            if (v?.confirmed && v?.pending) timedOutConfirmedButPending = true;
+            return false;
           })
           .catch((err) => {
             lastError = err;
@@ -169,18 +211,20 @@ export class Utils {
       return false;
     };
 
-    const racer = async (): Promise<"RACE"> => {
+    const racer = async (): Promise<'RACE'> => {
       await sleep(seconds * 1_000);
       timedout = true;
-      return "RACE";
+      return 'RACE';
     };
 
     const r = await Promise.race([racer(), internalPoll()]);
-    
-    if (r === "RACE" ) {  
+
+    if (r === 'RACE') {
       // for now we failsafe
-      if(timedOutConfirmedButPending) return true 
-      console.warn(`Tx ${txid} didn't finalize after ${seconds} seconds ${lastError ? ` - ${lastError}` : ""}`);
+      if (timedOutConfirmedButPending) return true;
+      console.warn(
+        `Tx ${txid} didn't finalize after ${seconds} seconds ${lastError ? ` - ${lastError}` : ''}`
+      );
       return lastError;
     }
     return r;
@@ -198,18 +242,30 @@ export class Utils {
   }
 
   static async verifyReceipt(
-    dependencies: Pick<bundles, "stringToBuffer" | "getCryptoDriver" | "deepHash">,
-    receipt: UploadReceiptData,
+    dependencies: Pick<
+      bundles,
+      'stringToBuffer' | 'getCryptoDriver' | 'deepHash'
+    >,
+    receipt: UploadReceiptData
   ): Promise<boolean> {
-    const { id, deadlineHeight, timestamp, public: pubKey, signature, version } = receipt;
+    const {
+      id,
+      deadlineHeight,
+      timestamp,
+      public: pubKey,
+      signature,
+      version,
+    } = receipt;
     const dh = await dependencies.deepHash([
-      dependencies.stringToBuffer("Bundlr"),
+      dependencies.stringToBuffer('Bundlr'),
       dependencies.stringToBuffer(version),
       dependencies.stringToBuffer(id),
       dependencies.stringToBuffer(deadlineHeight.toString()),
       dependencies.stringToBuffer(timestamp.toString()),
     ]);
-    return await dependencies.getCryptoDriver().verify(pubKey, dh, base64url.toBuffer(signature));
+    return await dependencies
+      .getCryptoDriver()
+      .verify(pubKey, dh, base64url.toBuffer(signature));
   }
 
   public async getReceipt(txId: string): Promise<UploadReceipt> {
@@ -231,23 +287,30 @@ export class Utils {
 
     const queryRes = await AsyncRetry(async () => {
       return await this.api.post(
-        "/graphql",
+        '/graphql',
         { query },
         {
-          headers: { "content-type": "application/json" },
+          headers: { 'content-type': 'application/json' },
           validateStatus: (s) => s === 200,
-        },
+        }
       );
     });
 
-    const receiptData: { version: string; timestamp: number; signature: string; deadlineHeight: number } =
-      queryRes?.data?.data?.transactions?.edges?.at(0)?.node?.receipt;
-    if (!receiptData) throw new Error(`Missing required receipt data from node for tx: ${txId}`);
+    const receiptData: {
+      version: string;
+      timestamp: number;
+      signature: string;
+      deadlineHeight: number;
+    } = queryRes?.data?.data?.transactions?.edges?.at(0)?.node?.receipt;
+    if (!receiptData)
+      throw new Error(
+        `Missing required receipt data from node for tx: ${txId}`
+      );
     // get public key from node
-    const pubKey = (await this.api.get("/public")).data;
+    const pubKey = (await this.api.get('/public')).data;
     const receipt = {
       public: pubKey,
-      version: receiptData.version as "1.0.0",
+      version: receiptData.version as '1.0.0',
       id: txId,
       timestamp: receiptData.timestamp,
       validatorSignatures: [],
@@ -270,221 +333,221 @@ export const erc20abi = [
   {
     constant: true,
     inputs: [],
-    name: "name",
+    name: 'name',
     outputs: [
       {
-        name: "",
-        type: "string",
+        name: '',
+        type: 'string',
       },
     ],
     payable: false,
-    stateMutability: "view",
-    type: "function",
+    stateMutability: 'view',
+    type: 'function',
   },
   {
     constant: false,
     inputs: [
       {
-        name: "_spender",
-        type: "address",
+        name: '_spender',
+        type: 'address',
       },
       {
-        name: "_value",
-        type: "uint256",
+        name: '_value',
+        type: 'uint256',
       },
     ],
-    name: "approve",
+    name: 'approve',
     outputs: [
       {
-        name: "",
-        type: "bool",
+        name: '',
+        type: 'bool',
       },
     ],
     payable: false,
-    stateMutability: "nonpayable",
-    type: "function",
+    stateMutability: 'nonpayable',
+    type: 'function',
   },
   {
     constant: true,
     inputs: [],
-    name: "totalSupply",
+    name: 'totalSupply',
     outputs: [
       {
-        name: "",
-        type: "uint256",
+        name: '',
+        type: 'uint256',
       },
     ],
     payable: false,
-    stateMutability: "view",
-    type: "function",
+    stateMutability: 'view',
+    type: 'function',
   },
   {
     constant: false,
     inputs: [
       {
-        name: "_from",
-        type: "address",
+        name: '_from',
+        type: 'address',
       },
       {
-        name: "_to",
-        type: "address",
+        name: '_to',
+        type: 'address',
       },
       {
-        name: "_value",
-        type: "uint256",
+        name: '_value',
+        type: 'uint256',
       },
     ],
-    name: "transferFrom",
+    name: 'transferFrom',
     outputs: [
       {
-        name: "",
-        type: "bool",
+        name: '',
+        type: 'bool',
       },
     ],
     payable: false,
-    stateMutability: "nonpayable",
-    type: "function",
+    stateMutability: 'nonpayable',
+    type: 'function',
   },
   {
     constant: true,
     inputs: [],
-    name: "decimals",
+    name: 'decimals',
     outputs: [
       {
-        name: "",
-        type: "uint8",
+        name: '',
+        type: 'uint8',
       },
     ],
     payable: false,
-    stateMutability: "view",
-    type: "function",
+    stateMutability: 'view',
+    type: 'function',
   },
   {
     constant: true,
     inputs: [
       {
-        name: "_owner",
-        type: "address",
+        name: '_owner',
+        type: 'address',
       },
     ],
-    name: "balanceOf",
+    name: 'balanceOf',
     outputs: [
       {
-        name: "balance",
-        type: "uint256",
+        name: 'balance',
+        type: 'uint256',
       },
     ],
     payable: false,
-    stateMutability: "view",
-    type: "function",
+    stateMutability: 'view',
+    type: 'function',
   },
   {
     constant: true,
     inputs: [],
-    name: "symbol",
+    name: 'symbol',
     outputs: [
       {
-        name: "",
-        type: "string",
+        name: '',
+        type: 'string',
       },
     ],
     payable: false,
-    stateMutability: "view",
-    type: "function",
+    stateMutability: 'view',
+    type: 'function',
   },
   {
     constant: false,
     inputs: [
       {
-        name: "_to",
-        type: "address",
+        name: '_to',
+        type: 'address',
       },
       {
-        name: "_value",
-        type: "uint256",
+        name: '_value',
+        type: 'uint256',
       },
     ],
-    name: "transfer",
+    name: 'transfer',
     outputs: [
       {
-        name: "",
-        type: "bool",
+        name: '',
+        type: 'bool',
       },
     ],
     payable: false,
-    stateMutability: "nonpayable",
-    type: "function",
+    stateMutability: 'nonpayable',
+    type: 'function',
   },
   {
     constant: true,
     inputs: [
       {
-        name: "_owner",
-        type: "address",
+        name: '_owner',
+        type: 'address',
       },
       {
-        name: "_spender",
-        type: "address",
+        name: '_spender',
+        type: 'address',
       },
     ],
-    name: "allowance",
+    name: 'allowance',
     outputs: [
       {
-        name: "",
-        type: "uint256",
+        name: '',
+        type: 'uint256',
       },
     ],
     payable: false,
-    stateMutability: "view",
-    type: "function",
+    stateMutability: 'view',
+    type: 'function',
   },
   {
     payable: true,
-    stateMutability: "payable",
-    type: "fallback",
+    stateMutability: 'payable',
+    type: 'fallback',
   },
   {
     anonymous: false,
     inputs: [
       {
         indexed: true,
-        name: "owner",
-        type: "address",
+        name: 'owner',
+        type: 'address',
       },
       {
         indexed: true,
-        name: "spender",
-        type: "address",
+        name: 'spender',
+        type: 'address',
       },
       {
         indexed: false,
-        name: "value",
-        type: "uint256",
+        name: 'value',
+        type: 'uint256',
       },
     ],
-    name: "Approval",
-    type: "event",
+    name: 'Approval',
+    type: 'event',
   },
   {
     anonymous: false,
     inputs: [
       {
         indexed: true,
-        name: "from",
-        type: "address",
+        name: 'from',
+        type: 'address',
       },
       {
         indexed: true,
-        name: "to",
-        type: "address",
+        name: 'to',
+        type: 'address',
       },
       {
         indexed: false,
-        name: "value",
-        type: "uint256",
+        name: 'value',
+        type: 'uint256',
       },
     ],
-    name: "Transfer",
-    type: "event",
+    name: 'Transfer',
+    type: 'event',
   },
 ];

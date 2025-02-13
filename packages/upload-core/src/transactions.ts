@@ -1,6 +1,6 @@
-import type { AxiosResponse } from "axios";
-import type Irys from "./irys";
-import type { TxGqlNode, TxGqlResponse } from "./types";
+import type { AxiosResponse } from 'axios';
+import type Irys from './irys';
+import type { TxGqlNode, TxGqlResponse } from './types';
 
 export class Transaction {
   protected irys: Irys;
@@ -21,13 +21,15 @@ export class Transaction {
   }
 
   public async getByTag(name: string, value: string): Promise<TxGqlNode> {
-    const res = (await this.query({ tags: [{ name, values: [value] }], limit: 1 })).at(0);
+    const res = (
+      await this.query({ tags: [{ name, values: [value] }], limit: 1 })
+    ).at(0);
     if (!res) throw new Error(`Unable to locate tx with tag ${name}:${value}`);
     return res;
   }
 
   public async query(parameters: {
-    order?: "desc" | "asc";
+    order?: 'desc' | 'asc';
     ids?: string[];
     limit?: number;
     after?: string;
@@ -71,14 +73,16 @@ export class Transaction {
     let endCursor: string | null = null;
     do {
       const gqlRes: AxiosResponse<TxGqlResponse> = await this.irys.api.post(
-        "/graphql",
+        '/graphql',
         {
           query,
           variables: { ...parameters, after: endCursor ?? parameters.after },
         },
-        undefined,
+        undefined
       );
-      endCursor = gqlRes.data.data.transactions?.pageInfo?.hasNextPage ? gqlRes.data.data.transactions.pageInfo.endCursor : null;
+      endCursor = gqlRes.data.data.transactions?.pageInfo?.hasNextPage
+        ? gqlRes.data.data.transactions.pageInfo.endCursor
+        : null;
       txs.push(...gqlRes.data.data.transactions.edges.map((t) => t.node));
     } while (endCursor);
 
