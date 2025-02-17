@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Irys SDK Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+        }
+
+        button {
+            padding: 10px 20px;
+            margin: 10px;
+            cursor: pointer;
+        }
+
+        #status {
+            margin: 20px 0;
+            padding: 10px;
+            border: 1px solid #ccc;
+        }
+
+        .upload-section {
+            margin: 20px 0;
+            padding: 20px;
+            border: 1px solid #eee;
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 100px;
+            margin: 10px 0;
+            padding: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Irys SDK Test</h1>
+    <div id="status">Status: Not connected</div>
+    <button id="connectBtn">Connect Wallet</button>
+    <button id="initIrysBtn">Initialize Irys</button>
+
+    <div class="upload-section">
+        <h3>Upload Text</h3>
+        <textarea id="textInput" placeholder="Enter text to upload..."></textarea>
+        <button id="uploadBtn" disabled>Upload Text</button>
+        <div id="uploadStatus"></div>
+    </div>
+
+    <script src="./build/bundle.js"></script>
+    <script>
+        const statusDiv = document.getElementById('status');
+        const connectBtn = document.getElementById('connectBtn');
+        const initIrysBtn = document.getElementById('initIrysBtn');
+        const uploadBtn = document.getElementById('uploadBtn');
+        const textInput = document.getElementById('textInput');
+        const uploadStatus = document.getElementById('uploadStatus');
+
+        let wallet = null;
+        let irysUploader = null;
+
+        // Get Irys uploader instance
+        const getIrysUploader = async () => {
+            if (!wallet) {
+                throw new Error("Wallet not connected");
+            }
+
+            try {
+                // Use WebSolana to create uploader
+
+                // hack so we don't have to use the wallet adapter package(s)
+                let og = window.solana.signMessage;
+                window.solana.signMessage = async (msg) => og(msg).then(r => r.signature);
+                // create the uploader
+                const webSolana = await WebIrys.WebUploader.WebUploader(WebIrys.WebSolana.SolanaToken).withProvider(window.solana);
+
+                console.log(`Connected to Irys from ${webSolana.address}`);
+                return webSolana;
+            } catch (error) {
+                console.error("Error connecting to Irys:", error);
+                throw new Error("Error connecting to Irys");
+            }
+        };
+
+        // Connect wallet
+        connectBtn.addEventListener('click', async () => {
+            try {
+                if (window.solana) {
+                    await window.solana.connect();
+                    wallet = window.solana;
+                    statusDiv.textContent = 'Status: Wallet connected';
+                } else {
+                    statusDiv.textContent = 'Status: Please install Solana wallet';
+                }
+            } catch (error) {
+                console.error('Error connecting wallet:', error);
+                statusDiv.textContent = 'Status: Failed to connect wallet';
+            }
+        });
+
+        // Initialize Irys
+        initIrysBtn.addEventListener('click', async () => {
+            if (!wallet) {
+                statusDiv.textContent = 'Status: Please connect wallet first';
+                return;
+            }
+
+            try {
+                irysUploader = await getIrysUploader();
+                statusDiv.textContent = `Status: Connected to Irys from ${irysUploader.address}`;
+                console.log('Irys initialized:', irysUploader);
+                uploadBtn.disabled = false;
+            } catch (error) {
+                console.error('Error initializing Irys:', error);
+                statusDiv.textContent = 'Status: Failed to initialize Irys';
+            }
+        });
+
+        // Upload text
+        uploadBtn.addEventListener('click', async () => {
+            const dataToUpload = textInput.value;
+            if (!dataToUpload) {
+                uploadStatus.textContent = 'Please enter some text';
+                return;
+            }
+
+            try {
+                uploadStatus.textContent = 'Uploading...';
+
+                // Log irysUploader properties
+                console.log(JSON.stringify(Object.keys(irysUploader)));
+                console.log('IrysUploader entries:', Object.entries(irysUploader));
+                console.log('IrysUploader prototype:', Object.getPrototypeOf(irysUploader));
+                console.log('IrysUploader methods:', Object.getOwnPropertyNames(Object.getPrototypeOf(irysUploader)));
+                console.log('IrysUploader keys:', JSON.stringify(Object.keys(irysUploader)));
+
+                // Use upload method
+                const receipt = await irysUploader.upload(dataToUpload);
+                console.log(`Data uploaded ==> https://gateway.irys.xyz/${receipt.id}`);
+
+                uploadStatus.textContent = `Upload successful! Transaction: ${receipt.id}`;
+
+                // Add view link
+                const viewLink = document.createElement('a');
+                viewLink.href = `https://gateway.irys.xyz/${receipt.id}`;
+                viewLink.target = '_blank';
+                viewLink.textContent = 'View uploaded content';
+                uploadStatus.appendChild(document.createElement('br'));
+                uploadStatus.appendChild(viewLink);
+            } catch (error) {
+                console.error('Error uploading data:', error);
+                uploadStatus.textContent = `Upload failed: ${error.message}`;
+            }
+        });
+    </script>
+</body>
+
+</html>

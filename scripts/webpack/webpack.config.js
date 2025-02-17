@@ -6,18 +6,20 @@ const { DuplicatesPlugin } = require("inspectpack/plugin");
 
 module.exports = {
   // entry: "../../packages/solana-web/dist/esm/index.js",
-  entry: "../../packages/solana-web/src/index.ts",
+  // entry: { bundle: ["../../packages/solana-web/src/index.ts", "../../packages/upload-web/src/index.ts"],},
+  // entry: { bundle: ["../../packages/solana-web/dist/esm/index.js", "../../packages/upload-web/dist/esm/index.js"],},
+  entry: "./index.js",
 
   devtool: "source-map",
   mode: "production",
   target: "web",
   module: {
     rules: [
-      {
-        test: /\.ts$/,
-        use: { loader: "ts-loader", options: { configFile: /* path.resolve(__dirname,"tsconfig.json") */  path.resolve(__dirname,"../../packages/solana-web/tsconfig-webpack.json")} },
-        exclude: [/node_modules/, /* path.resolve(__dirname, "src/node/"), path.resolve(__dirname, "build/") */],
-      },
+      // {
+      //   test: /\.ts$/,
+      //   use: { loader: "ts-loader", options: { configFile: /* path.resolve(__dirname,"tsconfig.json") */  path.resolve(__dirname,"../../packages/solana-web/tsconfig-webpack.json")} },
+      //   exclude: [/node_modules/, /* path.resolve(__dirname, "src/node/"), path.resolve(__dirname, "build/") */],
+      // },
       {
         test: /\.mjs$/,
         include: /node_modules/,
