@@ -1,4 +1,4 @@
-# @irys/upload-starknet-node
+# @irys/upload-starknet
 
 ## 0.0.1
 

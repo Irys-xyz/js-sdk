@@ -1,9 +1,9 @@
-# starknet-node
+# starknet
 
 TODO
 
 ## Installation
 
 ```sh
-npm install @irys/upload-starknet-node
+npm install @irys/upload-starknet
 ```

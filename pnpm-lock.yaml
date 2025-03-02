@@ -126,7 +126,7 @@ importers:
       '@irys/upload-solana':
         specifier: workspace:^
         version: link:../../packages/solana-node
-      '@irys/upload-starknet-node':
+      '@irys/upload-starknet':
         specifier: workspace:^
         version: link:../../packages/starknet-node
       '@irys/web-upload':
