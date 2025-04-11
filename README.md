@@ -17,7 +17,7 @@ https://docs.irys.xyz
 
 Migrating from our old SDK? We've got a handy guide for you.
 
-https://migrate-to.irys.xyz
+https://docs.irys.xyz/build/d/migrating
 
 ## Repos
 
