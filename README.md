@@ -51,6 +51,6 @@ Install only the specific packages you require.
 
 The Irys core packages are used internally, most users will not need to install them directly. 
 
-- [client-core](/packages/client-core/README.md)
-- [client-node](/packages/client-node/README.md)
-- [client-web](/packages/client-web/README.md)
+- [client-core](https://github.com/Irys-xyz/js-sdk/blob/master/packages/readme.md)
+- [client-node](https://github.com/Irys-xyz/js-sdk/blob/master/packages/readme.md)
+- [client-web](https://github.com/Irys-xyz/js-sdk/blob/master/packages/readme.md)
