@@ -109,7 +109,7 @@ program
         )})?\n Y / N`
       );
       if (confirmed) {
-        const res = await irys.withdrawBalance(new BigNumber(amount));
+        const res = await irys.withdrawBalance(amount == "all" ? "all" : new BigNumber(amount));
         console.log(
           `Withdrawal request for ${res?.requested} ${irys.tokenConfig.base[0]} successful\nTransaction ID: ${res?.tx_id} with network fee ${res?.fee} for a total cost of ${res?.final} `
         );
@@ -193,10 +193,10 @@ async function uploadDir(folder: string): Promise<void> {
 
 const parseTags = (
   arr: string[]
-): { name: string; value: string }[] | undefined => {
+): { name: string; value: string; }[] | undefined => {
   if (!arr) return;
   if (arr.length % 2 !== 0) throw new Error(`Tags key is missing a value!`);
-  return arr.reduce<{ name: string; value: string }[]>((a, v, i) => {
+  return arr.reduce<{ name: string; value: string; }[]>((a, v, i) => {
     (i + 1) % 2 === 0 ? (a.at(-1)!.value = v) : a.push({ name: v, value: '' });
     return a;
   }, []);
@@ -211,8 +211,7 @@ program
       if (isNaN(+amount)) throw new Error('Amount must be an integer');
       const irys = await init(options, 'fund');
       const confirmed = await confirmation(
-        `Confirmation: send ${amount} ${irys.tokenConfig.base[0]} (${irys.utils.unitConverter(amount).toFixed()} ${irys.token}) to ${
-          irys.api.config.url.host
+        `Confirmation: send ${amount} ${irys.tokenConfig.base[0]} (${irys.utils.unitConverter(amount).toFixed()} ${irys.token}) to ${irys.api.config.url.host
         } (${await irys.utils.getBundlerAddress(irys.token)})?\n Y / N`
       );
       if (confirmed) {

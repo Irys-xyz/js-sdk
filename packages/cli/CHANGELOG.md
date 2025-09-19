@@ -1,5 +1,11 @@
 # @irys/upload-cli
 
+## 0.0.19
+
+### Patch Changes
+
+- Add support for withdrawing "all" via the CLI
+
 ## 0.0.18
 
 ### Patch Changes
